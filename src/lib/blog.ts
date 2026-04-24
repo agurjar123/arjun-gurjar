@@ -6,6 +6,7 @@ import type { BlogMeta, BlogPost } from "@/types/blog";
 const postsDir = path.join(process.cwd(), "content/blog");
 
 export function getPostSlugs(): string[] {
+  if (!fs.existsSync(postsDir)) return [];
   return fs
     .readdirSync(postsDir)
     .filter((f) => f.endsWith(".md"))
