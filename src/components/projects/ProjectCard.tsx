@@ -15,9 +15,15 @@ const statusColor: Record<Project["status"], string> = {
   archived: "bg-surface-muted text-slate-500",
 };
 
-export default function ProjectCard({ title, description, tags, github, demo, status }: Project) {
+export default function ProjectCard({ title, description, tags, github, demo, status, highlight }: Project) {
   return (
     <Card hover className="flex flex-col gap-3">
+      {highlight && (
+        <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-amber-50 text-amber-700 border border-amber-200 self-start">
+          ★ {highlight}
+        </span>
+      )}
+
       <div className="flex items-start justify-between gap-2">
         <h2 className="font-semibold text-slate-800">{title}</h2>
         <span className={`text-xs px-2 py-0.5 rounded-full shrink-0 font-medium ${statusColor[status]}`}>
