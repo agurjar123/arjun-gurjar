@@ -30,6 +30,16 @@ export default function WorkPage() {
         subtitle="Research, publications, and things I've built."
       />
 
+      {/* Projects */}
+      <section>
+        <h2 className="text-lg font-semibold text-slate-800 mb-5">Projects</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {projects.map((project) => (
+            <ProjectCard key={project.title} {...project} />
+          ))}
+        </div>
+      </section>
+
       {/* Publications */}
       <section>
         <h2 className="text-lg font-semibold text-slate-800 mb-5">Publications</h2>
@@ -64,16 +74,6 @@ export default function WorkPage() {
                 {pub.year && <span> · {pub.year}</span>}
               </p>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Projects */}
-      <section>
-        <h2 className="text-lg font-semibold text-slate-800 mb-5">Projects</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {projects.map((project) => (
-            <ProjectCard key={project.title} {...project} />
           ))}
         </div>
       </section>

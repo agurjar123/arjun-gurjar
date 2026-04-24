@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { ExternalLink } from "lucide-react";
 import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
 import BlogCard from "@/components/blog/BlogCard";
 import { getAllPosts } from "@/lib/blog";
-import { videos } from "@/data/videos";
+import { getChannelVideos } from "@/lib/youtube";
 
 export const metadata: Metadata = {
   title: "Writing — Arjun Gurjar",
   description: "Essays, notes, and science videos",
 };
 
-export default function WritingPage() {
+export default async function WritingPage() {
   const posts = getAllPosts();
+  const videos = await getChannelVideos();
 
   return (
     <Container className="py-16 space-y-16">
@@ -24,7 +24,7 @@ export default function WritingPage() {
       {/* YouTube / Videos */}
       <section>
         <h2 className="text-lg font-semibold text-slate-800 mb-2">Videos</h2>
-        <p className="text-sm text-slate-500 mb-5">
+        <p className="text-sm text-slate-500 mb-6">
           I write science scripts for{" "}
           <a
             href="https://www.youtube.com/@tldrscience"
@@ -34,25 +34,36 @@ export default function WritingPage() {
           >
             TLDR Science
           </a>
-          , a YouTube channel with 115k+ subscribers that covers recent research papers in accessible language.
+          , a YouTube channel with 115k+ subscribers covering recent research in accessible language.
         </p>
 
         {videos.length > 0 ? (
-          <div className="flex flex-col gap-3">
-            {videos.map((video, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {videos.map((video) => (
               <a
-                key={i}
+                key={video.id}
                 href={video.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-start justify-between gap-4 rounded-2xl bg-white border border-surface-border p-4 shadow-[var(--shadow-card)] hover:border-pastel-blue transition-colors group"
+                className="group rounded-2xl border border-surface-border bg-white shadow-[var(--shadow-card)] overflow-hidden hover:border-pastel-blue transition-colors"
               >
-                <div>
-                  <p className="text-sm font-medium text-slate-800 group-hover:text-sky-700 transition-colors">{video.title}</p>
-                  {video.description && <p className="text-xs text-slate-500 mt-0.5">{video.description}</p>}
-                  {video.publishedAt && <p className="text-xs text-slate-400 mt-1">{video.publishedAt}</p>}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={video.thumbnail}
+                  alt={video.title}
+                  className="w-full aspect-video object-cover"
+                />
+                <div className="p-4">
+                  <p className="text-sm font-medium text-slate-800 group-hover:text-sky-700 transition-colors leading-snug">
+                    {video.title}
+                  </p>
+                  <p className="text-xs text-slate-400 mt-1.5">
+                    {new Date(video.publishedAt).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                    })}
+                  </p>
                 </div>
-                <ExternalLink size={14} className="text-slate-400 shrink-0 mt-0.5" />
               </a>
             ))}
           </div>
@@ -63,8 +74,7 @@ export default function WritingPage() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-surface-muted border border-surface-border text-sm text-slate-700 hover:bg-surface-border transition-colors"
           >
-            <ExternalLink size={14} />
-            Watch on YouTube
+            Watch on YouTube →
           </a>
         )}
       </section>
