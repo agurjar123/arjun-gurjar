@@ -120,7 +120,7 @@ export default function Home() {
       <section>
         <h2 className="text-lg font-semibold text-slate-800 mb-6">Updates</h2>
         <div className="flex flex-col gap-3">
-          {updates.map((update, i) => (
+          {[...updates].reverse().map((update, i) => (
             <div key={i} className="flex gap-4 items-start">
               <span className="text-xs text-slate-400 font-mono shrink-0 w-16 pt-0.5">{update.date}</span>
               <p className="text-sm text-slate-600 leading-relaxed">
