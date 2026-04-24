@@ -22,7 +22,7 @@ export default function ProjectCard({ title, description, tags, github, demo, st
 
   return (
     <div
-      className="[perspective:1000px] cursor-pointer h-52"
+      className="[perspective:1000px] cursor-pointer h-56"
       onClick={() => setFlipped((v) => !v)}
     >
       <div
@@ -60,7 +60,7 @@ export default function ProjectCard({ title, description, tags, github, demo, st
 
         {/* Back */}
         <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-2xl bg-white border border-pastel-blue/40 p-5 flex flex-col justify-between shadow-[var(--shadow-card)] overflow-hidden">
-          <p className="text-sm text-slate-600 leading-relaxed overflow-y-auto flex-1 pr-1">
+          <p className="text-xs text-slate-600 leading-relaxed overflow-y-auto flex-1 pr-1">
             {description}
           </p>
           <div className="flex gap-3 pt-3 border-t border-surface-border mt-3 shrink-0">
