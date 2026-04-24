@@ -25,7 +25,7 @@ export default async function WritingPage() {
       <section>
         <h2 className="text-lg font-semibold text-slate-800 mb-2">Videos</h2>
         <p className="text-sm text-slate-500 mb-6">
-          I write science scripts for{" "}
+          I occasionally write science scripts for{" "}
           <a
             href="https://www.youtube.com/@tldrscience"
             target="_blank"
@@ -34,7 +34,7 @@ export default async function WritingPage() {
           >
             TLDR Science
           </a>
-          , a YouTube channel with 115k+ subscribers covering recent research in accessible language.
+          , a YouTube channel run by Patrick Kelly that covers recent research in accessible language.
         </p>
 
         {videos.length > 0 ? (

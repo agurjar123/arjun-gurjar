@@ -47,8 +47,8 @@ export default function AboutPage() {
           </p>
           <p>
             Before Berkeley, I spent time at Stanford — both in a brain imaging lab (calcium microscopy)
-            and a cardiovascular genomics lab (atherosclerosis, CRISPR). I also write science scripts
-            for a YouTube channel with 115k+ subscribers, which keeps me honest about communicating
+            and a cardiovascular genomics lab (atherosclerosis, CRISPR). I occasionally write science scripts
+            for a YouTube channel, which keeps me honest about communicating
             ideas clearly.
           </p>
           <p>
