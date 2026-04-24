@@ -85,7 +85,7 @@ export default function Home() {
           </div>
 
           {/* Fact chips */}
-          <div className="flex flex-wrap gap-3 pt-1">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
             {/* University + Major combined */}
             <div className="rounded-2xl bg-pastel-blue/10 border border-pastel-blue/30 px-4 py-2">
               <p className="text-slate-800 font-semibold text-sm">UC Berkeley</p>
