@@ -86,20 +86,31 @@ export default function Home() {
 
           {/* Fact chips */}
           <div className="flex flex-wrap gap-3 pt-1">
+            {/* University + Major combined */}
             <div className="rounded-2xl bg-pastel-blue/10 border border-pastel-blue/30 px-4 py-2">
-              <p className="text-xs text-slate-500 font-medium uppercase tracking-wider mb-0.5">University</p>
-              <p className="text-slate-800 font-semibold text-sm">UC Berkeley, Class of 2028</p>
+              <p className="text-slate-800 font-semibold text-sm">UC Berkeley</p>
+              <p className="text-xs text-slate-500 italic mt-0.5">CS + MCB · Minor in Bioengineering</p>
             </div>
-            <div className="rounded-2xl bg-pastel-blue/10 border border-pastel-blue/30 px-4 py-2">
-              <p className="text-xs text-slate-500 font-medium uppercase tracking-wider mb-0.5">Major</p>
-              <p className="text-slate-800 font-semibold text-sm">CS + MCB, Minor in Bioengineering</p>
+
+            {/* Current role */}
+            <div className="rounded-2xl bg-pastel-green/10 border border-pastel-green/30 px-4 py-2">
+              <p className="text-slate-800 font-semibold text-sm">Innovative Genomics Institute</p>
+              <p className="text-xs text-slate-500 italic mt-0.5">Research · Current</p>
             </div>
+
+            {/* Upcoming internship */}
+            <div className="rounded-2xl bg-amber-50 border border-amber-200 px-4 py-2">
+              <p className="text-slate-800 font-semibold text-sm">Noetik</p>
+              <p className="text-xs text-slate-500 italic mt-0.5">ML Intern · Summer 2026</p>
+            </div>
+
+            {/* Courses link */}
             <Link
               href="/coursework"
               className="rounded-2xl bg-surface-muted border border-surface-border px-4 py-2 hover:bg-surface-border transition-colors"
             >
-              <p className="text-xs text-slate-500 font-medium uppercase tracking-wider mb-0.5">Courses</p>
-              <p className="text-slate-700 font-semibold text-sm">View all →</p>
+              <p className="text-slate-700 font-semibold text-sm">Courses</p>
+              <p className="text-xs text-slate-500 italic mt-0.5">View all →</p>
             </Link>
           </div>
         </div>
