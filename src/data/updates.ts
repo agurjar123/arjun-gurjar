@@ -30,8 +30,4 @@ export const updates: Update[] = [
     date: "Jan 2025",
     text: "Started undergraduate research at the Innovative Genomics Institute (IGI), UC Berkeley.",
   },
-  {
-    date: "Aug 2024",
-    text: "Began CS + MCB at UC Berkeley.",
-  },
 ];
