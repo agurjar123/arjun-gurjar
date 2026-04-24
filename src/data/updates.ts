@@ -16,7 +16,7 @@ export const updates: Update[] = [
   },
   {
     date: "Nov 2025",
-    text: "Dendritic cell T cell priming work accepted to SITC 2025.",
+    text: "Dendritic cell priming work accepted to SITC 2025.",
   },
   {
     date: "Jan 2026",
@@ -28,6 +28,6 @@ export const updates: Update[] = [
   },
   {
     date: "Feb 2026",
-    text: "T cell priming CRISPR screen work accepted for presentation at the ARC Symposium.",
+    text: "Dendritic cell priming work accepted for presentation at the ARC Symposium.",
   },
 ];

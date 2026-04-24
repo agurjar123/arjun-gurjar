@@ -31,6 +31,7 @@ export const projects: Project[] = [
     description:
       "Unified analysis pipelines for pooled optical screens at the Innovative Genomics Institute. Includes multi-channel fluorescence alignment, automated cell segmentation, and spatial transcriptomics integration across large-scale datasets.",
     tags: ["Python", "spatial transcriptomics", "image analysis", "CRISPR"],
+    github: "https://github.com/agurjar123/Pooled-Optical-Screens",
     status: "ongoing",
   },
   {
@@ -38,6 +39,7 @@ export const projects: Project[] = [
     description:
       "End-to-end representation learning pipeline using Doc2Vec to encode longitudinal ICD-10 claim sequences into 128-dimensional patient trajectory embeddings across 447,222 MS patients. Applied stratified GMMs to identify prodromal phenotype clusters, validated against Time-to-Diagnosis outcomes.",
     tags: ["NLP", "Doc2Vec", "GMMs", "EHR data", "Python"],
+    github: "https://github.com/agurjar123/DiagnosticOdyssey",
     status: "complete",
   },
   {
@@ -49,11 +51,11 @@ export const projects: Project[] = [
     status: "complete",
   },
   {
-    title: "This Website",
+    title: "iMessage Analyzer",
     description:
-      "Personal site built to be a genuine reflection of how I think — not a portfolio. Next.js App Router, Tailwind CSS v4, markdown blog, and a lot of time spent on rounded corners.",
-    tags: ["Next.js", "Tailwind CSS", "TypeScript"],
-    github: "https://github.com/agurjar123/arjun-gurjar",
+      "Local-first tool for analyzing your iMessage chat history. Extracts and visualizes conversation patterns, sentiment trends, response times, and word frequencies across contacts — all without leaving your machine.",
+    tags: ["Python", "NLP", "data visualization", "SQLite"],
+    github: "https://github.com/agurjar123/imessage-analyzer",
     status: "ongoing",
   },
 ];
