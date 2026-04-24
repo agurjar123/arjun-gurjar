@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
+import { semesters } from "@/data/coursework";
 
 export const metadata: Metadata = {
   title: "About — Arjun Gurjar",
@@ -84,11 +85,10 @@ export default function AboutPage() {
       </div>
 
       {/* Quick facts */}
-      <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4">
         {[
           { label: "University", value: "UC Berkeley, Class of 2028" },
           { label: "Major", value: "CS + MCB, Minor in Bioengineering" },
-          { label: "GPA", value: "3.94" },
         ].map(({ label, value }) => (
           <div
             key={label}
@@ -98,6 +98,31 @@ export default function AboutPage() {
             <p className="text-slate-800 font-semibold">{value}</p>
           </div>
         ))}
+      </div>
+
+      {/* Coursework */}
+      <div className="mt-16">
+        <h2 className="text-lg font-semibold text-slate-800 mb-6">Coursework</h2>
+        <div className="flex flex-col gap-6">
+          {semesters.map((sem) => (
+            <div key={sem.semester}>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-sm font-medium text-slate-700">{sem.semester}</span>
+                {sem.status === "current" && (
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-pastel-green/30 text-green-800 font-medium">Current</span>
+                )}
+              </div>
+              <ul className="text-sm text-slate-500 space-y-1 pl-1">
+                {sem.courses.map((course) => (
+                  <li key={course.code} className="flex gap-2">
+                    <span className="text-slate-400 font-mono text-xs pt-0.5 shrink-0">{course.code}</span>
+                    <span>{course.name}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </div>
     </Container>
   );

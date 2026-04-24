@@ -9,15 +9,11 @@ import { cn } from "@/lib/cn";
 const links = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/research", label: "Research" },
   { href: "/experience", label: "Experience" },
-  { href: "/publications", label: "Publications" },
-  { href: "/projects", label: "Projects" },
-  { href: "/coursework", label: "Coursework" },
-  { href: "/favorites", label: "Favorites" },
+  { href: "/work", label: "Work" },
+  { href: "/writing", label: "Writing" },
+  { href: "/bookshelf", label: "Bookshelf" },
   { href: "/photos", label: "Photos" },
-  { href: "/now", label: "Now" },
-  { href: "/blog", label: "Blog" },
 ];
 
 export default function Navbar() {

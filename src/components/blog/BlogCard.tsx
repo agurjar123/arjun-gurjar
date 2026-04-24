@@ -10,7 +10,7 @@ export default function BlogCard({ title, date, excerpt, tags, slug }: BlogMeta)
   });
 
   return (
-    <Link href={`/blog/${slug}`} className="block group">
+    <Link href={`/writing/${slug}`} className="block group">
       <article className="rounded-2xl bg-white border border-surface-border p-6 transition-shadow hover:shadow-md shadow-[var(--shadow-card)]">
         <p className="text-xs text-slate-400 mb-2">{formattedDate}</p>
         <h2 className="font-semibold text-slate-800 text-lg group-hover:text-sky-700 transition-colors mb-2 leading-snug">
