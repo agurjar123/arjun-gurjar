@@ -10,6 +10,7 @@ import ThemeToggle from "@/components/ui/ThemeToggle";
 const links = [
   { href: "/", label: "Home" },
   { href: "/experience", label: "Experience" },
+  { href: "/coursework", label: "Courses" },
   { href: "/work", label: "Work" },
   { href: "/writing", label: "Writing" },
   { href: "/multimodal-shelf", label: "Shelf" },

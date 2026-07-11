@@ -11,30 +11,30 @@
   can swap by toggling [data-theme] on <html> (see layout.tsx).
 */
 :root {
-  --background: #f5f2ec;      /* warm paper */
-  --surface: #fbf9f4;         /* cards */
-  --surface-muted: #ece7dd;   /* chips / inputs */
-  --border: #e4ddcf;          /* hairlines */
-  --foreground: #26231e;      /* charcoal text */
-  --muted: #6b6153;           /* muted brown, secondary text */
-  --faint: #9a8f7d;           /* dates / tertiary */
+  --background: #eef0f3;      /* cool light gray */
+  --surface: #f8f9fb;         /* cards */
+  --surface-muted: #e3e6ea;   /* chips / inputs */
+  --border: #d6dae0;          /* hairlines */
+  --foreground: #1b1d21;      /* cool charcoal text */
+  --muted: #565b64;           /* cool gray, secondary text */
+  --faint: #878d97;           /* dates / tertiary */
   --accent: #1f6bff;          /* electric blue */
   --accent-strong: #1552d8;   /* accent hover */
   --accent-soft: rgba(31, 107, 255, 0.1);   /* accent tint bg */
   --accent-ring: rgba(31, 107, 255, 0.35);
 
-  --shadow-card: 0 1px 3px 0 rgba(38, 35, 30, 0.06), 0 1px 2px -1px rgba(38, 35, 30, 0.05);
-  --shadow-soft: 0 6px 30px -12px rgba(38, 35, 30, 0.25);
+  --shadow-card: 0 1px 3px 0 rgba(20, 22, 26, 0.06), 0 1px 2px -1px rgba(20, 22, 26, 0.05);
+  --shadow-soft: 0 6px 30px -12px rgba(20, 22, 26, 0.28);
 }
 
 [data-theme="dark"] {
-  --background: #1c1a17;      /* charcoal */
-  --surface: #26231e;
-  --surface-muted: #211e1a;
-  --border: #35302a;
-  --foreground: #ece7dd;      /* warm white */
-  --muted: #a89d8b;
-  --faint: #7a6f5d;
+  --background: #16181c;      /* cool charcoal */
+  --surface: #1e2126;
+  --surface-muted: #1b1e23;
+  --border: #2f333a;
+  --foreground: #e9ebef;      /* cool white */
+  --muted: #9aa1ac;
+  --faint: #6b7280;
   --accent: #5c9dff;
   --accent-strong: #82b4ff;
   --accent-soft: rgba(92, 157, 255, 0.14);
@@ -47,13 +47,13 @@
 /* No-JS fallback: honor the system preference when no explicit theme is set. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --background: #1c1a17;
-    --surface: #26231e;
-    --surface-muted: #211e1a;
-    --border: #35302a;
-    --foreground: #ece7dd;
-    --muted: #a89d8b;
-    --faint: #7a6f5d;
+    --background: #16181c;
+    --surface: #1e2126;
+    --surface-muted: #1b1e23;
+    --border: #2f333a;
+    --foreground: #e9ebef;
+    --muted: #9aa1ac;
+    --faint: #6b7280;
     --accent: #5c9dff;
     --accent-strong: #82b4ff;
     --accent-soft: rgba(92, 157, 255, 0.14);
