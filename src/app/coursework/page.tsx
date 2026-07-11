@@ -10,6 +10,8 @@ export const metadata: Metadata = {
 };
 
 export default function CourseworkPage() {
+  const honors = Array.from(new Set(semesters.flatMap((s) => s.honors ?? [])));
+
   return (
     <Container className="py-16">
       <SectionHeader
@@ -17,8 +19,21 @@ export default function CourseworkPage() {
         subtitle="Courses I've taken at UC Berkeley, by semester."
       />
 
+      {honors.length > 0 && (
+        <div className="mb-8 flex flex-wrap gap-2">
+          {honors.map((h) => (
+            <span
+              key={h}
+              className="font-mono text-[11px] tracking-wide px-3 py-1 rounded-full bg-accent-soft text-accent"
+            >
+              ★ {h}
+            </span>
+          ))}
+        </div>
+      )}
+
       <div className="flex flex-col gap-6">
-        {semesters.map(({ semester, status, honors, courses }) => (
+        {semesters.map(({ semester, status, courses }) => (
           <div
             key={semester}
             className="rounded-2xl bg-surface border border-border shadow-[var(--shadow-card)] overflow-hidden"
@@ -37,18 +52,6 @@ export default function CourseworkPage() {
                   </span>
                 )}
               </div>
-              {honors && honors.length > 0 && (
-                <div className="flex gap-2 flex-wrap justify-end">
-                  {honors.map((h) => (
-                    <span
-                      key={h}
-                      className="font-mono text-[11px] tracking-wide px-2.5 py-0.5 rounded-full bg-accent-soft text-accent"
-                    >
-                      ★ {h}
-                    </span>
-                  ))}
-                </div>
-              )}
             </div>
 
             {/* Course list */}

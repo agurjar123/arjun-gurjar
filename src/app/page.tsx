@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Mail } from "lucide-react";
 import Container from "@/components/ui/Container";
 import UpdatesTimeline from "@/components/home/UpdatesTimeline";
@@ -10,7 +9,7 @@ function BioLink({ href, children }: { href: string; children: React.ReactNode }
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="font-medium text-foreground underline decoration-accent/40 underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+      className="font-medium text-accent transition-colors hover:text-accent-strong"
     >
       {children}
     </a>
@@ -21,54 +20,44 @@ export default function Home() {
   return (
     <Container className="py-16 space-y-20">
 
-      {/* Name */}
-      <div>
-        <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-accent">
-          Machine learning × biology
-        </p>
-        <h1 className="font-serif text-5xl sm:text-6xl font-semibold text-foreground tracking-tight">
-          Arjun Gurjar
-        </h1>
-      </div>
-
-      {/* Photo + Bio */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-10">
-        <div className="md:col-span-1">
-          <div className="relative w-full aspect-[3/4] rounded-3xl overflow-hidden border border-border shadow-[var(--shadow-soft)]">
-            <Image
-              src="/images/arjun-professional.jpeg"
-              alt="Arjun Gurjar"
-              fill
-              className="object-cover object-top"
-              priority
-            />
-          </div>
-        </div>
-
-        <div className="md:col-span-2 flex flex-col gap-4">
-          <p className="font-serif text-xl text-foreground leading-snug">
-            Welcome to my website! I&apos;m Arjun, a 3rd year at UC Berkeley studying MCB and Data Science.
+      {/* Intro + Photo */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
+        <div className="md:col-span-2 flex flex-col gap-5">
+          <p className="font-serif text-2xl text-foreground leading-snug">
+            Hi 👋 I&apos;m Arjun, a 3rd year at UC Berkeley studying MCB and Data Science.
           </p>
 
-          <div className="space-y-3 text-muted leading-relaxed">
+          <div className="space-y-3 text-foreground leading-relaxed">
             <p>
-              I&apos;m passionate about problems at the frontier of BioML, functional genomics, and
-              mechanistic interpretability. Currently I&apos;m working at{" "}
-              <BioLink href="https://noetik.ai">Noetik</BioLink> on cancer foundation models. I&apos;m
-              also part of the Advanced Translational Genetics Lab at the{" "}
+              I&apos;m interested in working on problems in BioML, functional genomics, and mech interp
+              to enable digital biology and precision medicine. Currently I&apos;m working at{" "}
+              <BioLink href="https://noetik.ai">Noetik</BioLink>{" "}
+              on cancer foundation models. I&apos;m also part of the{" "}
+              <BioLink href="https://innovativegenomics.org/ctg/advanced-translational-genetics-laboratory/">
+                Advanced Translational Genetics Lab
+              </BioLink>{" "}
+              at the{" "}
               <BioLink href="https://innovativegenomics.org">Innovative Genomics Institute</BioLink>{" "}
               where I work on combinatorial pooled optical screens, deep mutational scanning, and stem
               cell models for disease.
             </p>
             <p>
-              I helped set up Computational Biology @ Berkeley and started the CompBio Bootcamp, and
-              worked with <BioLink href="https://research.google">Google Research</BioLink> on
-              interpreting variant calling models. I am also a part of Phoenix Consulting Group where I
-              led a project with the{" "}
-              <BioLink href="https://www.nationalmssociety.org">National MS Society</BioLink> on
-              representation learning for multiple sclerosis patients. Previously I was a part of the
-              UCSF–Gladstone Spitzer Lab working on engineering dendritic cells to overcome
-              immunosuppressive tumor microenvironments.
+              I helped set up{" "}
+              <BioLink href="https://www.instagram.com/ucb_compbio/">Computational Biology @ Berkeley</BioLink>,{" "}
+              started the CompBio Bootcamp, and worked with{" "}
+              <BioLink href="https://research.google">Google Research</BioLink>{" "}
+              on interpreting variant calling models. I am also a part of{" "}
+              <BioLink href="https://www.phoenixconsultinggroup.org/">Phoenix Consulting Group</BioLink>{" "}
+              where I led a project with the{" "}
+              <BioLink href="https://www.nationalmssociety.org">National MS Society</BioLink>{" "}
+              on representation learning for multiple sclerosis patient journey mapping. Previously I was a
+              part of the{" "}
+              <BioLink href="https://www.spitzerlab.org/">UCSF–Gladstone Spitzer Lab</BioLink>{" "}
+              working on engineering dendritic cells to overcome immunosuppressive tumor microenvironments.
+            </p>
+            <p>
+              I also produce science YouTube videos and write scripts as{" "}
+              <BioLink href="https://www.youtube.com/@tldrscience">TLDR Science</BioLink>.
             </p>
           </div>
 
@@ -80,6 +69,17 @@ export default function Home() {
               className="w-9 h-9 rounded-xl bg-surface-muted border border-border flex items-center justify-center text-muted hover:text-accent hover:border-accent/40 transition-colors"
             >
               <Mail size={16} />
+            </a>
+            <a
+              href="https://x.com/arjunmgurjar"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="X (Twitter)"
+              className="w-9 h-9 rounded-xl bg-surface-muted border border-border flex items-center justify-center text-muted hover:text-accent hover:border-accent/40 transition-colors"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" className="w-3.5 h-3.5">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
             </a>
             <a
               href="https://www.linkedin.com/in/arjun-gurjar-472015217/"
@@ -104,31 +104,18 @@ export default function Home() {
               </svg>
             </a>
           </div>
+        </div>
 
-          {/* Fact chips */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
-            <div className="rounded-2xl bg-accent-soft border border-accent/20 px-4 py-2.5">
-              <p className="text-foreground font-semibold text-sm">UC Berkeley</p>
-              <p className="text-xs text-muted mt-0.5">MCB + Data Science</p>
-            </div>
-
-            <div className="rounded-2xl bg-surface-muted border border-border px-4 py-2.5">
-              <p className="text-foreground font-semibold text-sm">Innovative Genomics Institute</p>
-              <p className="text-xs text-muted mt-0.5">Research · Current</p>
-            </div>
-
-            <div className="rounded-2xl bg-surface-muted border border-border px-4 py-2.5">
-              <p className="text-foreground font-semibold text-sm">Noetik</p>
-              <p className="text-xs text-muted mt-0.5">ML Intern · Summer 2026</p>
-            </div>
-
-            <Link
-              href="/coursework"
-              className="rounded-2xl bg-surface-muted border border-border px-4 py-2.5 hover:border-accent/40 transition-colors"
-            >
-              <p className="text-foreground font-semibold text-sm">Courses</p>
-              <p className="text-xs text-accent mt-0.5">View all →</p>
-            </Link>
+        {/* Photo */}
+        <div className="md:col-span-1">
+          <div className="relative w-full aspect-[3/4] rounded-3xl overflow-hidden border border-border shadow-[var(--shadow-soft)]">
+            <Image
+              src="/images/arjun-coffee.jpg"
+              alt="Arjun Gurjar"
+              fill
+              className="object-cover object-center"
+              priority
+            />
           </div>
         </div>
       </section>
