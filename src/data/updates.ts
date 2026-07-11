@@ -30,4 +30,8 @@ export const updates: Update[] = [
     date: "Feb 2026",
     text: "Dendritic cell priming work accepted for presentation at the ARC Symposium.",
   },
+  {
+    date: "Jun 2026",
+    text: "Started as a machine learning intern at Noetik.",
+  },
 ];

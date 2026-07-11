@@ -4,7 +4,7 @@ import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
 
 export const metadata: Metadata = {
-  title: "Photos — Arjun Gurjar",
+  title: "Photos",
   description: "Photos I've taken",
 };
 
@@ -46,7 +46,7 @@ function PhotoGrid({ photos }: { photos: Photo[] }) {
       {photos.map((photo) => (
         <div
           key={photo.src}
-          className="relative break-inside-avoid rounded-2xl overflow-hidden border border-surface-border group"
+          className="relative break-inside-avoid rounded-2xl overflow-hidden border border-border group"
         >
           <Image
             src={photo.src}
@@ -70,7 +70,7 @@ function PhotoGrid({ photos }: { photos: Photo[] }) {
 function Section({ title, photos }: { title: string; photos: Photo[] }) {
   return (
     <section className="mb-14">
-      <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-widest mb-5">
+      <h2 className="font-mono text-xs text-accent uppercase tracking-[0.2em] mb-5">
         {title}
       </h2>
       <PhotoGrid photos={photos} />

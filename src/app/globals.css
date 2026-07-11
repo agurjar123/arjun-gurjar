@@ -1,28 +1,123 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-@theme {
-  --color-pastel-blue: #a8d8ea;
-  --color-pastel-blue-light: #c3dfe0;
-  --color-pastel-green: #b5d8b4;
-  --color-pastel-green-light: #c8e6c9;
-  --color-surface: #f8fafc;
-  --color-surface-muted: #f1f5f9;
-  --color-surface-border: #e2e8f0;
+/* Enable `dark:` utilities based on the [data-theme="dark"] attribute set on <html>. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-  --font-sans: var(--font-geist-sans), Inter, ui-sans-serif, system-ui;
-  --font-mono: var(--font-geist-mono), ui-monospace;
+/*
+  Techno-granola design tokens.
+  Muted neutrals (charcoal / warm whites / muted browns) with a single
+  electric-blue neon accent. Values are runtime CSS variables so the theme
+  can swap by toggling [data-theme] on <html> (see layout.tsx).
+*/
+:root {
+  --background: #f5f2ec;      /* warm paper */
+  --surface: #fbf9f4;         /* cards */
+  --surface-muted: #ece7dd;   /* chips / inputs */
+  --border: #e4ddcf;          /* hairlines */
+  --foreground: #26231e;      /* charcoal text */
+  --muted: #6b6153;           /* muted brown, secondary text */
+  --faint: #9a8f7d;           /* dates / tertiary */
+  --accent: #1f6bff;          /* electric blue */
+  --accent-strong: #1552d8;   /* accent hover */
+  --accent-soft: rgba(31, 107, 255, 0.1);   /* accent tint bg */
+  --accent-ring: rgba(31, 107, 255, 0.35);
 
-  --shadow-card: 0 1px 4px 0 rgba(0, 0, 0, 0.06);
-  --shadow-soft: 0 2px 16px 0 rgba(168, 216, 234, 0.15);
+  --shadow-card: 0 1px 3px 0 rgba(38, 35, 30, 0.06), 0 1px 2px -1px rgba(38, 35, 30, 0.05);
+  --shadow-soft: 0 6px 30px -12px rgba(38, 35, 30, 0.25);
 }
 
-body {
-  background-color: var(--color-surface);
-  color: #1e293b;
-  font-family: var(--font-sans);
+[data-theme="dark"] {
+  --background: #1c1a17;      /* charcoal */
+  --surface: #26231e;
+  --surface-muted: #211e1a;
+  --border: #35302a;
+  --foreground: #ece7dd;      /* warm white */
+  --muted: #a89d8b;
+  --faint: #7a6f5d;
+  --accent: #5c9dff;
+  --accent-strong: #82b4ff;
+  --accent-soft: rgba(92, 157, 255, 0.14);
+  --accent-ring: rgba(92, 157, 255, 0.4);
+
+  --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+  --shadow-soft: 0 8px 30px -12px rgba(0, 0, 0, 0.6);
 }
+
+/* No-JS fallback: honor the system preference when no explicit theme is set. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --background: #1c1a17;
+    --surface: #26231e;
+    --surface-muted: #211e1a;
+    --border: #35302a;
+    --foreground: #ece7dd;
+    --muted: #a89d8b;
+    --faint: #7a6f5d;
+    --accent: #5c9dff;
+    --accent-strong: #82b4ff;
+    --accent-soft: rgba(92, 157, 255, 0.14);
+    --accent-ring: rgba(92, 157, 255, 0.4);
+    --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+    --shadow-soft: 0 8px 30px -12px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* Expose tokens to Tailwind utilities: bg-background, text-muted, border-border, text-accent, ... */
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+
+  --font-sans: var(--font-geist-sans), Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), ui-serif, Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+/* --shadow-card / --shadow-soft stay plain :root vars (consumed via
+   shadow-[var(--shadow-card)]) — do not lift them into @theme, or they'd
+   become self-referential and resolve to nothing. */
 
 html {
   scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  /* Ease the theme swap for large surfaces. */
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+::selection {
+  background-color: var(--accent-soft);
+  color: var(--foreground);
+}
+
+/* Typography plugin: map prose colors onto the theme tokens (works in light + dark). */
+.prose {
+  --tw-prose-body: var(--muted);
+  --tw-prose-headings: var(--foreground);
+  --tw-prose-lead: var(--muted);
+  --tw-prose-links: var(--accent);
+  --tw-prose-bold: var(--foreground);
+  --tw-prose-counters: var(--faint);
+  --tw-prose-bullets: var(--faint);
+  --tw-prose-hr: var(--border);
+  --tw-prose-quotes: var(--foreground);
+  --tw-prose-quote-borders: var(--border);
+  --tw-prose-captions: var(--faint);
+  --tw-prose-code: var(--foreground);
+  --tw-prose-pre-code: var(--foreground);
+  --tw-prose-pre-bg: var(--surface-muted);
+  --tw-prose-th-borders: var(--border);
+  --tw-prose-td-borders: var(--border);
 }

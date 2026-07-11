@@ -5,11 +5,11 @@ import type { ResearchInterest } from "@/data/research";
 export default function ResearchCard({ title, description, tags }: ResearchInterest) {
   return (
     <Card hover>
-      <h2 className="font-semibold text-slate-800 mb-2">{title}</h2>
-      <p className="text-sm text-slate-600 leading-relaxed mb-4">{description}</p>
+      <h2 className="font-serif text-lg font-semibold text-foreground mb-2">{title}</h2>
+      <p className="text-sm text-muted leading-relaxed mb-4">{description}</p>
       <div className="flex flex-wrap gap-2">
         {tags.map((tag) => (
-          <Tag key={tag} variant="blue">
+          <Tag key={tag} variant="accent">
             {tag}
           </Tag>
         ))}

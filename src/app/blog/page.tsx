@@ -5,7 +5,7 @@ import BlogCard from "@/components/blog/BlogCard";
 import { getAllPosts } from "@/lib/blog";
 
 export const metadata: Metadata = {
-  title: "Blog — Arjun Gurjar",
+  title: "Blog",
   description: "Writing on ideas, discoveries, and things I've learned",
 };
 
@@ -20,7 +20,7 @@ export default function BlogPage() {
       />
 
       {posts.length === 0 ? (
-        <p className="text-slate-500">No posts yet. Check back soon.</p>
+        <p className="text-faint text-sm">No posts yet. Check back soon.</p>
       ) : (
         <div className="flex flex-col gap-4">
           {posts.map((post) => (

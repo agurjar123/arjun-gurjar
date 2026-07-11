@@ -5,7 +5,7 @@ import ProjectCard from "@/components/projects/ProjectCard";
 import { projects } from "@/data/projects";
 
 export const metadata: Metadata = {
-  title: "Projects — Arjun Gurjar",
+  title: "Projects",
   description: "Things I've built",
 };
 

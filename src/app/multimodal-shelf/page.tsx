@@ -6,7 +6,7 @@ import { playlists } from "@/data/playlists";
 import { getAllPlaylistCovers } from "@/lib/spotify";
 
 export const metadata: Metadata = {
-  title: "Multimodal Shelf — Arjun Gurjar",
+  title: "Shelf",
   description: "Books, films, and music that have stayed with me",
 };
 
@@ -22,23 +22,23 @@ export default async function MultimodalShelfPage() {
 
       {/* Books */}
       <section>
-        <h2 className="text-lg font-semibold text-slate-800 mb-4">Books</h2>
+        <h2 className="font-serif text-2xl font-semibold text-foreground mb-4">Books</h2>
         <Card>
-          <p className="text-xs text-slate-400">Coming soon.</p>
+          <p className="font-mono text-xs uppercase tracking-wider text-faint">Coming soon</p>
         </Card>
       </section>
 
       {/* Films */}
       <section>
-        <h2 className="text-lg font-semibold text-slate-800 mb-4">Films</h2>
+        <h2 className="font-serif text-2xl font-semibold text-foreground mb-4">Films</h2>
         <Card>
-          <p className="text-xs text-slate-400">Coming soon.</p>
+          <p className="font-mono text-xs uppercase tracking-wider text-faint">Coming soon</p>
         </Card>
       </section>
 
       {/* Music */}
       <section>
-        <h2 className="text-lg font-semibold text-slate-800 mb-4">Music</h2>
+        <h2 className="font-serif text-2xl font-semibold text-foreground mb-4">Music</h2>
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
           {covers.map((playlist) => (
             <a
@@ -57,7 +57,7 @@ export default async function MultimodalShelfPage() {
                     className="w-full h-full rounded-xl object-cover shadow-[var(--shadow-card)] group-hover:shadow-md transition-shadow"
                   />
                 ) : (
-                  <div className="w-full h-full rounded-xl bg-surface-muted border border-surface-border" />
+                  <div className="w-full h-full rounded-xl bg-surface-muted border border-border" />
                 )}
                 {/* Spotify badge — always visible */}
                 <div className="absolute bottom-1.5 right-1.5 w-6 h-6 rounded-full bg-black/70 flex items-center justify-center">
@@ -72,7 +72,7 @@ export default async function MultimodalShelfPage() {
                   </span>
                 </div>
               </div>
-              <p className="text-xs text-slate-500 text-center group-hover:text-slate-800 transition-colors truncate">
+              <p className="font-mono text-xs text-faint text-center group-hover:text-accent transition-colors truncate">
                 {playlist.label}
               </p>
             </a>

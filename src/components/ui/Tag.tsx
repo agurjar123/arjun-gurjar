@@ -1,16 +1,20 @@
 import { cn } from "@/lib/cn";
 
-type TagVariant = "blue" | "green" | "gray";
+// "accent" and "neutral" are the canonical variants; the color names are kept
+// as aliases so existing call sites don't need to change.
+type TagVariant = "accent" | "neutral" | "blue" | "green" | "gray";
 
 const variants: Record<TagVariant, string> = {
-  blue: "bg-pastel-blue/30 text-sky-800",
-  green: "bg-pastel-green/30 text-green-800",
-  gray: "bg-surface-muted text-slate-600",
+  accent: "bg-accent-soft text-accent",
+  neutral: "bg-surface-muted text-muted",
+  blue: "bg-accent-soft text-accent",
+  green: "bg-surface-muted text-muted border border-border",
+  gray: "bg-surface-muted text-muted",
 };
 
 export default function Tag({
   children,
-  variant = "gray",
+  variant = "neutral",
   className,
 }: {
   children: React.ReactNode;
@@ -20,7 +24,7 @@ export default function Tag({
   return (
     <span
       className={cn(
-        "rounded-full text-xs font-medium px-3 py-1",
+        "rounded-full font-mono text-[11px] tracking-wide px-3 py-1",
         variants[variant],
         className
       )}

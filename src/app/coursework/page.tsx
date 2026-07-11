@@ -5,7 +5,7 @@ import Tag from "@/components/ui/Tag";
 import { semesters } from "@/data/coursework";
 
 export const metadata: Metadata = {
-  title: "Coursework — Arjun Gurjar",
+  title: "Coursework",
   description: "Courses I've taken at UC Berkeley",
 };
 
@@ -21,18 +21,18 @@ export default function CourseworkPage() {
         {semesters.map(({ semester, status, honors, courses }) => (
           <div
             key={semester}
-            className="rounded-2xl bg-white border border-surface-border shadow-[var(--shadow-card)] overflow-hidden"
+            className="rounded-2xl bg-surface border border-border shadow-[var(--shadow-card)] overflow-hidden"
           >
             {/* Semester header */}
             <div
-              className={`px-6 py-4 flex items-center justify-between border-b border-surface-border ${
-                status === "current" ? "bg-pastel-blue/10" : "bg-surface"
+              className={`px-6 py-4 flex items-center justify-between border-b border-border ${
+                status === "current" ? "bg-accent-soft" : "bg-surface"
               }`}
             >
               <div className="flex items-center gap-3">
-                <h2 className="font-semibold text-slate-800">{semester}</h2>
+                <h2 className="font-serif text-lg font-semibold text-foreground">{semester}</h2>
                 {status === "current" && (
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-pastel-blue/40 text-sky-800 font-medium">
+                  <span className="font-mono text-[11px] tracking-wide px-2.5 py-0.5 rounded-full bg-accent text-background font-medium">
                     Current
                   </span>
                 )}
@@ -42,7 +42,7 @@ export default function CourseworkPage() {
                   {honors.map((h) => (
                     <span
                       key={h}
-                      className="text-xs px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 font-medium"
+                      className="font-mono text-[11px] tracking-wide px-2.5 py-0.5 rounded-full bg-accent-soft text-accent"
                     >
                       ★ {h}
                     </span>
@@ -52,20 +52,20 @@ export default function CourseworkPage() {
             </div>
 
             {/* Course list */}
-            <div className="divide-y divide-surface-border">
+            <div className="divide-y divide-border">
               {courses.map((course) => (
                 <div
                   key={course.code}
                   className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 px-6 py-3"
                 >
-                  <span className="text-xs font-mono text-slate-400 shrink-0 w-28">
+                  <span className="text-xs font-mono text-faint shrink-0 w-28">
                     {course.code}
                   </span>
-                  <span className="text-sm text-slate-700 flex-1">{course.name}</span>
+                  <span className="text-sm text-foreground flex-1">{course.name}</span>
                   {course.tags && (
                     <div className="flex gap-1 flex-wrap">
                       {course.tags.map((tag) => (
-                        <Tag key={tag} variant="blue">
+                        <Tag key={tag} variant="accent">
                           {tag}
                         </Tag>
                       ))}

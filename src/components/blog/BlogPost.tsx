@@ -16,18 +16,18 @@ export default function BlogPost({
   return (
     <article className="max-w-2xl mx-auto">
       <header className="mb-8">
-        <p className="text-sm text-slate-400 mb-2">{formattedDate}</p>
-        <h1 className="text-3xl font-bold text-slate-800 leading-tight mb-4">{title}</h1>
+        <p className="font-mono text-sm text-faint mb-3">{formattedDate}</p>
+        <h1 className="font-serif text-4xl font-semibold text-foreground leading-tight mb-4">{title}</h1>
         <div className="flex flex-wrap gap-1.5">
           {tags.map((tag) => (
-            <Tag key={tag} variant="blue">
+            <Tag key={tag} variant="accent">
               {tag}
             </Tag>
           ))}
         </div>
       </header>
 
-      <div className="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:text-slate-800 prose-a:text-sky-600 prose-a:no-underline hover:prose-a:underline prose-code:text-sky-700 prose-code:bg-sky-50 prose-code:px-1 prose-code:rounded prose-code:before:content-none prose-code:after:content-none">
+      <div className="prose max-w-none prose-headings:font-serif prose-a:no-underline hover:prose-a:underline prose-a:underline-offset-4 prose-code:bg-surface-muted prose-code:px-1 prose-code:rounded prose-code:before:content-none prose-code:after:content-none">
         {children}
       </div>
     </article>

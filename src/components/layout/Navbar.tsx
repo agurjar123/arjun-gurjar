@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/cn";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 const links = [
   { href: "/", label: "Home" },
@@ -20,12 +21,12 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 supports-[backdrop-filter]:bg-white/80 bg-white/95 backdrop-blur-md border-b border-surface-border">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/70">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
           <Link
             href="/"
-            className="font-semibold text-slate-800 hover:text-sky-600 transition-colors"
+            className="font-serif text-lg font-semibold tracking-tight text-foreground transition-colors hover:text-accent"
           >
             Arjun Gurjar
           </Link>
@@ -37,31 +38,36 @@ export default function Navbar() {
                 key={href}
                 href={href}
                 className={cn(
-                  "px-3 py-1.5 rounded-lg text-sm font-medium transition-colors",
+                  "px-3 py-1.5 rounded-full font-mono text-xs uppercase tracking-wider transition-colors",
                   pathname === href
-                    ? "bg-pastel-blue/30 text-sky-800"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-surface-muted"
+                    ? "bg-accent-soft text-accent"
+                    : "text-muted hover:text-foreground hover:bg-surface-muted"
                 )}
               >
                 {label}
               </Link>
             ))}
+            <span className="mx-1 h-5 w-px bg-border" aria-hidden />
+            <ThemeToggle />
           </nav>
 
-          {/* Mobile hamburger */}
-          <button
-            className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-surface-muted transition-colors"
-            onClick={() => setOpen(!open)}
-            aria-label="Toggle menu"
-          >
-            {open ? <X size={20} /> : <Menu size={20} />}
-          </button>
+          {/* Mobile controls */}
+          <div className="flex items-center gap-1 md:hidden">
+            <ThemeToggle />
+            <button
+              className="p-2 rounded-full text-muted hover:text-foreground hover:bg-surface-muted transition-colors"
+              onClick={() => setOpen(!open)}
+              aria-label="Toggle menu"
+            >
+              {open ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden border-t border-surface-border bg-white">
+        <div className="md:hidden border-t border-border bg-background">
           <div className="max-w-4xl mx-auto px-4 py-3 flex flex-col gap-1">
             {links.map(({ href, label }) => (
               <Link
@@ -69,10 +75,10 @@ export default function Navbar() {
                 href={href}
                 onClick={() => setOpen(false)}
                 className={cn(
-                  "px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                  "px-3 py-2 rounded-lg font-mono text-xs uppercase tracking-wider transition-colors",
                   pathname === href
-                    ? "bg-pastel-blue/30 text-sky-800"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-surface-muted"
+                    ? "bg-accent-soft text-accent"
+                    : "text-muted hover:text-foreground hover:bg-surface-muted"
                 )}
               >
                 {label}
