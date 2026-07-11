@@ -31,8 +31,8 @@ export default function Home() {
             <p>
               I&apos;m interested in working on problems in BioML, functional genomics, and mech interp
               to enable digital biology and precision medicine. Currently I&apos;m working at{" "}
-              <BioLink href="https://noetik.ai">Noetik</BioLink> on cancer foundation models. I&apos;m
-              also part of the{" "}
+              <BioLink href="https://noetik.ai">Noetik</BioLink>{" "}
+              on cancer foundation models. I&apos;m also part of the{" "}
               <BioLink href="https://innovativegenomics.org/ctg/advanced-translational-genetics-laboratory/">
                 Advanced Translational Genetics Lab
               </BioLink>{" "}
@@ -45,15 +45,15 @@ export default function Home() {
               I helped set up{" "}
               <BioLink href="https://www.instagram.com/ucb_compbio/">Computational Biology @ Berkeley</BioLink>{" "}
               and started the CompBio Bootcamp, and worked with{" "}
-              <BioLink href="https://research.google">Google Research</BioLink> on interpreting variant
-              calling models. I am also a part of{" "}
+              <BioLink href="https://research.google">Google Research</BioLink>{" "}
+              on interpreting variant calling models. I am also a part of{" "}
               <BioLink href="https://www.phoenixconsultinggroup.org/">Phoenix Consulting Group</BioLink>{" "}
               where I led a project with the{" "}
-              <BioLink href="https://www.nationalmssociety.org">National MS Society</BioLink> on
-              representation learning for multiple sclerosis patient journey mapping. Previously I was a
+              <BioLink href="https://www.nationalmssociety.org">National MS Society</BioLink>{" "}
+              on representation learning for multiple sclerosis patient journey mapping. Previously I was a
               part of the{" "}
-              <BioLink href="https://www.spitzerlab.org/">UCSF–Gladstone Spitzer Lab</BioLink> working on
-              engineering dendritic cells to overcome immunosuppressive tumor microenvironments.
+              <BioLink href="https://www.spitzerlab.org/">UCSF–Gladstone Spitzer Lab</BioLink>{" "}
+              working on engineering dendritic cells to overcome immunosuppressive tumor microenvironments.
             </p>
           </div>
 
