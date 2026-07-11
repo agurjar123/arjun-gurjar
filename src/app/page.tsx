@@ -4,6 +4,19 @@ import { Mail } from "lucide-react";
 import Container from "@/components/ui/Container";
 import UpdatesTimeline from "@/components/home/UpdatesTimeline";
 
+function BioLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="font-medium text-foreground underline decoration-accent/40 underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+    >
+      {children}
+    </a>
+  );
+}
+
 export default function Home() {
   return (
     <Container className="py-16 space-y-20">
@@ -34,25 +47,28 @@ export default function Home() {
 
         <div className="md:col-span-2 flex flex-col gap-4">
           <p className="font-serif text-xl text-foreground leading-snug">
-            CS + MCB student at UC Berkeley working at the intersection of machine learning and biology.
+            Welcome to my website! I&apos;m Arjun, a 3rd year at UC Berkeley studying MCB and Data Science.
           </p>
 
           <div className="space-y-3 text-muted leading-relaxed">
             <p>
-              I&apos;m currently on two research threads: using mechanistic interpretability
-              techniques (sparse autoencoders) to probe DeepVariant, Google&apos;s genomic variant
-              caller, and building functional genomic pipelines for pooled optical screens at the
-              Innovative Genomics Institute. I find the question of what models &quot;learn&quot; about
-              biology just as interesting as what they can predict.
+              I&apos;m passionate about problems at the frontier of BioML, functional genomics, and
+              mechanistic interpretability. Currently I&apos;m working at{" "}
+              <BioLink href="https://noetik.ai">Noetik</BioLink> on cancer foundation models. I&apos;m
+              also part of the Advanced Translational Genetics Lab at the{" "}
+              <BioLink href="https://innovativegenomics.org">Innovative Genomics Institute</BioLink>{" "}
+              where I work on combinatorial pooled optical screens, deep mutational scanning, and stem
+              cell models for disease.
             </p>
             <p>
-              Before Berkeley, I spent time at Stanford in a brain imaging lab (calcium microscopy)
-              and a cardiovascular genomics lab (atherosclerosis, CRISPR). I occasionally write science
-              scripts for a YouTube channel, which keeps me honest about communicating ideas clearly.
-            </p>
-            <p>
-              Outside of work: I read a lot, watch films that take ideas seriously, and think about
-              questions that don&apos;t have clean answers.
+              I helped set up Computational Biology @ Berkeley and started the CompBio Bootcamp, and
+              worked with <BioLink href="https://research.google">Google Research</BioLink> on
+              interpreting variant calling models. I am also a part of Phoenix Consulting Group where I
+              led a project with the{" "}
+              <BioLink href="https://www.nationalmssociety.org">National MS Society</BioLink> on
+              representation learning for multiple sclerosis patients. Previously I was a part of the
+              UCSF–Gladstone Spitzer Lab working on engineering dendritic cells to overcome
+              immunosuppressive tumor microenvironments.
             </p>
           </div>
 
@@ -93,7 +109,7 @@ export default function Home() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
             <div className="rounded-2xl bg-accent-soft border border-accent/20 px-4 py-2.5">
               <p className="text-foreground font-semibold text-sm">UC Berkeley</p>
-              <p className="text-xs text-muted mt-0.5">CS + MCB · Minor in Bioengineering</p>
+              <p className="text-xs text-muted mt-0.5">MCB + Data Science</p>
             </div>
 
             <div className="rounded-2xl bg-surface-muted border border-border px-4 py-2.5">
