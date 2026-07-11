@@ -16,21 +16,21 @@ export const semesters: SemesterGroup[] = [
     semester: "Fall 2026",
     status: "current",
     courses: [
-      { code: "COMPSCI 294-302", name: "Graduate Computational Single Cell Immunology", tags: ["theory"] },
+      { code: "COMPSCI 294-302", name: "Graduate Computational Single Cell Immunology", tags: ["applied"] },
       { code: "COMPSCI 189", name: "Machine Learning", tags: ["theory"] },
-      { code: "MCELLBI 102", name: "Principles of Biochemistry and Molecular Biology" },
-      { code: "MCELLBI 110", name: "Macromolecular Synthesis and Cellular Function" },
+      { code: "MCELLBI 102", name: "Principles of Biochemistry and Molecular Biology", tags: ["biology"] },
+      { code: "MCELLBI 110", name: "Macromolecular Synthesis and Cellular Function", tags: ["biology"] },
     ],
   },
   {
     semester: "Spring 2026",
     status: "completed",
     courses: [
-      { code: "BIOENG 134", name: "Biodesign Automation" },
-      { code: "BIOENG C142", name: "Machine Learning, Statistical Models, and Optimization for Molecular Problems", tags: ["theory"] },
+      { code: "BIOENG 134", name: "Biodesign Automation", tags: ["applied"] },
+      { code: "BIOENG C142", name: "Machine Learning, Statistical Models, and Optimization for Molecular Problems", tags: ["applied"] },
       { code: "COMPSCI 70", name: "Discrete Mathematics and Probability Theory", tags: ["theory"] },
       { code: "EECS 127", name: "Optimization Models in Engineering", tags: ["theory"] },
-      { code: "MCELLBI 199", name: "Supervised Independent Study and Research", tags: ["research"] },
+      { code: "MCELLBI 199", name: "Supervised Independent Study and Research" },
     ],
   },
   {
