@@ -12,9 +12,9 @@ export default function Card({
   return (
     <div
       className={cn(
-        "rounded-2xl bg-white border border-surface-border p-6",
+        "rounded-2xl bg-surface border border-border p-6",
         "shadow-[var(--shadow-card)]",
-        hover && "transition-shadow hover:shadow-md",
+        hover && "transition-all hover:border-accent/40 hover:shadow-[var(--shadow-soft)]",
         className
       )}
     >

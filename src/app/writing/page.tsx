@@ -6,7 +6,7 @@ import { getAllPosts } from "@/lib/blog";
 import { getChannelVideos } from "@/lib/youtube";
 
 export const metadata: Metadata = {
-  title: "Writing — Arjun Gurjar",
+  title: "Writing",
   description: "Essays, notes, and science videos",
 };
 
@@ -23,14 +23,14 @@ export default async function WritingPage() {
 
       {/* YouTube / Videos */}
       <section>
-        <h2 className="text-lg font-semibold text-slate-800 mb-2">Videos</h2>
-        <p className="text-sm text-slate-500 mb-6">
+        <h2 className="font-serif text-2xl font-semibold text-foreground mb-2">Videos</h2>
+        <p className="text-sm text-muted mb-6 leading-relaxed">
           I occasionally write science scripts for{" "}
           <a
             href="https://www.youtube.com/@tldrscience"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sky-600 hover:underline"
+            className="text-accent hover:underline underline-offset-4"
           >
             TLDR Science
           </a>
@@ -45,7 +45,7 @@ export default async function WritingPage() {
                 href={video.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group rounded-2xl border border-surface-border bg-white shadow-[var(--shadow-card)] overflow-hidden hover:border-pastel-blue transition-colors"
+                className="group rounded-2xl border border-border bg-surface shadow-[var(--shadow-card)] overflow-hidden hover:border-accent/40 transition-colors"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -54,10 +54,10 @@ export default async function WritingPage() {
                   className="w-full aspect-video object-cover"
                 />
                 <div className="p-4">
-                  <p className="text-sm font-medium text-slate-800 group-hover:text-sky-700 transition-colors leading-snug">
+                  <p className="text-sm font-medium text-foreground group-hover:text-accent transition-colors leading-snug">
                     {video.title}
                   </p>
-                  <p className="text-xs text-slate-400 mt-1.5">
+                  <p className="font-mono text-xs text-faint mt-1.5">
                     {new Date(video.publishedAt).toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "short",
@@ -72,7 +72,7 @@ export default async function WritingPage() {
             href="https://www.youtube.com/@tldrscience"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-surface-muted border border-surface-border text-sm text-slate-700 hover:bg-surface-border transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface-muted border border-border text-sm text-foreground hover:border-accent/40 hover:text-accent transition-colors"
           >
             Watch on YouTube →
           </a>
@@ -81,9 +81,9 @@ export default async function WritingPage() {
 
       {/* Blog posts */}
       <section>
-        <h2 className="text-lg font-semibold text-slate-800 mb-5">Posts</h2>
+        <h2 className="font-serif text-2xl font-semibold text-foreground mb-5">Posts</h2>
         {posts.length === 0 ? (
-          <p className="text-sm text-slate-400">No posts yet. Check back soon.</p>
+          <p className="text-sm text-faint">No posts yet. Check back soon.</p>
         ) : (
           <div className="flex flex-col gap-4">
             {posts.map((post) => (
@@ -95,16 +95,16 @@ export default async function WritingPage() {
 
       {/* Now */}
       <section>
-        <h2 className="text-lg font-semibold text-slate-800 mb-3">Now</h2>
-        <p className="text-sm text-slate-400 mb-4">What I&apos;m currently thinking about, reading, and building.</p>
-        <p className="text-sm text-slate-400">Check back soon.</p>
-        <p className="mt-6 text-xs text-slate-400">
+        <h2 className="font-serif text-2xl font-semibold text-foreground mb-3">Now</h2>
+        <p className="text-sm text-muted mb-4">What I&apos;m currently thinking about, reading, and building.</p>
+        <p className="text-sm text-faint">Check back soon.</p>
+        <p className="mt-6 font-mono text-xs text-faint">
           Inspired by{" "}
           <a
             href="https://nownownow.com/about"
             target="_blank"
             rel="noopener noreferrer"
-            className="underline hover:text-slate-600"
+            className="underline underline-offset-4 hover:text-accent"
           >
             nownownow.com
           </a>

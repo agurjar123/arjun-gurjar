@@ -20,7 +20,7 @@ export async function generateMetadata({
   try {
     const post = getPostBySlug(slug);
     return {
-      title: `${post.title} — Arjun Gurjar`,
+      title: post.title,
       description: post.excerpt,
     };
   } catch {
@@ -46,7 +46,7 @@ export default async function WritingPostPage({
     <Container className="py-16">
       <Link
         href="/writing"
-        className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-800 transition-colors mb-10"
+        className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-muted hover:text-accent transition-colors mb-10"
       >
         <ArrowLeft size={14} />
         Back to writing
