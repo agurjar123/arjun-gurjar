@@ -4,15 +4,11 @@ export type Update = {
   link?: string;
 };
 
+// Oldest first; the homepage timeline reverses this to show newest first.
 export const updates: Update[] = [
   {
     date: "Jan 2025",
     text: "Started undergraduate research at the Innovative Genomics Institute (IGI), UC Berkeley.",
-  },
-  {
-    date: "Mar 2025",
-    text: "Won Y Combinator Bio/AI Hackathon with tri-modal LUAD clinical decision support system.",
-    link: "https://github.com/agurjar123/yc-aixbio-hackathon",
   },
   {
     date: "Nov 2025",
@@ -29,6 +25,11 @@ export const updates: Update[] = [
   {
     date: "Feb 2026",
     text: "Dendritic cell priming work accepted for presentation at the ARC Symposium.",
+  },
+  {
+    date: "Mar 2026",
+    text: "Won Y Combinator Bio/AI Hackathon with tri-modal LUAD clinical decision support system.",
+    link: "https://github.com/agurjar123/yc-aixbio-hackathon",
   },
   {
     date: "Jun 2026",
