@@ -13,7 +13,6 @@ const links = [
   { href: "/coursework", label: "Courses" },
   { href: "/work", label: "Work" },
   { href: "/multimodal-shelf", label: "Shelf" },
-  { href: "/photos", label: "Photos" },
 ];
 
 export default function Navbar() {

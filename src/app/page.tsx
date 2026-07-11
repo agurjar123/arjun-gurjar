@@ -24,7 +24,7 @@ export default function Home() {
       <section className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
         <div className="md:col-span-2 flex flex-col gap-5">
           <p className="font-serif text-2xl text-foreground leading-snug">
-            👋 I&apos;m Arjun, a 3rd year at UC Berkeley studying MCB and Data Science.
+            Hi 👋 I&apos;m Arjun, a 3rd year at UC Berkeley studying MCB and Data Science.
           </p>
 
           <div className="space-y-3 text-foreground leading-relaxed">
