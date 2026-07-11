@@ -20,19 +20,34 @@ const fraunces = Fraunces({
   style: ["normal", "italic"],
 });
 
+// Absolute base for OG/Twitter image URLs. Prefer an explicit override, then
+// the Vercel production domain (works with custom domains), then a fallback.
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "https://arjungurjar.com");
+
+const description =
+  "Arjun Gurjar — machine learning and biology. MCB + Data Science at UC Berkeley, working on interpretability and functional genomics.";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://arjungurjar.com"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Arjun Gurjar",
     template: "%s · Arjun Gurjar",
   },
-  description:
-    "Arjun Gurjar — machine learning and biology. CS + MCB at UC Berkeley, working on interpretability and functional genomics.",
+  description,
   openGraph: {
     title: "Arjun Gurjar",
-    description:
-      "Machine learning and biology. CS + MCB at UC Berkeley, working on interpretability and functional genomics.",
+    description,
     type: "website",
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Arjun Gurjar",
+    description,
   },
 };
 
