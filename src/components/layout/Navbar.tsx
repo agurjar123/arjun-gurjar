@@ -12,7 +12,6 @@ const links = [
   { href: "/experience", label: "Experience" },
   { href: "/coursework", label: "Courses" },
   { href: "/work", label: "Work" },
-  { href: "/writing", label: "Writing" },
   { href: "/multimodal-shelf", label: "Shelf" },
   { href: "/photos", label: "Photos" },
 ];

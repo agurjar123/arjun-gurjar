@@ -24,7 +24,7 @@ export default function Home() {
       <section className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
         <div className="md:col-span-2 flex flex-col gap-5">
           <p className="font-serif text-2xl text-foreground leading-snug">
-            Welcome! I&apos;m Arjun, a 3rd year at UC Berkeley studying MCB and Data Science.
+            👋 I&apos;m Arjun, a 3rd year at UC Berkeley studying MCB and Data Science.
           </p>
 
           <div className="space-y-3 text-foreground leading-relaxed">
@@ -43,8 +43,8 @@ export default function Home() {
             </p>
             <p>
               I helped set up{" "}
-              <BioLink href="https://www.instagram.com/ucb_compbio/">Computational Biology @ Berkeley</BioLink>{" "}
-              and started the CompBio Bootcamp, and worked with{" "}
+              <BioLink href="https://www.instagram.com/ucb_compbio/">Computational Biology @ Berkeley</BioLink>,{" "}
+              started the CompBio Bootcamp, and worked with{" "}
               <BioLink href="https://research.google">Google Research</BioLink>{" "}
               on interpreting variant calling models. I am also a part of{" "}
               <BioLink href="https://www.phoenixconsultinggroup.org/">Phoenix Consulting Group</BioLink>{" "}
@@ -54,6 +54,10 @@ export default function Home() {
               part of the{" "}
               <BioLink href="https://www.spitzerlab.org/">UCSF–Gladstone Spitzer Lab</BioLink>{" "}
               working on engineering dendritic cells to overcome immunosuppressive tumor microenvironments.
+            </p>
+            <p>
+              I also produce science YouTube videos and write scripts as{" "}
+              <BioLink href="https://www.youtube.com/@tldrscience">TLDR Science</BioLink>.
             </p>
           </div>
 

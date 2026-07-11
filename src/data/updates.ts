@@ -11,6 +11,10 @@ export const updates: Update[] = [
     text: "Started undergraduate research at the Innovative Genomics Institute (IGI), UC Berkeley.",
   },
   {
+    date: "Jun 2025",
+    text: "Joined the UCSF–Gladstone Spitzer Lab for the summer.",
+  },
+  {
     date: "Nov 2025",
     text: "Dendritic cell priming work accepted to SITC 2025.",
   },
