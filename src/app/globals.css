@@ -163,31 +163,31 @@ body {
   border-radius: 50%;
   filter: blur(72px);
   opacity: 0.7;
-  transition: translate 0.5s ease-out;
+  transition: translate 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform, translate;
 }
 .bs-blob-1 {
   width: 46vmax; height: 46vmax; left: -8vmax; top: -10vmax;
   background: radial-gradient(circle, rgba(255, 150, 190, 0.9), transparent 68%);
-  translate: calc(var(--mx, 0) * 48px) calc(var(--my, 0) * 48px);
+  translate: calc(var(--mx, 0) * 230px) calc(var(--my, 0) * 230px);
   animation: bs-drift1 26s ease-in-out infinite;
 }
 .bs-blob-2 {
   width: 40vmax; height: 40vmax; right: -6vmax; top: -4vmax;
   background: radial-gradient(circle, rgba(255, 214, 120, 0.85), transparent 68%);
-  translate: calc(var(--mx, 0) * -70px) calc(var(--my, 0) * 40px);
+  translate: calc(var(--mx, 0) * -320px) calc(var(--my, 0) * 200px);
   animation: bs-drift2 30s ease-in-out infinite;
 }
 .bs-blob-3 {
   width: 44vmax; height: 44vmax; left: 10vmax; bottom: -14vmax;
   background: radial-gradient(circle, rgba(255, 178, 158, 0.85), transparent 68%);
-  translate: calc(var(--mx, 0) * 60px) calc(var(--my, 0) * -50px);
+  translate: calc(var(--mx, 0) * 280px) calc(var(--my, 0) * -240px);
   animation: bs-drift3 34s ease-in-out infinite;
 }
 .bs-blob-4 {
   width: 36vmax; height: 36vmax; right: 6vmax; bottom: -10vmax;
   background: radial-gradient(circle, rgba(255, 226, 170, 0.8), transparent 68%);
-  translate: calc(var(--mx, 0) * -40px) calc(var(--my, 0) * -64px);
+  translate: calc(var(--mx, 0) * -200px) calc(var(--my, 0) * -300px);
   animation: bs-drift4 28s ease-in-out infinite;
 }
 @keyframes bs-drift1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(4vmax,3vmax) scale(1.08); } }
@@ -197,13 +197,16 @@ body {
 .bs-sparkle {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0.8px, transparent 1.4px);
-  background-size: 90px 90px;
-  opacity: 0.35;
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.95) 0.9px, transparent 1.5px),
+    radial-gradient(circle, rgba(255, 240, 200, 0.8) 0.7px, transparent 1.3px);
+  background-size: 74px 74px, 118px 118px;
+  background-position: 0 0, 30px 45px;
+  opacity: 0.6;
   mix-blend-mode: screen;
-  animation: bs-twinkle 6s ease-in-out infinite, bs-sparkle-move 40s linear infinite;
+  animation: bs-twinkle 5s ease-in-out infinite, bs-sparkle-move 38s linear infinite;
 }
-@keyframes bs-twinkle { 0%,100% { opacity: 0.22; } 50% { opacity: 0.5; } }
+@keyframes bs-twinkle { 0%,100% { opacity: 0.35; } 50% { opacity: 0.7; } }
 @keyframes bs-sparkle-move { from { background-position: 0 0; } to { background-position: 180px 360px; } }
 @media (prefers-reduced-motion: reduce) {
   .bs-blob, .bs-sparkle { animation: none; transition: none; }
