@@ -300,14 +300,14 @@ function Moment({ event, index }: { event: TimelineEvent; index: number }) {
         )}
 
         {photos.length > 0 && (
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="mt-4 space-y-2">
             {photos.map((src, i) => (
               <div key={i} className="group/p relative">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={src}
                   alt=""
-                  className="h-28 w-28 rounded-lg border border-border object-cover"
+                  className="h-auto max-h-80 w-full rounded-lg border border-border object-contain"
                 />
                 {!isLanding && (
                   <button
