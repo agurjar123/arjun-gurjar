@@ -14,6 +14,7 @@ import type { LatLng } from "@/lib/distance";
 export const LANDING_ISO = "2026-08-17T17:40:00-07:00";
 
 export type ChatMessage = {
+  id?: string; // set on saved replies (used to delete them)
   from: "arjun" | "seher";
   text?: string;
   photo?: string; // public path (for scripted msgs) or a URL (for saved replies)

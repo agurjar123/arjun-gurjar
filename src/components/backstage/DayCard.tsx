@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Lock, Check, X } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { subscribeChat } from "@/lib/firebase";
 import DayReveal from "./DayReveal";
 import type { AdventDay } from "@/data/backstage/days";
 
@@ -50,6 +51,25 @@ export default function DayCard({
   const reveal = solved || (mounted && isArjun);
   const canOpen = dateOpen;
 
+  // Once a day is revealed, surface its photos on the tile.
+  const content = day.content;
+  const [replyPhotos, setReplyPhotos] = useState<string[]>([]);
+  useEffect(() => {
+    if (!reveal || content?.type !== "chat") {
+      setReplyPhotos([]);
+      return;
+    }
+    return subscribeChat(day.id, (msgs) =>
+      setReplyPhotos(msgs.filter((m) => m.photo).map((m) => m.photo as string))
+    );
+  }, [reveal, content, day.id]);
+
+  let staticPhotos: string[] = [];
+  if (content?.type === "photos") staticPhotos = content.photos.map((p) => p.src);
+  else if (content?.type === "chat")
+    staticPhotos = content.messages.filter((m) => m.photo).map((m) => m.photo as string);
+  const previewPhotos = reveal ? [...staticPhotos, ...replyPhotos] : [];
+
   function submit(e: React.FormEvent) {
     e.preventDefault();
     if (normalize(value) === normalize(day.crypticAnswer)) {
@@ -94,7 +114,26 @@ export default function DayCard({
             ) : null)}
         </div>
         <h3 className="font-serif text-xl font-semibold text-foreground">{day.title}</h3>
-        <p className="mt-3 font-mono text-xs uppercase tracking-wider text-faint">{status}</p>
+        {reveal && previewPhotos.length > 0 ? (
+          <div className="mt-4 flex gap-1.5">
+            {previewPhotos.slice(0, 3).map((src, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={i}
+                src={src}
+                alt=""
+                className="h-14 w-14 rounded-lg border border-border object-cover"
+              />
+            ))}
+            {previewPhotos.length > 3 && (
+              <span className="flex h-14 w-14 items-center justify-center rounded-lg border border-border bg-surface-muted font-mono text-[11px] text-muted">
+                +{previewPhotos.length - 3}
+              </span>
+            )}
+          </div>
+        ) : (
+          <p className="mt-3 font-mono text-xs uppercase tracking-wider text-faint">{status}</p>
+        )}
       </button>
 
       {/* Modal — the day opens here */}

@@ -154,10 +154,18 @@ export function subscribeChat(
   return onValue(ref(database, `chat/${dayId}`), (snap) => {
     const val = snap.val() as Record<string, ChatMessage> | null;
     const msgs = val
-      ? Object.values(val).sort((a, b) => (a.ts ?? 0) - (b.ts ?? 0))
+      ? Object.entries(val)
+          .map(([id, m]) => ({ ...m, id }))
+          .sort((a, b) => (a.ts ?? 0) - (b.ts ?? 0))
       : [];
     cb(msgs);
   });
+}
+
+export function deleteChatMessage(dayId: string, id: string): Promise<unknown> {
+  const database = getDb();
+  if (!database) return Promise.resolve();
+  return Promise.resolve(remove(ref(database, `chat/${dayId}/${id}`)));
 }
 
 export function sendChatMessage(
