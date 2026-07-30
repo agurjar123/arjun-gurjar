@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Search, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Search, X, Loader2 } from "lucide-react";
 import type { TimelineSong } from "@/lib/firebase";
 
 export default function SongPicker({
@@ -14,29 +14,52 @@ export default function SongPicker({
   const [q, setQ] = useState("");
   const [results, setResults] = useState<TimelineSong[]>([]);
   const [loading, setLoading] = useState(false);
+  const [searched, setSearched] = useState(false);
   const [notConfigured, setNotConfigured] = useState(false);
   const [link, setLink] = useState("");
 
-  async function search(e: React.FormEvent) {
-    e.preventDefault();
-    if (!q.trim()) return;
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/spotify/search?q=${encodeURIComponent(q)}`);
-      const data = await res.json();
-      setNotConfigured(data.error === "not_configured");
-      setResults((data.tracks ?? []) as TimelineSong[]);
-    } catch {
+  // Live, debounced search — cancels stale requests as you type.
+  useEffect(() => {
+    const term = q.trim();
+    if (!term) {
       setResults([]);
+      setSearched(false);
+      setLoading(false);
+      return;
     }
-    setLoading(false);
-  }
+    const ctrl = new AbortController();
+    setLoading(true);
+    const id = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/spotify/search?q=${encodeURIComponent(term)}`, {
+          signal: ctrl.signal,
+        });
+        const data = await res.json();
+        setNotConfigured(data.error === "not_configured");
+        setResults((data.tracks ?? []) as TimelineSong[]);
+        setSearched(true);
+        setLoading(false);
+      } catch {
+        if (!ctrl.signal.aborted) {
+          setResults([]);
+          setSearched(true);
+          setLoading(false);
+        }
+      }
+    }, 280);
+    return () => {
+      clearTimeout(id);
+      ctrl.abort();
+    };
+  }, [q]);
 
   function usePasted() {
     const url = link.trim();
     if (!url.includes("spotify.com")) return;
     onPick({ url });
   }
+
+  const showFallback = notConfigured || (searched && !loading && results.length === 0);
 
   return (
     <div
@@ -58,27 +81,28 @@ export default function SongPicker({
           </button>
         </div>
 
-        <form onSubmit={search} className="flex gap-2">
+        <div className="relative">
+          <Search
+            size={15}
+            className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-faint"
+          />
           <input
             autoFocus
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="search a song…"
-            className="min-w-0 flex-1 rounded-full border border-border bg-background px-4 py-2 text-sm text-foreground outline-none focus:border-accent"
+            className="w-full rounded-full border border-border bg-background py-2.5 pl-10 pr-10 text-sm text-foreground outline-none focus:border-accent"
           />
-          <button
-            type="submit"
-            className="shrink-0 rounded-full bg-accent p-2.5 text-white transition-colors hover:bg-accent-strong"
-            aria-label="Search"
-          >
-            <Search size={16} />
-          </button>
-        </form>
+          {loading && (
+            <Loader2
+              size={15}
+              className="absolute right-4 top-1/2 -translate-y-1/2 animate-spin text-faint"
+            />
+          )}
+        </div>
 
-        {loading && <p className="mt-4 text-sm text-muted">Searching…</p>}
-
-        {!loading && results.length > 0 && (
-          <ul className="mt-4 space-y-1">
+        {results.length > 0 && (
+          <ul className="mt-3 space-y-1">
             {results.map((t) => (
               <li key={t.url}>
                 <button
@@ -103,12 +127,12 @@ export default function SongPicker({
           </ul>
         )}
 
-        {(notConfigured || (!loading && q && results.length === 0)) && (
+        {showFallback && (
           <div className="mt-5 border-t border-border pt-4">
             <p className="mb-2 text-xs text-faint">
               {notConfigured
                 ? "Song search isn't set up — paste a Spotify link instead."
-                : "No results — or paste a Spotify link directly."}
+                : "No matches — or paste a Spotify link directly."}
             </p>
             <div className="flex gap-2">
               <input
