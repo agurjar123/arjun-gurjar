@@ -2,7 +2,17 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, ImagePlus, Music, Pencil, Trash2, Plus, X, Check } from "lucide-react";
+import {
+  ArrowLeft,
+  ChevronLeft,
+  ChevronRight,
+  ImagePlus,
+  Music,
+  Pencil,
+  Trash2,
+  X,
+  Check,
+} from "lucide-react";
 import {
   subscribeTimeline,
   saveTimelineEvent,
@@ -15,15 +25,11 @@ import { compressImage } from "@/lib/image";
 import SongPicker from "./SongPicker";
 
 const LANDING_ID = "__landing";
-const LANDING: TimelineEvent = {
-  id: LANDING_ID,
-  date: "2026-08-17",
-  title: "You land 💛",
-};
+const LANDING: TimelineEvent = { id: LANDING_ID, date: "2026-08-17", title: "You land" };
 
 const fmt = (date: string) =>
   new Date(`${date}T12:00:00Z`).toLocaleDateString("en-US", {
-    month: "long",
+    month: "short",
     day: "numeric",
     year: "numeric",
     timeZone: "UTC",
@@ -39,7 +45,7 @@ function SpotifyEmbed({ url }: { url: string }) {
       height={80}
       loading="lazy"
       allow="encrypted-media; clipboard-write"
-      className="mt-3 rounded-xl border border-border"
+      className="mt-4 rounded-lg"
     />
   );
 }
@@ -47,6 +53,7 @@ function SpotifyEmbed({ url }: { url: string }) {
 export default function TimelinePage() {
   const [events, setEvents] = useState<TimelineEvent[]>([]);
   const [draft, setDraft] = useState({ date: "", title: "" });
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => subscribeTimeline(setEvents), []);
 
@@ -59,60 +66,67 @@ export default function TimelinePage() {
     setDraft({ date: "", title: "" });
   }
 
+  function nudge(dir: number) {
+    scrollRef.current?.scrollBy({ left: dir * 380, behavior: "smooth" });
+  }
+
   return (
-    <div className="mx-auto max-w-2xl px-5 py-20">
-      <Link
-        href="/backstage"
-        className="mb-8 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-muted transition-colors hover:text-accent"
-      >
-        <ArrowLeft size={13} /> backstage
-      </Link>
-
-      <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">us, so far</p>
-      <h1 className="mt-2 font-serif text-4xl font-semibold text-foreground">Our timeline</h1>
-      <p className="mt-3 text-muted">
-        Every moment worth keeping. Hover a moment to add a photo, caption, or song
-        {!firebaseReady && " (add Firebase to make it save)"}.
-      </p>
-
-      <ol className="relative mt-10 ml-1 border-l border-border">
-        {items.map((item) => (
-          <EventCard key={item.id} event={item} />
-        ))}
-      </ol>
-
-      {/* Add a moment */}
-      <form
-        onSubmit={addMoment}
-        className="mt-8 flex flex-wrap gap-2 rounded-2xl border border-dashed border-border p-4"
-      >
-        <p className="w-full font-mono text-[10px] uppercase tracking-wider text-accent">
-          add a moment
-        </p>
-        <input
-          type="date"
-          value={draft.date}
-          onChange={(e) => setDraft({ ...draft, date: e.target.value })}
-          className="rounded-xl border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
-        />
-        <input
-          placeholder="what happened"
-          value={draft.title}
-          onChange={(e) => setDraft({ ...draft, title: e.target.value })}
-          className="min-w-0 flex-1 rounded-xl border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
-        />
-        <button
-          type="submit"
-          className="inline-flex items-center gap-1 rounded-full bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-strong"
+    <div className="px-5 py-16 sm:px-10">
+      <div className="mx-auto max-w-5xl">
+        <Link
+          href="/backstage"
+          className="mb-10 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-muted transition-colors hover:text-accent"
         >
-          <Plus size={14} /> Add
-        </button>
-      </form>
+          <ArrowLeft size={13} /> backstage
+        </Link>
+
+        <div className="flex items-end justify-between gap-6">
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">us, so far</p>
+            <h1 className="mt-2 font-serif text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+              Our timeline
+            </h1>
+          </div>
+          <div className="hidden shrink-0 items-center gap-2 sm:flex">
+            <button
+              onClick={() => nudge(-1)}
+              aria-label="Scroll left"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted transition-colors hover:border-accent/40 hover:text-accent"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <button
+              onClick={() => nudge(1)}
+              aria-label="Scroll right"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted transition-colors hover:border-accent/40 hover:text-accent"
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
+        </div>
+        <p className="mt-4 max-w-prose text-sm leading-relaxed text-muted">
+          Left to right, the story so far — ending the day you land. Hover any moment to add a
+          photo, a caption, or a song{!firebaseReady && " (connect Firebase to save)"}.
+        </p>
+      </div>
+
+      {/* Horizontal timeline */}
+      <div
+        ref={scrollRef}
+        className="bs-hscroll mt-12 flex snap-x snap-proximity gap-0 overflow-x-auto pb-6"
+      >
+        <div className="w-5 shrink-0 sm:w-10" />
+        {items.map((item) => (
+          <Moment key={item.id} event={item} />
+        ))}
+        <AddColumn draft={draft} setDraft={setDraft} onAdd={addMoment} />
+        <div className="w-5 shrink-0 sm:w-10" />
+      </div>
     </div>
   );
 }
 
-function EventCard({ event }: { event: TimelineEvent }) {
+function Moment({ event }: { event: TimelineEvent }) {
   const isLanding = event.id === LANDING_ID;
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(event.title);
@@ -124,16 +138,15 @@ function EventCard({ event }: { event: TimelineEvent }) {
     const files = Array.from(e.target.files ?? []);
     if (!files.length) return;
     const compressed = await Promise.all(files.map((f) => compressImage(f, 900, 0.6)));
-    await saveTimelineEvent({
-      ...event,
-      photos: [...(event.photos ?? []), ...compressed],
-    });
+    await saveTimelineEvent({ ...event, photos: [...(event.photos ?? []), ...compressed] });
     if (fileRef.current) fileRef.current.value = "";
   }
 
   async function removePhoto(idx: number) {
-    const photos = (event.photos ?? []).filter((_, i) => i !== idx);
-    await saveTimelineEvent({ ...event, photos });
+    await saveTimelineEvent({
+      ...event,
+      photos: (event.photos ?? []).filter((_, i) => i !== idx),
+    });
   }
 
   async function setSong(song: TimelineSong) {
@@ -147,108 +160,112 @@ function EventCard({ event }: { event: TimelineEvent }) {
   }
 
   return (
-    <li className="group relative pb-8 pl-6 last:pb-0">
-      <span
-        className={`absolute -left-[5px] top-1.5 h-2.5 w-2.5 rounded-full ring-4 ring-background ${
-          isLanding ? "bg-red-500 bs-pulse" : "bg-accent"
-        }`}
-      />
-      <time className="block font-mono text-[11px] uppercase tracking-wider text-faint">
-        {fmt(event.date)}
-      </time>
+    <div className="group w-[19rem] shrink-0 snap-start px-4">
+      {/* Axis segment + node */}
+      <div className="relative border-t border-border">
+        <span
+          className={`absolute -top-[6px] left-0 h-3 w-3 rounded-full ring-4 ring-background ${
+            isLanding ? "bg-red-500 bs-pulse" : "bg-accent"
+          }`}
+        />
+      </div>
 
-      {editing ? (
-        <div className="mt-1 space-y-2">
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full rounded-lg border border-border bg-background px-3 py-1.5 text-sm text-foreground outline-none focus:border-accent"
-          />
-          <textarea
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-            placeholder="a little note…"
-            rows={2}
-            className="w-full rounded-lg border border-border bg-background px-3 py-1.5 text-sm text-foreground outline-none focus:border-accent"
-          />
-          <button
-            onClick={saveCaption}
-            className="inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1.5 text-xs font-medium text-white hover:bg-accent-strong"
-          >
-            <Check size={13} /> save
-          </button>
-        </div>
-      ) : (
-        <>
-          <p
-            className={`mt-1 ${
-              isLanding ? "font-serif text-lg font-semibold" : "font-medium"
-            } text-foreground`}
-          >
-            {event.title}
-          </p>
-          {event.note && <p className="mt-0.5 text-sm text-muted">{event.note}</p>}
-        </>
-      )}
+      <div className="pt-6">
+        <time className="font-mono text-[11px] uppercase tracking-[0.15em] text-faint">
+          {fmt(event.date)}
+        </time>
 
-      {/* Photos */}
-      {event.photos && event.photos.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {event.photos.map((src, i) => (
-            <div key={i} className="group/photo relative">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={src}
-                alt=""
-                className="h-24 w-24 rounded-xl border border-border object-cover"
-              />
-              {!isLanding && (
-                <button
-                  onClick={() => removePhoto(i)}
-                  aria-label="Remove photo"
-                  className="absolute -right-1.5 -top-1.5 rounded-full bg-foreground p-0.5 text-background opacity-0 transition-opacity group-hover/photo:opacity-100"
-                >
-                  <X size={12} />
-                </button>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
+        {editing ? (
+          <div className="mt-2 space-y-2">
+            <input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full rounded-lg border border-border bg-surface px-3 py-1.5 text-sm text-foreground outline-none focus:border-accent"
+            />
+            <textarea
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              placeholder="a little note…"
+              rows={3}
+              className="w-full rounded-lg border border-border bg-surface px-3 py-1.5 text-sm text-foreground outline-none focus:border-accent"
+            />
+            <button
+              onClick={saveCaption}
+              className="inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1.5 text-xs font-medium text-white hover:bg-accent-strong"
+            >
+              <Check size={13} /> save
+            </button>
+          </div>
+        ) : (
+          <>
+            <h3 className="mt-1.5 font-serif text-xl font-semibold leading-snug text-foreground">
+              {event.title}
+            </h3>
+            {event.note && (
+              <p className="mt-1.5 text-sm leading-relaxed text-muted">{event.note}</p>
+            )}
+          </>
+        )}
 
-      {/* Song */}
-      {event.song?.url && <SpotifyEmbed url={event.song.url} />}
+        {event.photos && event.photos.length > 0 && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {event.photos.map((src, i) => (
+              <div key={i} className="group/p relative">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={src}
+                  alt=""
+                  className="h-28 w-28 rounded-lg border border-border object-cover"
+                />
+                {!isLanding && (
+                  <button
+                    onClick={() => removePhoto(i)}
+                    aria-label="Remove photo"
+                    className="absolute -right-1.5 -top-1.5 rounded-full bg-foreground p-0.5 text-background opacity-0 transition-opacity group-hover/p:opacity-100"
+                  >
+                    <X size={12} />
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
 
-      {/* Hover toolbar (editable events only) */}
-      {!isLanding && !editing && (
-        <div className="mt-2 flex items-center gap-1 opacity-60 transition-opacity group-hover:opacity-100">
-          <button
-            onClick={() => fileRef.current?.click()}
-            className="inline-flex items-center gap-1 rounded-full px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-muted transition-colors hover:bg-surface-muted hover:text-accent"
-          >
-            <ImagePlus size={12} /> photo
-          </button>
-          <button
-            onClick={() => setPicking(true)}
-            className="inline-flex items-center gap-1 rounded-full px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-muted transition-colors hover:bg-surface-muted hover:text-accent"
-          >
-            <Music size={12} /> song
-          </button>
-          <button
-            onClick={() => setEditing(true)}
-            className="inline-flex items-center gap-1 rounded-full px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-muted transition-colors hover:bg-surface-muted hover:text-accent"
-          >
-            <Pencil size={12} /> caption
-          </button>
-          <button
-            onClick={() => event.id && deleteTimelineEvent(event.id)}
-            aria-label="Delete moment"
-            className="ml-auto rounded-full px-2 py-1 text-muted transition-colors hover:text-red-500"
-          >
-            <Trash2 size={13} />
-          </button>
-        </div>
-      )}
+        {event.song?.url && <SpotifyEmbed url={event.song.url} />}
+
+        {!isLanding && !editing && (
+          <div className="mt-4 flex items-center gap-3 opacity-0 transition-opacity group-hover:opacity-100">
+            <button
+              onClick={() => fileRef.current?.click()}
+              aria-label="Add photo"
+              className="text-faint transition-colors hover:text-accent"
+            >
+              <ImagePlus size={15} />
+            </button>
+            <button
+              onClick={() => setPicking(true)}
+              aria-label="Add song"
+              className="text-faint transition-colors hover:text-accent"
+            >
+              <Music size={15} />
+            </button>
+            <button
+              onClick={() => setEditing(true)}
+              aria-label="Edit caption"
+              className="text-faint transition-colors hover:text-accent"
+            >
+              <Pencil size={15} />
+            </button>
+            <button
+              onClick={() => event.id && deleteTimelineEvent(event.id)}
+              aria-label="Delete moment"
+              className="ml-auto text-faint transition-colors hover:text-red-500"
+            >
+              <Trash2 size={15} />
+            </button>
+          </div>
+        )}
+      </div>
 
       <input
         ref={fileRef}
@@ -258,8 +275,48 @@ function EventCard({ event }: { event: TimelineEvent }) {
         className="hidden"
         onChange={addPhotos}
       />
-
       {picking && <SongPicker onPick={setSong} onClose={() => setPicking(false)} />}
-    </li>
+    </div>
+  );
+}
+
+function AddColumn({
+  draft,
+  setDraft,
+  onAdd,
+}: {
+  draft: { date: string; title: string };
+  setDraft: (d: { date: string; title: string }) => void;
+  onAdd: (e: React.FormEvent) => void;
+}) {
+  return (
+    <div className="w-[19rem] shrink-0 snap-start px-4">
+      <div className="relative border-t border-dashed border-border">
+        <span className="absolute -top-[6px] left-0 h-3 w-3 rounded-full border border-dashed border-faint bg-background" />
+      </div>
+      <form onSubmit={onAdd} className="pt-6">
+        <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-accent">
+          add a moment
+        </p>
+        <input
+          type="date"
+          value={draft.date}
+          onChange={(e) => setDraft({ ...draft, date: e.target.value })}
+          className="mt-3 w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
+        />
+        <input
+          placeholder="what happened"
+          value={draft.title}
+          onChange={(e) => setDraft({ ...draft, title: e.target.value })}
+          className="mt-2 w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
+        />
+        <button
+          type="submit"
+          className="mt-3 rounded-full bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-strong"
+        >
+          Add
+        </button>
+      </form>
+    </div>
   );
 }

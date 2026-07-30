@@ -212,6 +212,16 @@ body {
   .bs-blob, .bs-sparkle { animation: none; transition: none; }
 }
 
+/* Slim, themed horizontal scrollbar for the timeline */
+.bs-hscroll { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.bs-hscroll::-webkit-scrollbar { height: 6px; }
+.bs-hscroll::-webkit-scrollbar-track { background: transparent; }
+.bs-hscroll::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 9999px;
+}
+.bs-hscroll::-webkit-scrollbar-thumb:hover { background: var(--faint); }
+
 /* Leaflet map, styled to feel native to the almond UI */
 .bs-map .leaflet-container {
   background: var(--surface-muted);
