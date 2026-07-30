@@ -162,7 +162,7 @@ body {
   position: absolute;
   border-radius: 50%;
   filter: blur(72px);
-  opacity: 0.7;
+  opacity: 0.82;
   transition: translate 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform, translate;
 }
