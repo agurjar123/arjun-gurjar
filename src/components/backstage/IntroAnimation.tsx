@@ -2,52 +2,54 @@
 
 import { useEffect, useState } from "react";
 
-// Plays "Hi Sehru :)" once per browser session (first view after unlocking),
-// fading in, holding, then fading out.
+// Full-screen greeting for Seher. Stays until she clicks "continue" (once per
+// session), so it never fades on its own. Skipped when Arjun is logged in.
 export default function IntroAnimation() {
   const [render, setRender] = useState(false);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    let greeted = false;
-    let isArjun = false;
+    let skip = false;
     try {
-      greeted = sessionStorage.getItem("backstage_greeted") === "1";
-      isArjun = localStorage.getItem("backstage_me") === "arjun";
+      skip =
+        sessionStorage.getItem("backstage_greeted") === "1" ||
+        localStorage.getItem("backstage_me") === "arjun";
     } catch {
       /* ignore */
     }
-    // The greeting is for Seher — don't play it when Arjun logs in.
-    if (greeted || isArjun) return;
+    if (skip) return;
+    setRender(true);
+    const t = setTimeout(() => setVisible(true), 30); // fade in
+    return () => clearTimeout(t);
+  }, []);
+
+  function dismiss() {
     try {
       sessionStorage.setItem("backstage_greeted", "1");
     } catch {
       /* ignore */
     }
-
-    setRender(true);
-    const inT = setTimeout(() => setVisible(true), 30); // trigger fade-in
-    const outT = setTimeout(() => setVisible(false), 2000); // fade-out
-    const doneT = setTimeout(() => setRender(false), 2800); // unmount
-    return () => {
-      clearTimeout(inT);
-      clearTimeout(outT);
-      clearTimeout(doneT);
-    };
-  }, []);
+    setVisible(false);
+    setTimeout(() => setRender(false), 500); // let it fade out
+  }
 
   if (!render) return null;
 
   return (
     <div
-      aria-hidden
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-background transition-opacity duration-700 ${
+      className={`fixed inset-0 z-[3000] flex flex-col items-center justify-center gap-10 bg-background px-6 text-center transition-opacity duration-500 ${
         visible ? "opacity-100" : "opacity-0"
       }`}
     >
-      <span className="font-serif text-4xl sm:text-5xl font-semibold text-foreground">
+      <span className="font-serif text-4xl font-semibold text-foreground sm:text-6xl">
         Hi Sehru <span className="text-accent">:)</span>
       </span>
+      <button
+        onClick={dismiss}
+        className="rounded-full bg-accent px-7 py-3 font-medium text-white shadow-[var(--shadow-soft)] transition-colors hover:bg-accent-strong"
+      >
+        continue to website →
+      </button>
     </div>
   );
 }

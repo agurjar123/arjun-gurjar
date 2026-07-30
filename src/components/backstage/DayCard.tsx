@@ -36,7 +36,7 @@ export default function DayCard({
 
   useEffect(() => setMounted(true), []);
 
-  const dateOpen = mounted && unlockedByDate(day.date);
+  const dateOpen = mounted && (day.alwaysOpen || unlockedByDate(day.date));
 
   function submit(e: React.FormEvent) {
     e.preventDefault();

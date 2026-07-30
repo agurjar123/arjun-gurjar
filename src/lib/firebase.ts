@@ -12,13 +12,6 @@ import {
   remove,
   type Database,
 } from "firebase/database";
-import {
-  getStorage,
-  ref as storageRef,
-  uploadBytes,
-  getDownloadURL,
-  type FirebaseStorage,
-} from "firebase/storage";
 import type { ChatMessage } from "@/data/backstage/days";
 
 const config = {
@@ -26,14 +19,11 @@ const config = {
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
   databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-/** True once the env config is present (map sync + answers become live). */
+/** True once the env config is present (map sync + answers + chat become live). */
 export const firebaseReady = Boolean(config.apiKey && config.databaseURL);
-/** True once Storage is configured (photo replies become live). */
-export const firebaseStorageReady = Boolean(config.apiKey && config.storageBucket);
 
 let app: FirebaseApp | null = null;
 function getFirebaseApp(): FirebaseApp {
@@ -46,13 +36,6 @@ function getDb(): Database | null {
   if (!firebaseReady) return null;
   if (!db) db = getDatabase(getFirebaseApp());
   return db;
-}
-
-let store: FirebaseStorage | null = null;
-function getStore(): FirebaseStorage | null {
-  if (!firebaseStorageReady) return null;
-  if (!store) store = getStorage(getFirebaseApp());
-  return store;
 }
 
 export type Person = "arjun" | "seher";
@@ -144,20 +127,9 @@ export function deleteTimelineEvent(id: string): Promise<unknown> {
   return Promise.resolve(remove(ref(database, `timeline/${id}`)));
 }
 
-// ── Chat (scripted messages + her photo replies) ─────────────────────────────
-
-/** Upload a reply photo to Storage; returns its download URL (or null). */
-export async function uploadChatPhoto(
-  dayId: string,
-  file: File
-): Promise<string | null> {
-  const storage = getStore();
-  if (!storage) return null;
-  const safe = file.name.replace(/[^\w.-]/g, "_");
-  const r = storageRef(storage, `chat/${dayId}/${Date.now()}-${safe}`);
-  await uploadBytes(r, file);
-  return getDownloadURL(r);
-}
+// ── Chat (scripted messages + her replies) ───────────────────────────────────
+// Photos are compressed to a small data URL client-side (see lib/image.ts) and
+// stored inline in the message — no Firebase Storage needed.
 
 export function subscribeChat(
   dayId: string,

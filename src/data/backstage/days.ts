@@ -34,6 +34,7 @@ export type AdventDay = {
   crypticAnswer: string; // the day's shared minute-cryptic solution
   hint?: string;
   content?: DayContent;
+  alwaysOpen?: boolean; // preview flag: bypass the date lock
 };
 
 // Placeholder schedule (Aug 1 → 17). Swap answers + content for the real ones.
@@ -44,6 +45,7 @@ export const days: AdventDay[] = [
     title: "Day One",
     crypticAnswer: "placeholder",
     hint: "Replace me in src/data/backstage/days.ts",
+    alwaysOpen: true, // PREVIEW: remove before launch so it locks until Aug 1
     content: {
       type: "chat",
       promptReply: true,
@@ -51,7 +53,7 @@ export const days: AdventDay[] = [
         { from: "arjun", text: "hi baby :)" },
         { from: "arjun", text: "day one. I couldn't wait to start this with you" },
         { from: "arjun", text: "here's my favorite one of us" },
-        { from: "arjun", photo: "/backstage/us-favorite.jpg" },
+        { from: "arjun", photo: "/backstage/us-favorite.jpeg" },
         { from: "arjun", text: "your turn — send me one back? ♡" },
       ],
     },
@@ -101,5 +103,5 @@ export const ARJUN_FALLBACK: LatLng = { lat: 37.8715, lng: -122.273 }; // Berkel
 export const SEHER_FALLBACK: LatLng = { lat: 51.4839, lng: -0.6044 }; // Windsor
 
 /** Baby photos for the precise map pins (drop files here). */
-export const ARJUN_PHOTO = "/backstage/arjun-baby.jpg";
-export const SEHER_PHOTO = "/backstage/seher-baby.jpg";
+export const ARJUN_PHOTO = "/backstage/arjun-baby.jpeg";
+export const SEHER_PHOTO = "/backstage/seher-baby.jpeg";

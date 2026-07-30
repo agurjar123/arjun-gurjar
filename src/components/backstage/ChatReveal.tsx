@@ -2,12 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ImagePlus, Send } from "lucide-react";
-import {
-  subscribeChat,
-  sendChatMessage,
-  uploadChatPhoto,
-  firebaseStorageReady,
-} from "@/lib/firebase";
+import { subscribeChat, sendChatMessage } from "@/lib/firebase";
+import { compressImage } from "@/lib/image";
 import type { ChatMessage } from "@/data/backstage/days";
 
 function Bubble({ msg }: { msg: ChatMessage }) {
@@ -136,7 +132,7 @@ function Composer({ dayId, me }: { dayId: string; me: "arjun" | "seher" }) {
     setSending(true);
     let photo: string | undefined;
     try {
-      if (file) photo = (await uploadChatPhoto(dayId, file)) ?? undefined;
+      if (file) photo = await compressImage(file);
       await sendChatMessage(dayId, { from: me, text: text.trim(), photo });
     } catch {
       /* ignore */
@@ -152,11 +148,6 @@ function Composer({ dayId, me }: { dayId: string; me: "arjun" | "seher" }) {
       {preview && (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={preview} alt="" className="mb-2 max-h-40 rounded-xl object-cover" />
-      )}
-      {!firebaseStorageReady && (
-        <p className="mb-2 text-xs text-faint">
-          Photo replies need Firebase Storage — text will still send.
-        </p>
       )}
       <div className="flex items-center gap-2">
         <label className="shrink-0 cursor-pointer rounded-full border border-border p-2 text-muted transition-colors hover:text-accent">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Pencil } from "lucide-react";
+import { Pencil, ChevronDown } from "lucide-react";
 import { LANDING_ISO } from "@/data/backstage/days";
 import { subscribeTimeline, type TimelineEvent } from "@/lib/firebase";
 import TimelineEditor from "./TimelineEditor";
@@ -64,27 +64,39 @@ export default function TimelineWidget() {
   return (
     <>
       <div
-        className="fixed right-3 top-3 z-40 w-[min(20rem,calc(100vw-1.5rem))] sm:right-5 sm:top-5"
+        className="fixed right-3 top-3 z-[1500] flex w-fit flex-col items-end sm:right-5 sm:top-5"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        {/* Peak — the countdown */}
-        <button
-          onClick={() => setPinned((p) => !p)}
-          aria-expanded={expanded}
-          className="w-full rounded-2xl border border-border bg-surface/90 px-4 py-2.5 text-right shadow-[var(--shadow-card)] backdrop-blur-sm transition-colors hover:border-accent/40"
-        >
-          <span className="block font-mono text-[10px] uppercase tracking-[0.18em] text-accent">
-            {t.done ? "she's here" : "she lands in"}
-          </span>
-          <span className="mt-0.5 block font-mono text-sm tabular-nums text-foreground">
-            {t.done ? "Welcome home 💛" : `${t.d}d ${pad(t.h)}:${pad(t.m)}:${pad(t.s)}`}
-          </span>
-        </button>
+        {/* Peak — countdown + an obvious handle that reveals the timeline */}
+        <div className="overflow-hidden rounded-2xl border border-border bg-surface/90 shadow-[var(--shadow-card)] backdrop-blur-sm">
+          <button
+            onClick={() => setPinned((p) => !p)}
+            aria-expanded={expanded}
+            className="block px-4 py-2.5 text-right"
+          >
+            <span className="block font-mono text-[10px] uppercase tracking-[0.18em] text-accent">
+              {t.done ? "she's here" : "she lands in"}
+            </span>
+            <span className="mt-0.5 block font-mono text-sm tabular-nums text-foreground">
+              {t.done ? "Welcome home 💛" : `${t.d}d ${pad(t.h)}:${pad(t.m)}:${pad(t.s)}`}
+            </span>
+          </button>
+          <button
+            onClick={() => setPinned((p) => !p)}
+            className="flex w-full items-center justify-center gap-1 border-t border-border bg-surface-muted/50 py-1 font-mono text-[10px] uppercase tracking-wider text-muted transition-colors hover:text-accent"
+          >
+            <ChevronDown
+              size={12}
+              className={`transition-transform ${expanded ? "rotate-180" : ""}`}
+            />
+            our timeline
+          </button>
+        </div>
 
         {/* Expanded timeline */}
         <div
-          className={`overflow-hidden transition-all duration-300 ${
+          className={`w-72 overflow-hidden transition-all duration-300 ${
             expanded ? "mt-2 max-h-[70vh] opacity-100" : "max-h-0 opacity-0"
           }`}
         >
