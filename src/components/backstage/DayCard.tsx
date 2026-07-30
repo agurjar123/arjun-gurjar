@@ -50,6 +50,7 @@ export default function DayCard({
   const dateOpen = mounted && (isArjun || day.alwaysOpen || unlockedByDate(day.date));
   const reveal = solved || (mounted && isArjun);
   const canOpen = dateOpen;
+  const ready = mounted && dateOpen && !reveal; // available, not yet opened → glimmer
 
   // Once a day is revealed, surface its photos on the tile.
   const content = day.content;
@@ -95,10 +96,12 @@ export default function DayCard({
         onClick={() => canOpen && setOpen(true)}
         aria-disabled={!canOpen}
         className={cn(
-          "group w-full rounded-3xl border border-border bg-surface p-6 text-left shadow-[var(--shadow-card)] transition-all",
+          "group w-full rounded-3xl border p-6 text-left shadow-[var(--shadow-card)] transition-all",
+          ready ? "bs-ready" : "border-border bg-surface",
           canOpen
-            ? "cursor-pointer hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-[var(--shadow-soft)]"
+            ? "cursor-pointer hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[var(--shadow-soft)]"
             : "cursor-default",
+          reveal && "bs-pop",
           !dateOpen && mounted && "opacity-90"
         )}
       >
