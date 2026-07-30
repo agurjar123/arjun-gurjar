@@ -52,7 +52,7 @@ export default function DayCard({
       className={cn(
         "rounded-3xl border border-border bg-surface p-6 shadow-[var(--shadow-card)]",
         solved && "bs-pop",
-        !dateOpen && mounted && "opacity-70"
+        !dateOpen && mounted && "opacity-90"
       )}
     >
       <div className="mb-3 flex items-center justify-between">
