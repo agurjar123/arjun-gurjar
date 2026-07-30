@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Lock } from "lucide-react";
 import { cn } from "@/lib/cn";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 
@@ -13,6 +13,7 @@ const links = [
   { href: "/coursework", label: "Courses" },
   { href: "/work", label: "Work" },
   { href: "/multimodal-shelf", label: "Shelf" },
+  { href: "/backstage", label: "Backstage" },
 ];
 
 export default function Navbar() {
@@ -43,7 +44,14 @@ export default function Navbar() {
                     : "text-muted hover:text-foreground hover:bg-surface-muted"
                 )}
               >
-                {label}
+                {href === "/backstage" ? (
+                  <span className="inline-flex items-center gap-1">
+                    <Lock size={11} />
+                    {label}
+                  </span>
+                ) : (
+                  label
+                )}
               </Link>
             ))}
             <span className="mx-1 h-5 w-px bg-border" aria-hidden />
@@ -80,7 +88,14 @@ export default function Navbar() {
                     : "text-muted hover:text-foreground hover:bg-surface-muted"
                 )}
               >
-                {label}
+                {href === "/backstage" ? (
+                  <span className="inline-flex items-center gap-1.5">
+                    <Lock size={12} />
+                    {label}
+                  </span>
+                ) : (
+                  label
+                )}
               </Link>
             ))}
           </div>

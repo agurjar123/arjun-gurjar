@@ -44,6 +44,28 @@
   --shadow-soft: 0 8px 30px -12px rgba(0, 0, 0, 0.6);
 }
 
+/*
+  Almond — warm romantic theme scoped to the /backstage section. Applied via a
+  wrapper element (data-theme="almond"), so it overrides the site light/dark
+  tokens for its subtree only. Same token names → all utilities recolor.
+*/
+[data-theme="almond"] {
+  --background: #f3e9dc;      /* almond cream */
+  --surface: #faf4ea;
+  --surface-muted: #ece0cf;
+  --border: #ddccb5;
+  --foreground: #3a2f27;      /* warm espresso */
+  --muted: #7c6a58;
+  --faint: #a8977f;
+  --accent: #c06b4a;          /* terracotta */
+  --accent-strong: #a5502f;
+  --accent-soft: rgba(192, 107, 74, 0.12);
+  --accent-ring: rgba(192, 107, 74, 0.35);
+
+  --shadow-card: 0 1px 3px 0 rgba(90, 60, 40, 0.08), 0 1px 2px -1px rgba(90, 60, 40, 0.06);
+  --shadow-soft: 0 10px 34px -14px rgba(90, 60, 40, 0.3);
+}
+
 /* No-JS fallback: honor the system preference when no explicit theme is set. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -100,6 +122,33 @@ body {
 ::selection {
   background-color: var(--accent-soft);
   color: var(--foreground);
+}
+
+/* Backstage animations */
+@keyframes bs-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes bs-pop {
+  0%   { opacity: 0; transform: scale(0.96); }
+  60%  { opacity: 1; transform: scale(1.01); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes bs-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.55; }
+}
+@keyframes bs-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+.bs-rise { animation: bs-rise 0.6s ease both; }
+.bs-pop { animation: bs-pop 0.5s ease both; }
+.bs-pulse { animation: bs-pulse 2s ease-in-out infinite; }
+.bs-float { animation: bs-float 4s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bs-rise, .bs-pop, .bs-pulse, .bs-float { animation: none; }
 }
 
 /* Typography plugin: map prose colors onto the theme tokens (works in light + dark). */
