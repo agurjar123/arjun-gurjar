@@ -33,7 +33,8 @@ const CARD_W = 320; // w-80
 const SPACER = 24;
 const BAND = 104; // height of the wave band above the cards
 const MID = 52;
-const AMP = 26;
+const AMP = 22;
+const FREQ = 1.15; // radians per node → an inflection roughly every ~2.7 events
 
 const fmt = (date: string) =>
   new Date(`${date}T12:00:00Z`).toLocaleDateString("en-US", {
@@ -70,28 +71,40 @@ export default function TimelinePage() {
   // Node positions on the snaking wave (one per moment + a ghost for "add").
   const nodes = items.map((it, i) => ({
     x: SPACER + i * CARD_W + CARD_W / 2,
-    y: MID + AMP * Math.sin(i * 0.9),
+    y: MID + AMP * Math.sin(i * FREQ),
     landing: it.id === LANDING_ID,
   }));
   const addX = SPACER + items.length * CARD_W + CARD_W / 2;
-  const addY = MID + AMP * Math.sin(items.length * 0.9);
+  const addY = MID + AMP * Math.sin(items.length * FREQ);
   const totalW = SPACER * 2 + (items.length + 1) * CARD_W;
 
+  // Catmull-Rom spline → smooth curve that flows through the points (no bumps at
+  // each node; it only turns where the wave actually peaks).
   function wavePath(pts: { x: number; y: number }[]): string {
-    if (!pts.length) return "";
+    if (pts.length < 2) return pts.length ? `M ${pts[0].x},${pts[0].y}` : "";
     let d = `M ${pts[0].x},${pts[0].y}`;
-    for (let i = 1; i < pts.length; i++) {
-      const p0 = pts[i - 1];
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p0 = pts[i - 1] ?? pts[i];
       const p1 = pts[i];
-      const dx = (p1.x - p0.x) / 2;
-      d += ` C ${p0.x + dx},${p0.y} ${p1.x - dx},${p1.y} ${p1.x},${p1.y}`;
+      const p2 = pts[i + 1];
+      const p3 = pts[i + 2] ?? p2;
+      const cp1x = p1.x + (p2.x - p0.x) / 6;
+      const cp1y = p1.y + (p2.y - p0.y) / 6;
+      const cp2x = p2.x - (p3.x - p1.x) / 6;
+      const cp2y = p2.y - (p3.y - p1.y) / 6;
+      d += ` C ${cp1x},${cp1y} ${cp2x},${cp2y} ${p2.x},${p2.y}`;
     }
     return d;
   }
   const solidPath = wavePath(nodes);
   const last = nodes[nodes.length - 1] ?? { x: SPACER, y: MID };
-  const dxa = (addX - last.x) / 2;
-  const dashPath = `M ${last.x},${last.y} C ${last.x + dxa},${last.y} ${addX - dxa},${addY} ${addX},${addY}`;
+  const prev = nodes[nodes.length - 2] ?? last;
+  // Smooth dashed tail into the "add" ghost node, matching the wave's exit slope.
+  const tcp1x = last.x + (addX - prev.x) / 6;
+  const tcp1y = last.y + (addY - prev.y) / 6;
+  const tcp2x = addX - (addX - last.x) / 6;
+  const tcp2y = addY - (addY - last.y) / 6;
+  const dashPath = `M ${last.x},${last.y} C ${tcp1x},${tcp1y} ${tcp2x},${tcp2y} ${addX},${addY}`;
 
   async function addMoment(e: React.FormEvent) {
     e.preventDefault();
