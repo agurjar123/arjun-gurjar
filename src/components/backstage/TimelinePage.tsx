@@ -28,6 +28,13 @@ import SongPicker from "./SongPicker";
 const LANDING_ID = "__landing";
 const LANDING: TimelineEvent = { id: LANDING_ID, date: "2026-08-17", title: "You land" };
 
+// Layout constants (px) — the snaking SVG is computed against these.
+const CARD_W = 320; // w-80
+const SPACER = 24;
+const BAND = 104; // height of the wave band above the cards
+const MID = 52;
+const AMP = 26;
+
 const fmt = (date: string) =>
   new Date(`${date}T12:00:00Z`).toLocaleDateString("en-US", {
     month: "short",
@@ -51,18 +58,6 @@ function SpotifyEmbed({ url }: { url: string }) {
   );
 }
 
-function Kicker({ date, landing }: { date: string; landing?: boolean }) {
-  return (
-    <span
-      className={`inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.15em] ${
-        landing ? "bg-red-500/10 text-red-500" : "bg-accent-soft text-accent"
-      }`}
-    >
-      {fmt(date)}
-    </span>
-  );
-}
-
 export default function TimelinePage() {
   const [events, setEvents] = useState<TimelineEvent[]>([]);
   const [draft, setDraft] = useState({ date: "", title: "" });
@@ -71,6 +66,32 @@ export default function TimelinePage() {
   useEffect(() => subscribeTimeline(setEvents), []);
 
   const items = [...events, LANDING].sort((a, b) => a.date.localeCompare(b.date));
+
+  // Node positions on the snaking wave (one per moment + a ghost for "add").
+  const nodes = items.map((it, i) => ({
+    x: SPACER + i * CARD_W + CARD_W / 2,
+    y: MID + AMP * Math.sin(i * 0.9),
+    landing: it.id === LANDING_ID,
+  }));
+  const addX = SPACER + items.length * CARD_W + CARD_W / 2;
+  const addY = MID + AMP * Math.sin(items.length * 0.9);
+  const totalW = SPACER * 2 + (items.length + 1) * CARD_W;
+
+  function wavePath(pts: { x: number; y: number }[]): string {
+    if (!pts.length) return "";
+    let d = `M ${pts[0].x},${pts[0].y}`;
+    for (let i = 1; i < pts.length; i++) {
+      const p0 = pts[i - 1];
+      const p1 = pts[i];
+      const dx = (p1.x - p0.x) / 2;
+      d += ` C ${p0.x + dx},${p0.y} ${p1.x - dx},${p1.y} ${p1.x},${p1.y}`;
+    }
+    return d;
+  }
+  const solidPath = wavePath(nodes);
+  const last = nodes[nodes.length - 1] ?? { x: SPACER, y: MID };
+  const dxa = (addX - last.x) / 2;
+  const dashPath = `M ${last.x},${last.y} C ${last.x + dxa},${last.y} ${addX - dxa},${addY} ${addX},${addY}`;
 
   async function addMoment(e: React.FormEvent) {
     e.preventDefault();
@@ -130,22 +151,69 @@ export default function TimelinePage() {
       </div>
 
       {/* Horizontal timeline */}
-      <div
-        ref={scrollRef}
-        className="bs-hscroll mt-12 flex snap-x snap-proximity items-start overflow-x-auto pb-8 pt-5"
-      >
-        <div className="w-5 shrink-0 sm:w-10" />
-        {items.map((item) => (
-          <Moment key={item.id} event={item} />
-        ))}
-        <AddColumn draft={draft} setDraft={setDraft} onAdd={addMoment} />
-        <div className="w-5 shrink-0 sm:w-10" />
+      <div ref={scrollRef} className="bs-hscroll mt-10 overflow-x-auto pb-8">
+        <div className="relative w-max">
+          {/* Snaking line, nodes, and drop connectors */}
+          <svg
+            width={totalW}
+            height={BAND}
+            className="absolute left-0 top-0"
+            style={{ overflow: "visible" }}
+            aria-hidden
+          >
+            {nodes.map((n, i) => (
+              <line
+                key={`c${i}`}
+                x1={n.x}
+                y1={n.y}
+                x2={n.x}
+                y2={BAND}
+                stroke="var(--border)"
+                strokeWidth={1.5}
+                strokeOpacity={0.6}
+              />
+            ))}
+            <path d={solidPath} fill="none" stroke="var(--accent)" strokeWidth={2.5} strokeOpacity={0.55} strokeLinecap="round" />
+            <path d={dashPath} fill="none" stroke="var(--border)" strokeWidth={2} strokeDasharray="2 8" strokeLinecap="round" />
+            {nodes.map((n, i) => (
+              <circle
+                key={`n${i}`}
+                cx={n.x}
+                cy={n.y}
+                r={5}
+                fill={n.landing ? "#ef4444" : "var(--accent)"}
+                stroke="var(--background)"
+                strokeWidth={3}
+                className={n.landing ? "bs-pulse" : undefined}
+              />
+            ))}
+            <circle
+              cx={addX}
+              cy={addY}
+              r={4.5}
+              fill="var(--background)"
+              stroke="var(--faint)"
+              strokeWidth={1.5}
+              strokeDasharray="2 3"
+            />
+          </svg>
+
+          {/* Cards row, under the band */}
+          <div className="flex items-start" style={{ paddingTop: BAND }}>
+            <div style={{ width: SPACER }} className="shrink-0" />
+            {items.map((item, i) => (
+              <Moment key={item.id} event={item} index={i} />
+            ))}
+            <AddColumn draft={draft} setDraft={setDraft} onAdd={addMoment} />
+            <div style={{ width: SPACER }} className="shrink-0" />
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-function Moment({ event }: { event: TimelineEvent }) {
+function Moment({ event, index }: { event: TimelineEvent; index: number }) {
   const isLanding = event.id === LANDING_ID;
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(event.title);
@@ -154,7 +222,6 @@ function Moment({ event }: { event: TimelineEvent }) {
   const fileRef = useRef<HTMLInputElement>(null);
 
   const photos = event.photos ?? [];
-  const [cover, ...rest] = photos;
 
   async function addPhotos(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
@@ -179,138 +246,101 @@ function Moment({ event }: { event: TimelineEvent }) {
   }
 
   return (
-    <div className="group w-80 shrink-0 snap-start px-3">
-      {/* Axis node + connector */}
-      <div className="relative border-t-2 border-border">
+    <div
+      className="group w-80 shrink-0 px-3"
+      style={{ width: CARD_W }}
+    >
+      <article
+        className="bs-cardfloat rounded-2xl border border-border bg-surface p-5 shadow-[var(--shadow-card)] transition-[box-shadow,border-color] duration-200 hover:border-accent/30 hover:shadow-[var(--shadow-soft)]"
+        style={{ animationDuration: `${7 + (index % 4)}s`, animationDelay: `${index * 0.6}s` }}
+      >
         <span
-          className={`absolute -top-[7px] left-0 h-3.5 w-3.5 rounded-full ring-4 ring-background ${
-            isLanding ? "bg-red-500 bs-pulse" : "bg-accent"
+          className={`inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.15em] ${
+            isLanding ? "bg-red-500/10 text-red-500" : "bg-accent-soft text-accent"
           }`}
-        />
-      </div>
-      <div className="ml-[6px] h-6 w-px bg-gradient-to-b from-border to-transparent" />
+        >
+          {fmt(event.date)}
+        </span>
 
-      <article className="overflow-hidden rounded-2xl border border-border bg-surface shadow-[var(--shadow-card)] transition-all duration-200 group-hover:-translate-y-1 group-hover:border-accent/30 group-hover:shadow-[var(--shadow-soft)]">
-        {cover && (
-          <div className="group/cover relative">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={cover} alt="" className="h-44 w-full object-cover" />
-            {!isLanding && (
-              <button
-                onClick={() => removePhoto(0)}
-                aria-label="Remove photo"
-                className="absolute right-2 top-2 rounded-full bg-foreground/70 p-1 text-background opacity-0 transition-opacity group-hover/cover:opacity-100"
-              >
-                <X size={13} />
-              </button>
-            )}
+        {editing ? (
+          <div className="mt-3 space-y-2">
+            <input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full rounded-lg border border-border bg-background px-3 py-1.5 text-sm text-foreground outline-none focus:border-accent"
+            />
+            <textarea
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              placeholder="a little note…"
+              rows={3}
+              className="w-full rounded-lg border border-border bg-background px-3 py-1.5 text-sm text-foreground outline-none focus:border-accent"
+            />
+            <button
+              onClick={saveCaption}
+              className="inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1.5 text-xs font-medium text-white hover:bg-accent-strong"
+            >
+              <Check size={13} /> save
+            </button>
+          </div>
+        ) : (
+          <>
+            <h3 className="mt-2.5 font-serif text-xl font-semibold leading-snug text-foreground">
+              {event.title}
+            </h3>
+            {event.note && <p className="mt-1.5 text-sm leading-relaxed text-muted">{event.note}</p>}
+          </>
+        )}
+
+        {photos.length > 0 && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {photos.map((src, i) => (
+              <div key={i} className="group/p relative">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={src}
+                  alt=""
+                  className="h-28 w-28 rounded-lg border border-border object-cover"
+                />
+                {!isLanding && (
+                  <button
+                    onClick={() => removePhoto(i)}
+                    aria-label="Remove photo"
+                    className="absolute -right-1.5 -top-1.5 rounded-full bg-foreground p-0.5 text-background opacity-0 transition-opacity group-hover/p:opacity-100"
+                  >
+                    <X size={12} />
+                  </button>
+                )}
+              </div>
+            ))}
           </div>
         )}
 
-        <div className="p-5">
-          <Kicker date={event.date} landing={isLanding} />
+        {event.song?.url && <SpotifyEmbed url={event.song.url} />}
 
-          {editing ? (
-            <div className="mt-3 space-y-2">
-              <input
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="w-full rounded-lg border border-border bg-background px-3 py-1.5 text-sm text-foreground outline-none focus:border-accent"
-              />
-              <textarea
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-                placeholder="a little note…"
-                rows={3}
-                className="w-full rounded-lg border border-border bg-background px-3 py-1.5 text-sm text-foreground outline-none focus:border-accent"
-              />
-              <button
-                onClick={saveCaption}
-                className="inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1.5 text-xs font-medium text-white hover:bg-accent-strong"
-              >
-                <Check size={13} /> save
-              </button>
-            </div>
-          ) : (
-            <>
-              <h3 className="mt-2.5 font-serif text-xl font-semibold leading-snug text-foreground">
-                {event.title}
-              </h3>
-              {event.note && (
-                <p className="mt-1.5 text-sm leading-relaxed text-muted">{event.note}</p>
-              )}
-            </>
-          )}
-
-          {rest.length > 0 && (
-            <div className="mt-4 flex flex-wrap gap-2">
-              {rest.map((src, i) => (
-                <div key={i} className="group/p relative">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={src}
-                    alt=""
-                    className="h-16 w-16 rounded-lg border border-border object-cover"
-                  />
-                  {!isLanding && (
-                    <button
-                      onClick={() => removePhoto(i + 1)}
-                      aria-label="Remove photo"
-                      className="absolute -right-1.5 -top-1.5 rounded-full bg-foreground p-0.5 text-background opacity-0 transition-opacity group-hover/p:opacity-100"
-                    >
-                      <X size={11} />
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-
-          {event.song?.url && <SpotifyEmbed url={event.song.url} />}
-
-          {!isLanding && !editing && (
-            <div className="mt-4 flex items-center gap-4 border-t border-border pt-3 opacity-0 transition-opacity group-hover:opacity-100">
-              <button
-                onClick={() => fileRef.current?.click()}
-                aria-label="Add photo"
-                className="text-faint transition-colors hover:text-accent"
-              >
-                <ImagePlus size={15} />
-              </button>
-              <button
-                onClick={() => setPicking(true)}
-                aria-label="Add song"
-                className="text-faint transition-colors hover:text-accent"
-              >
-                <Music size={15} />
-              </button>
-              <button
-                onClick={() => setEditing(true)}
-                aria-label="Edit caption"
-                className="text-faint transition-colors hover:text-accent"
-              >
-                <Pencil size={15} />
-              </button>
-              <button
-                onClick={() => event.id && deleteTimelineEvent(event.id)}
-                aria-label="Delete moment"
-                className="ml-auto text-faint transition-colors hover:text-red-500"
-              >
-                <Trash2 size={15} />
-              </button>
-            </div>
-          )}
-        </div>
+        {!isLanding && !editing && (
+          <div className="mt-4 flex items-center gap-4 border-t border-border pt-3 opacity-0 transition-opacity group-hover:opacity-100">
+            <button onClick={() => fileRef.current?.click()} aria-label="Add photo" className="text-faint transition-colors hover:text-accent">
+              <ImagePlus size={15} />
+            </button>
+            <button onClick={() => setPicking(true)} aria-label="Add song" className="text-faint transition-colors hover:text-accent">
+              <Music size={15} />
+            </button>
+            <button onClick={() => setEditing(true)} aria-label="Edit caption" className="text-faint transition-colors hover:text-accent">
+              <Pencil size={15} />
+            </button>
+            <button
+              onClick={() => event.id && deleteTimelineEvent(event.id)}
+              aria-label="Delete moment"
+              className="ml-auto text-faint transition-colors hover:text-red-500"
+            >
+              <Trash2 size={15} />
+            </button>
+          </div>
+        )}
       </article>
 
-      <input
-        ref={fileRef}
-        type="file"
-        accept="image/*"
-        multiple
-        className="hidden"
-        onChange={addPhotos}
-      />
+      <input ref={fileRef} type="file" accept="image/*" multiple className="hidden" onChange={addPhotos} />
       {picking && <SongPicker onPick={setSong} onClose={() => setPicking(false)} />}
     </div>
   );
@@ -326,16 +356,8 @@ function AddColumn({
   onAdd: (e: React.FormEvent) => void;
 }) {
   return (
-    <div className="w-80 shrink-0 snap-start px-3">
-      <div className="relative border-t-2 border-dashed border-border">
-        <span className="absolute -top-[7px] left-0 h-3.5 w-3.5 rounded-full border border-dashed border-faint bg-background" />
-      </div>
-      <div className="ml-[6px] h-6 w-px bg-gradient-to-b from-border to-transparent" />
-
-      <form
-        onSubmit={onAdd}
-        className="rounded-2xl border border-dashed border-border bg-surface/50 p-5"
-      >
+    <div className="shrink-0 px-3" style={{ width: CARD_W }}>
+      <form onSubmit={onAdd} className="rounded-2xl border border-dashed border-border bg-surface/50 p-5">
         <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-accent">add a moment</p>
         <input
           type="date"
