@@ -303,12 +303,14 @@ function Moment({ event, index }: { event: TimelineEvent; index: number }) {
           <div className="mt-4 space-y-2">
             {photos.map((src, i) => (
               <div key={i} className="group/p relative">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={src}
-                  alt=""
-                  className="h-auto max-h-80 w-full rounded-lg border border-border object-contain"
-                />
+                <div className="overflow-hidden rounded-lg border border-border">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={src}
+                    alt=""
+                    className="block h-auto max-h-72 w-full object-cover transition-[max-height] duration-500 ease-out group-hover/p:max-h-[45rem]"
+                  />
+                </div>
                 {!isLanding && (
                   <button
                     onClick={() => removePhoto(i)}
