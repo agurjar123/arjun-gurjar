@@ -53,7 +53,7 @@ export const days: AdventDay[] = [
         { from: "arjun", text: "day one let's do a photo" },
         { from: "arjun", text: "here's my favorite one of us" },
         { from: "arjun", photo: "/backstage/us-favorite.jpeg" },
-        { from: "arjun", text: "your turn — send me one back? ♡" },
+        { from: "arjun", text: "your turn 😘" },
       ],
     },
   },
