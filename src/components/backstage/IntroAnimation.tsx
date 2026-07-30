@@ -10,12 +10,15 @@ export default function IntroAnimation() {
 
   useEffect(() => {
     let greeted = false;
+    let isArjun = false;
     try {
       greeted = sessionStorage.getItem("backstage_greeted") === "1";
+      isArjun = localStorage.getItem("backstage_me") === "arjun";
     } catch {
       /* ignore */
     }
-    if (greeted) return;
+    // The greeting is for Seher — don't play it when Arjun logs in.
+    if (greeted || isArjun) return;
     try {
       sessionStorage.setItem("backstage_greeted", "1");
     } catch {

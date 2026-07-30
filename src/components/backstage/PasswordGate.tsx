@@ -5,7 +5,11 @@ import { Lock } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 const KEY = "backstage_unlocked";
-const PASSWORD = "pshaw";
+const ME_KEY = "backstage_me";
+// Seher's shared password, and Arjun's own — the password decides whose device
+// this is (so the map tags the right pin).
+const SEHER_PASSWORD = "pshaw";
+const ARJUN_PASSWORD = "encore";
 
 export default function PasswordGate({
   children,
@@ -28,9 +32,12 @@ export default function PasswordGate({
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (value.trim().toLowerCase() === PASSWORD) {
+    const entered = value.trim().toLowerCase();
+    if (entered === SEHER_PASSWORD || entered === ARJUN_PASSWORD) {
+      const who = entered === ARJUN_PASSWORD ? "arjun" : "seher";
       try {
         localStorage.setItem(KEY, "1");
+        localStorage.setItem(ME_KEY, who);
         // Let the greeting play again for this fresh unlock.
         sessionStorage.removeItem("backstage_greeted");
       } catch {
