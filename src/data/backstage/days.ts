@@ -46,7 +46,6 @@ export const days: AdventDay[] = [
     title: "T-minus 16",
     crypticAnswer: "placeholder",
     hint: "Replace me in src/data/backstage/days.ts",
-    alwaysOpen: true, // TEMP: openable for testing — remove before launch
     content: {
       type: "chat",
       promptReply: true,
