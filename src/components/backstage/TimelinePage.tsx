@@ -61,7 +61,6 @@ function SpotifyEmbed({ url }: { url: string }) {
 
 export default function TimelinePage() {
   const [events, setEvents] = useState<TimelineEvent[]>([]);
-  const [draft, setDraft] = useState({ date: "", title: "" });
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => subscribeTimeline(setEvents), []);
@@ -106,13 +105,6 @@ export default function TimelinePage() {
   const tcp2y = addY - (addY - last.y) / 6;
   const dashPath = `M ${last.x},${last.y} C ${tcp1x},${tcp1y} ${tcp2x},${tcp2y} ${addX},${addY}`;
 
-  async function addMoment(e: React.FormEvent) {
-    e.preventDefault();
-    if (!draft.date || !draft.title.trim()) return;
-    await saveTimelineEvent(draft);
-    setDraft({ date: "", title: "" });
-  }
-
   function nudge(dir: number) {
     scrollRef.current?.scrollBy({ left: dir * 400, behavior: "smooth" });
   }
@@ -135,7 +127,7 @@ export default function TimelinePage() {
               Our timeline
             </h1>
             <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">
-              Left to right, the story so far — every moment worth keeping, up to the day you land.
+              Time really flies huh
               {!firebaseReady && " (connect Firebase to save.)"}
             </p>
           </div>
@@ -217,7 +209,7 @@ export default function TimelinePage() {
             {items.map((item, i) => (
               <Moment key={item.id} event={item} index={i} />
             ))}
-            <AddColumn draft={draft} setDraft={setDraft} onAdd={addMoment} />
+            <AddColumn />
             <div style={{ width: SPACER }} className="shrink-0" />
           </div>
         </div>
@@ -298,22 +290,24 @@ function Moment({ event, index }: { event: TimelineEvent; index: number }) {
           </div>
         ) : (
           <>
-            <h3 className="mt-2.5 font-serif text-xl font-semibold leading-snug text-foreground">
-              {event.title}
-            </h3>
+            {event.title && (
+              <h3 className="mt-2.5 font-serif text-xl font-semibold leading-snug text-foreground">
+                {event.title}
+              </h3>
+            )}
             {event.note && <p className="mt-1.5 text-sm leading-relaxed text-muted">{event.note}</p>}
           </>
         )}
 
         {photos.length > 0 && (
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="mt-4 space-y-2">
             {photos.map((src, i) => (
               <div key={i} className="group/p relative">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={src}
                   alt=""
-                  className="h-28 w-28 rounded-lg border border-border object-cover"
+                  className="h-auto max-h-80 w-full rounded-lg border border-border object-contain"
                 />
                 {!isLanding && (
                   <button
@@ -359,37 +353,97 @@ function Moment({ event, index }: { event: TimelineEvent; index: number }) {
   );
 }
 
-function AddColumn({
-  draft,
-  setDraft,
-  onAdd,
-}: {
-  draft: { date: string; title: string };
-  setDraft: (d: { date: string; title: string }) => void;
-  onAdd: (e: React.FormEvent) => void;
-}) {
+function AddColumn() {
+  const [date, setDate] = useState("");
+  const [title, setTitle] = useState("");
+  const [files, setFiles] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
+  const [saving, setSaving] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  function pick(e: React.ChangeEvent<HTMLInputElement>) {
+    const fs = Array.from(e.target.files ?? []);
+    setFiles(fs);
+    setPreviews(fs.map((f) => URL.createObjectURL(f)));
+  }
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    // A date is all that's required — a caption and/or photos are both optional
+    // (so you can drop photos onto the timeline without writing anything).
+    if (!date || (!title.trim() && files.length === 0)) return;
+    setSaving(true);
+    const photos = files.length
+      ? await Promise.all(files.map((f) => compressImage(f, 900, 0.6)))
+      : [];
+    await saveTimelineEvent({ date, title: title.trim(), photos });
+    setDate("");
+    setTitle("");
+    setFiles([]);
+    setPreviews([]);
+    if (fileRef.current) fileRef.current.value = "";
+    setSaving(false);
+  }
+
+  const canSave = Boolean(date) && (title.trim().length > 0 || files.length > 0);
+
   return (
     <div className="shrink-0 px-3" style={{ width: CARD_W }}>
-      <form onSubmit={onAdd} className="rounded-2xl border border-dashed border-border bg-surface/50 p-5">
-        <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-accent">add a moment</p>
+      <form onSubmit={submit} className="rounded-2xl border border-dashed border-border bg-surface/50 p-5">
+        <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-accent">
+          add to the timeline
+        </p>
         <input
           type="date"
-          value={draft.date}
-          onChange={(e) => setDraft({ ...draft, date: e.target.value })}
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
           className="mt-3 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
         />
         <input
-          placeholder="what happened"
-          value={draft.title}
-          onChange={(e) => setDraft({ ...draft, title: e.target.value })}
+          placeholder="caption (optional)"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           className="mt-2 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
         />
-        <button
-          type="submit"
-          className="mt-3 inline-flex items-center gap-1 rounded-full bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-strong"
-        >
-          <Plus size={14} /> Add
-        </button>
+
+        {previews.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {previews.map((src, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={i}
+                src={src}
+                alt=""
+                className="h-14 w-14 rounded-lg border border-border object-cover"
+              />
+            ))}
+          </div>
+        )}
+
+        <div className="mt-3 flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => fileRef.current?.click()}
+            className="inline-flex items-center gap-1 rounded-full border border-border px-3 py-2 text-sm text-muted transition-colors hover:border-accent/40 hover:text-accent"
+          >
+            <ImagePlus size={14} /> photos
+          </button>
+          <button
+            type="submit"
+            disabled={!canSave || saving}
+            className="inline-flex items-center gap-1 rounded-full bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-strong disabled:opacity-50"
+          >
+            <Plus size={14} /> {saving ? "Adding…" : "Add"}
+          </button>
+        </div>
+        <input
+          ref={fileRef}
+          type="file"
+          accept="image/*"
+          multiple
+          className="hidden"
+          onChange={pick}
+        />
       </form>
     </div>
   );

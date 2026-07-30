@@ -156,8 +156,27 @@ body {
   animation-iteration-count: infinite;
 }
 
+/* Ready-to-unlock advent tile: a shimmering, contrasty accent gradient */
+@keyframes bs-shimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.bs-ready {
+  background: linear-gradient(
+    115deg,
+    color-mix(in srgb, var(--accent) 8%, var(--surface)) 0%,
+    color-mix(in srgb, var(--accent) 30%, var(--surface)) 35%,
+    color-mix(in srgb, var(--accent) 8%, var(--surface)) 62%,
+    color-mix(in srgb, var(--accent) 22%, var(--surface)) 100%
+  );
+  background-size: 250% 250%;
+  animation: bs-shimmer 4.5s ease-in-out infinite;
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border)) !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .bs-rise, .bs-pop, .bs-pulse, .bs-float, .bs-cardfloat { animation: none; }
+  .bs-rise, .bs-pop, .bs-pulse, .bs-float, .bs-cardfloat, .bs-ready { animation: none; }
 }
 
 /* Backstage dreamy pink-gold cloud background */
