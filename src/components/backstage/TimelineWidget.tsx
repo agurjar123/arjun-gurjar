@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Pencil, ChevronDown } from "lucide-react";
+import Link from "next/link";
+import { Maximize2, ChevronDown } from "lucide-react";
 import { LANDING_ISO } from "@/data/backstage/days";
 import { subscribeTimeline, type TimelineEvent } from "@/lib/firebase";
-import TimelineEditor from "./TimelineEditor";
 
 const LANDING_ID = "__landing";
 const LANDING_DATE = "2026-08-17";
@@ -36,7 +36,6 @@ export default function TimelineWidget() {
   const [events, setEvents] = useState<TimelineEvent[]>([]);
   const [hovered, setHovered] = useState(false);
   const [pinned, setPinned] = useState(false);
-  const [editing, setEditing] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -105,14 +104,19 @@ export default function TimelineWidget() {
               <span className="font-mono text-[10px] uppercase tracking-wider text-faint">
                 our timeline
               </span>
-              <button
-                onClick={() => setEditing(true)}
+              <Link
+                href="/backstage/timeline"
                 className="inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-wider text-muted transition-colors hover:text-accent"
               >
-                <Pencil size={11} /> edit
-              </button>
+                <Maximize2 size={11} /> open
+              </Link>
             </div>
 
+            <Link
+              href="/backstage/timeline"
+              className="block"
+              aria-label="Open full timeline"
+            >
             <ol className="relative ml-1 max-h-[52vh] overflow-y-auto border-l border-border pr-1">
               {items.map((item) => {
                 const isLanding = item.id === LANDING_ID;
@@ -138,11 +142,10 @@ export default function TimelineWidget() {
                 );
               })}
             </ol>
+            </Link>
           </div>
         </div>
       </div>
-
-      {editing && <TimelineEditor events={events} onClose={() => setEditing(false)} />}
     </>
   );
 }

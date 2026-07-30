@@ -81,11 +81,20 @@ export function subscribeAnswers(cb: (data: unknown) => void): () => void {
 
 // ── Shared, editable timeline (both Arjun and Seher) ─────────────────────────
 
+export type TimelineSong = {
+  url: string;
+  name?: string;
+  artist?: string;
+  image?: string;
+};
+
 export type TimelineEvent = {
   id?: string;
   date: string; // "YYYY-MM-DD"
   title: string;
   note?: string;
+  photos?: string[]; // compressed data URLs
+  song?: TimelineSong | null;
   ts?: number;
 };
 
@@ -113,6 +122,8 @@ export function saveTimelineEvent(event: TimelineEvent): Promise<unknown> {
     date: event.date,
     title: event.title,
     note: event.note ?? "",
+    photos: event.photos ?? [],
+    song: event.song ?? null,
     ts: event.ts ?? Date.now(),
   };
   if (event.id) {
