@@ -113,7 +113,7 @@ export default function TimelinePage() {
       {/* Horizontal timeline */}
       <div
         ref={scrollRef}
-        className="bs-hscroll mt-12 flex snap-x snap-proximity gap-0 overflow-x-auto pb-6"
+        className="bs-hscroll mt-12 flex snap-x snap-proximity gap-0 overflow-x-auto px-1 pt-4 pb-6"
       >
         <div className="w-5 shrink-0 sm:w-10" />
         {items.map((item) => (
@@ -161,16 +161,17 @@ function Moment({ event }: { event: TimelineEvent }) {
 
   return (
     <div className="group w-[19rem] shrink-0 snap-start px-4">
-      {/* Axis segment + node */}
-      <div className="relative border-t border-border">
+      {/* Axis node */}
+      <div className="relative border-t-2 border-border">
         <span
-          className={`absolute -top-[6px] left-0 h-3 w-3 rounded-full ring-4 ring-background ${
+          className={`absolute -top-[7px] left-0 h-3.5 w-3.5 rounded-full ring-4 ring-background ${
             isLanding ? "bg-red-500 bs-pulse" : "bg-accent"
           }`}
         />
       </div>
+      <div className="ml-[6px] h-5 w-0.5 bg-border" />
 
-      <div className="pt-6">
+      <div className="rounded-2xl border border-border bg-surface p-5 shadow-[var(--shadow-card)]">
         <time className="font-mono text-[11px] uppercase tracking-[0.15em] text-faint">
           {fmt(event.date)}
         </time>
@@ -291,10 +292,11 @@ function AddColumn({
 }) {
   return (
     <div className="w-[19rem] shrink-0 snap-start px-4">
-      <div className="relative border-t border-dashed border-border">
-        <span className="absolute -top-[6px] left-0 h-3 w-3 rounded-full border border-dashed border-faint bg-background" />
+      <div className="relative border-t-2 border-dashed border-border">
+        <span className="absolute -top-[7px] left-0 h-3.5 w-3.5 rounded-full border border-dashed border-faint bg-background" />
       </div>
-      <form onSubmit={onAdd} className="pt-6">
+      <div className="ml-[6px] h-5 w-0.5 bg-border" />
+      <form onSubmit={onAdd} className="rounded-2xl border border-dashed border-border bg-surface/60 p-5">
         <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-accent">
           add a moment
         </p>
