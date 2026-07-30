@@ -165,17 +165,17 @@ body {
 .bs-ready {
   background: linear-gradient(
     120deg,
-    #ffe4d6 0%,
-    #ffbcd0 18%,
-    #ff8fb0 34%,
-    #ff6b7e 50%,
-    #ff7d6b 66%,
-    #ffab8f 82%,
-    #ffe1cf 100%
+    #fff3ec 0%,
+    #ffdbe6 18%,
+    #ffc8d8 34%,
+    #ffbcc6 50%,
+    #ffccbb 66%,
+    #ffdfce 82%,
+    #fff4ec 100%
   );
   background-size: 320% 320%;
   animation: bs-shimmer 5s ease-in-out infinite;
-  border-color: #ff8fb0 !important;
+  border-color: #ffa9bd !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
