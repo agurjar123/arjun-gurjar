@@ -40,6 +40,8 @@ export default function PasswordGate({
         localStorage.setItem(ME_KEY, who);
         // Let the greeting play again for this fresh unlock.
         sessionStorage.removeItem("backstage_greeted");
+        // Tell the layout (LogoutButton) that auth changed.
+        window.dispatchEvent(new Event("backstage-auth"));
       } catch {
         /* ignore */
       }

@@ -9,13 +9,25 @@ export default function LogoutButton() {
   const [me, setMe] = useState<string | null>(null);
 
   useEffect(() => {
-    try {
-      if (localStorage.getItem("backstage_unlocked") === "1") {
-        setMe(localStorage.getItem("backstage_me") || "in");
+    const read = () => {
+      try {
+        setMe(
+          localStorage.getItem("backstage_unlocked") === "1"
+            ? localStorage.getItem("backstage_me") || "in"
+            : null
+        );
+      } catch {
+        /* ignore */
       }
-    } catch {
-      /* ignore */
-    }
+    };
+    read();
+    // Re-check when login happens (same tab) or storage changes (other tabs).
+    window.addEventListener("backstage-auth", read);
+    window.addEventListener("storage", read);
+    return () => {
+      window.removeEventListener("backstage-auth", read);
+      window.removeEventListener("storage", read);
+    };
   }, []);
 
   if (!me) return null;
