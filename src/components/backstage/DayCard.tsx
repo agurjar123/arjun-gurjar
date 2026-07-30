@@ -31,12 +31,22 @@ export default function DayCard({
   onSolve: (id: string) => void;
 }) {
   const [mounted, setMounted] = useState(false);
+  const [isArjun, setIsArjun] = useState(false);
   const [value, setValue] = useState("");
   const [error, setError] = useState(false);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+    try {
+      setIsArjun(localStorage.getItem("backstage_me") === "arjun");
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
-  const dateOpen = mounted && (day.alwaysOpen || unlockedByDate(day.date));
+  // Arjun (logged in with his own password) sees every day, unlocked and revealed.
+  const dateOpen = mounted && (isArjun || day.alwaysOpen || unlockedByDate(day.date));
+  const reveal = solved || (mounted && isArjun);
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -51,7 +61,7 @@ export default function DayCard({
     <div
       className={cn(
         "rounded-3xl border border-border bg-surface p-6 shadow-[var(--shadow-card)]",
-        solved && "bs-pop",
+        reveal && "bs-pop",
         !dateOpen && mounted && "opacity-90"
       )}
     >
@@ -59,7 +69,7 @@ export default function DayCard({
         <span className="font-mono text-xs uppercase tracking-[0.18em] text-accent">
           {label(day.date)}
         </span>
-        {solved ? (
+        {reveal ? (
           <Check size={15} className="text-accent" />
         ) : !dateOpen && mounted ? (
           <Lock size={14} className="text-faint" />
@@ -68,10 +78,10 @@ export default function DayCard({
 
       <h3 className="font-serif text-xl font-semibold text-foreground">{day.title}</h3>
 
-      {/* Before mount: neutral (matches SSR). After mount: locked / open / solved. */}
+      {/* Before mount: neutral (matches SSR). After mount: locked / open / revealed. */}
       {!mounted ? (
         <p className="mt-3 font-mono text-xs uppercase tracking-wider text-faint">…</p>
-      ) : solved ? (
+      ) : reveal ? (
         <div className="mt-4">
           <DayReveal day={day} />
         </div>
