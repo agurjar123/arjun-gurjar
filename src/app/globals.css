@@ -164,15 +164,18 @@ body {
 }
 .bs-ready {
   background: linear-gradient(
-    115deg,
-    color-mix(in srgb, var(--accent) 8%, var(--surface)) 0%,
-    color-mix(in srgb, var(--accent) 30%, var(--surface)) 35%,
-    color-mix(in srgb, var(--accent) 8%, var(--surface)) 62%,
-    color-mix(in srgb, var(--accent) 22%, var(--surface)) 100%
+    120deg,
+    #ffe4d6 0%,
+    #ffbcd0 18%,
+    #ff8fb0 34%,
+    #ff6b7e 50%,
+    #ff7d6b 66%,
+    #ffab8f 82%,
+    #ffe1cf 100%
   );
-  background-size: 250% 250%;
-  animation: bs-shimmer 4.5s ease-in-out infinite;
-  border-color: color-mix(in srgb, var(--accent) 45%, var(--border)) !important;
+  background-size: 320% 320%;
+  animation: bs-shimmer 5s ease-in-out infinite;
+  border-color: #ff8fb0 !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
