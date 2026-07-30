@@ -45,13 +45,12 @@ export const days: AdventDay[] = [
     title: "Day One",
     crypticAnswer: "placeholder",
     hint: "Replace me in src/data/backstage/days.ts",
-    alwaysOpen: true, // PREVIEW: remove before launch so it locks until Aug 1
     content: {
       type: "chat",
       promptReply: true,
       messages: [
         { from: "arjun", text: "hi baby :)" },
-        { from: "arjun", text: "day one. I couldn't wait to start this with you" },
+        { from: "arjun", text: "day one let's do a photo" },
         { from: "arjun", text: "here's my favorite one of us" },
         { from: "arjun", photo: "/backstage/us-favorite.jpeg" },
         { from: "arjun", text: "your turn — send me one back? ♡" },
