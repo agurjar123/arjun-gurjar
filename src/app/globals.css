@@ -151,6 +151,64 @@ body {
   .bs-rise, .bs-pop, .bs-pulse, .bs-float { animation: none; }
 }
 
+/* Backstage dreamy pink-gold cloud background */
+.bs-bg {
+  background:
+    radial-gradient(120% 120% at 18% 8%, #fff5ec 0%, transparent 55%),
+    radial-gradient(120% 120% at 82% 92%, #ffe7d0 0%, transparent 55%),
+    linear-gradient(135deg, #ffeef3 0%, #fde8d2 48%, #ffe9f1 100%);
+}
+.bs-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(72px);
+  opacity: 0.7;
+  transition: translate 0.5s ease-out;
+  will-change: transform, translate;
+}
+.bs-blob-1 {
+  width: 46vmax; height: 46vmax; left: -8vmax; top: -10vmax;
+  background: radial-gradient(circle, rgba(255, 150, 190, 0.9), transparent 68%);
+  translate: calc(var(--mx, 0) * 48px) calc(var(--my, 0) * 48px);
+  animation: bs-drift1 26s ease-in-out infinite;
+}
+.bs-blob-2 {
+  width: 40vmax; height: 40vmax; right: -6vmax; top: -4vmax;
+  background: radial-gradient(circle, rgba(255, 214, 120, 0.85), transparent 68%);
+  translate: calc(var(--mx, 0) * -70px) calc(var(--my, 0) * 40px);
+  animation: bs-drift2 30s ease-in-out infinite;
+}
+.bs-blob-3 {
+  width: 44vmax; height: 44vmax; left: 10vmax; bottom: -14vmax;
+  background: radial-gradient(circle, rgba(255, 178, 158, 0.85), transparent 68%);
+  translate: calc(var(--mx, 0) * 60px) calc(var(--my, 0) * -50px);
+  animation: bs-drift3 34s ease-in-out infinite;
+}
+.bs-blob-4 {
+  width: 36vmax; height: 36vmax; right: 6vmax; bottom: -10vmax;
+  background: radial-gradient(circle, rgba(255, 226, 170, 0.8), transparent 68%);
+  translate: calc(var(--mx, 0) * -40px) calc(var(--my, 0) * -64px);
+  animation: bs-drift4 28s ease-in-out infinite;
+}
+@keyframes bs-drift1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(4vmax,3vmax) scale(1.08); } }
+@keyframes bs-drift2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-5vmax,2vmax) scale(1.1); } }
+@keyframes bs-drift3 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(3vmax,-4vmax) scale(1.06); } }
+@keyframes bs-drift4 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-3vmax,-3vmax) scale(1.12); } }
+.bs-sparkle {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0.8px, transparent 1.4px);
+  background-size: 90px 90px;
+  opacity: 0.35;
+  mix-blend-mode: screen;
+  animation: bs-twinkle 6s ease-in-out infinite, bs-sparkle-move 40s linear infinite;
+}
+@keyframes bs-twinkle { 0%,100% { opacity: 0.22; } 50% { opacity: 0.5; } }
+@keyframes bs-sparkle-move { from { background-position: 0 0; } to { background-position: 180px 360px; } }
+@media (prefers-reduced-motion: reduce) {
+  .bs-blob, .bs-sparkle { animation: none; transition: none; }
+}
+
 /* Leaflet map, styled to feel native to the almond UI */
 .bs-map .leaflet-container {
   background: var(--surface-muted);
