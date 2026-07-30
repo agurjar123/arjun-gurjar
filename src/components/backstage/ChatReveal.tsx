@@ -120,6 +120,7 @@ function Composer({ dayId, me }: { dayId: string; me: "arjun" | "seher" }) {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
+  const [error, setError] = useState(false);
 
   function pick(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0] ?? null;
@@ -130,16 +131,18 @@ function Composer({ dayId, me }: { dayId: string; me: "arjun" | "seher" }) {
   async function send() {
     if (!file && !text.trim()) return;
     setSending(true);
-    let photo: string | undefined;
+    setError(false);
     try {
+      let photo: string | undefined;
       if (file) photo = await compressImage(file);
       await sendChatMessage(dayId, { from: me, text: text.trim(), photo });
+      // Only clear once the write actually succeeded.
+      setText("");
+      setFile(null);
+      setPreview(null);
     } catch {
-      /* ignore */
+      setError(true);
     }
-    setText("");
-    setFile(null);
-    setPreview(null);
     setSending(false);
   }
 
@@ -148,6 +151,11 @@ function Composer({ dayId, me }: { dayId: string; me: "arjun" | "seher" }) {
       {preview && (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={preview} alt="" className="mb-2 max-h-40 rounded-xl object-cover" />
+      )}
+      {error && (
+        <p className="mb-2 text-xs text-red-500">
+          Couldn&apos;t send — check your connection and try again.
+        </p>
       )}
       <div className="flex items-center gap-2">
         <label className="shrink-0 cursor-pointer rounded-full border border-border p-2 text-muted transition-colors hover:text-accent">
