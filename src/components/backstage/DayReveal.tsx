@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { saveAnswers, firebaseReady } from "@/lib/firebase";
+import ChatReveal from "./ChatReveal";
 import type { AdventDay, DayContent } from "@/data/backstage/days";
 
 export default function DayReveal({ day }: { day: AdventDay }) {
@@ -77,6 +78,15 @@ function Content({ dayId, content }: { dayId: string; content: DayContent }) {
 
     case "questions":
       return <Questions dayId={dayId} intro={content.intro} questions={content.questions} />;
+
+    case "chat":
+      return (
+        <ChatReveal
+          dayId={dayId}
+          script={content.messages}
+          promptReply={content.promptReply}
+        />
+      );
 
     default:
       return null;

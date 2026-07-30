@@ -13,11 +13,19 @@ import type { LatLng } from "@/lib/distance";
 /** The moment she lands in SF (BA 287) — the countdown target. */
 export const LANDING_ISO = "2026-08-17T17:40:00-07:00";
 
+export type ChatMessage = {
+  from: "arjun" | "seher";
+  text?: string;
+  photo?: string; // public path (for scripted msgs) or a URL (for saved replies)
+  ts?: number;
+};
+
 export type DayContent =
   | { type: "photos"; photos: { src: string; caption?: string }[] }
   | { type: "playlist"; spotifyUrl: string; note?: string }
   | { type: "questions"; intro?: string; questions: string[] }
-  | { type: "note"; title?: string; body: string };
+  | { type: "note"; title?: string; body: string }
+  | { type: "chat"; messages: ChatMessage[]; promptReply?: boolean };
 
 export type AdventDay = {
   id: string; // stable, used as localStorage + Firebase key
@@ -37,9 +45,15 @@ export const days: AdventDay[] = [
     crypticAnswer: "placeholder",
     hint: "Replace me in src/data/backstage/days.ts",
     content: {
-      type: "note",
-      title: "A little something",
-      body: "This is where the first surprise goes. Photos, a playlist, or a set of questions — Arjun will drop it in.",
+      type: "chat",
+      promptReply: true,
+      messages: [
+        { from: "arjun", text: "hi baby :)" },
+        { from: "arjun", text: "day one. I couldn't wait to start this with you" },
+        { from: "arjun", text: "here's my favorite one of us" },
+        { from: "arjun", photo: "/backstage/us-favorite.jpg" },
+        { from: "arjun", text: "your turn — send me one back? ♡" },
+      ],
     },
   },
   { id: "aug-02", date: "2026-08-02", title: "Day Two", crypticAnswer: "placeholder" },

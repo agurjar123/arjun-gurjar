@@ -12,29 +12,47 @@ import {
   remove,
   type Database,
 } from "firebase/database";
+import {
+  getStorage,
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+  type FirebaseStorage,
+} from "firebase/storage";
+import type { ChatMessage } from "@/data/backstage/days";
 
 const config = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
   databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 /** True once the env config is present (map sync + answers become live). */
 export const firebaseReady = Boolean(config.apiKey && config.databaseURL);
+/** True once Storage is configured (photo replies become live). */
+export const firebaseStorageReady = Boolean(config.apiKey && config.storageBucket);
+
+let app: FirebaseApp | null = null;
+function getFirebaseApp(): FirebaseApp {
+  if (!app) app = getApps().length ? getApp() : initializeApp(config);
+  return app;
+}
 
 let db: Database | null = null;
-
 function getDb(): Database | null {
   if (!firebaseReady) return null;
-  if (!db) {
-    const app: FirebaseApp = getApps().length
-      ? getApp()
-      : initializeApp(config);
-    db = getDatabase(app);
-  }
+  if (!db) db = getDatabase(getFirebaseApp());
   return db;
+}
+
+let store: FirebaseStorage | null = null;
+function getStore(): FirebaseStorage | null {
+  if (!firebaseStorageReady) return null;
+  if (!store) store = getStorage(getFirebaseApp());
+  return store;
 }
 
 export type Person = "arjun" | "seher";
@@ -124,4 +142,53 @@ export function deleteTimelineEvent(id: string): Promise<unknown> {
   const database = getDb();
   if (!database) return Promise.resolve();
   return Promise.resolve(remove(ref(database, `timeline/${id}`)));
+}
+
+// ── Chat (scripted messages + her photo replies) ─────────────────────────────
+
+/** Upload a reply photo to Storage; returns its download URL (or null). */
+export async function uploadChatPhoto(
+  dayId: string,
+  file: File
+): Promise<string | null> {
+  const storage = getStore();
+  if (!storage) return null;
+  const safe = file.name.replace(/[^\w.-]/g, "_");
+  const r = storageRef(storage, `chat/${dayId}/${Date.now()}-${safe}`);
+  await uploadBytes(r, file);
+  return getDownloadURL(r);
+}
+
+export function subscribeChat(
+  dayId: string,
+  cb: (messages: ChatMessage[]) => void
+): () => void {
+  const database = getDb();
+  if (!database) {
+    cb([]);
+    return () => {};
+  }
+  return onValue(ref(database, `chat/${dayId}`), (snap) => {
+    const val = snap.val() as Record<string, ChatMessage> | null;
+    const msgs = val
+      ? Object.values(val).sort((a, b) => (a.ts ?? 0) - (b.ts ?? 0))
+      : [];
+    cb(msgs);
+  });
+}
+
+export function sendChatMessage(
+  dayId: string,
+  msg: ChatMessage
+): Promise<unknown> {
+  const database = getDb();
+  if (!database) return Promise.resolve();
+  return Promise.resolve(
+    push(ref(database, `chat/${dayId}`), {
+      from: msg.from,
+      text: msg.text ?? "",
+      photo: msg.photo ?? "",
+      ts: Date.now(),
+    })
+  );
 }
