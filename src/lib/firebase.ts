@@ -9,6 +9,7 @@ import {
   set,
   onValue,
   push,
+  remove,
   type Database,
 } from "firebase/database";
 
@@ -75,4 +76,52 @@ export function subscribeAnswers(cb: (data: unknown) => void): () => void {
   const database = getDb();
   if (!database) return () => {};
   return onValue(ref(database, "answers"), (snap) => cb(snap.val()));
+}
+
+// ── Shared, editable timeline (both Arjun and Seher) ─────────────────────────
+
+export type TimelineEvent = {
+  id?: string;
+  date: string; // "YYYY-MM-DD"
+  title: string;
+  note?: string;
+  ts?: number;
+};
+
+export function subscribeTimeline(
+  cb: (events: TimelineEvent[]) => void
+): () => void {
+  const database = getDb();
+  if (!database) {
+    cb([]);
+    return () => {};
+  }
+  return onValue(ref(database, "timeline"), (snap) => {
+    const val = snap.val() as Record<string, Omit<TimelineEvent, "id">> | null;
+    const events: TimelineEvent[] = val
+      ? Object.entries(val).map(([id, e]) => ({ ...e, id }))
+      : [];
+    cb(events);
+  });
+}
+
+export function saveTimelineEvent(event: TimelineEvent): Promise<unknown> {
+  const database = getDb();
+  if (!database) return Promise.resolve();
+  const payload = {
+    date: event.date,
+    title: event.title,
+    note: event.note ?? "",
+    ts: event.ts ?? Date.now(),
+  };
+  if (event.id) {
+    return Promise.resolve(set(ref(database, `timeline/${event.id}`), payload));
+  }
+  return Promise.resolve(push(ref(database, "timeline"), payload));
+}
+
+export function deleteTimelineEvent(id: string): Promise<unknown> {
+  const database = getDb();
+  if (!database) return Promise.resolve();
+  return Promise.resolve(remove(ref(database, `timeline/${id}`)));
 }

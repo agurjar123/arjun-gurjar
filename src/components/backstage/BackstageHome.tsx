@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import IntroAnimation from "./IntroAnimation";
-import Countdown from "./Countdown";
+import TimelineWidget from "./TimelineWidget";
 import AdventGrid from "./AdventGrid";
 
 // Leaflet touches `window`, so load the map client-only.
@@ -17,20 +17,21 @@ export default function BackstageHome() {
   return (
     <>
       <IntroAnimation />
-      <Countdown />
+      <TimelineWidget />
 
       <div className="mx-auto max-w-3xl space-y-16 px-5 py-20">
         <header className="bs-rise">
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
-            for seher
+            for my baby
           </p>
           <h1 className="mt-3 font-serif text-4xl font-semibold text-foreground sm:text-5xl">
             Backstage
           </h1>
           <p className="mt-4 max-w-prose leading-relaxed text-muted">
-            A countdown, a puzzle a day, and a map of the miles between us — until
-            you land. We solve each day&apos;s cryptic together, and it opens
-            something just for you.
+            Each day with you has brought something new and exciting, and so in
+            that spirit I&apos;ve built this countdown till I can finally see you.
+            Unlock each day&apos;s treasure with the correct answer to the minute
+            cryptic.
           </p>
         </header>
 

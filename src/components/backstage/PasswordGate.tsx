@@ -9,7 +9,7 @@ const ME_KEY = "backstage_me";
 // Seher's shared password, and Arjun's own — the password decides whose device
 // this is (so the map tags the right pin).
 const SEHER_PASSWORD = "pshaw";
-const ARJUN_PASSWORD = "encore";
+const ARJUN_PASSWORD = "open";
 
 export default function PasswordGate({
   children,

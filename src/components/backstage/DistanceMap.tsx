@@ -10,6 +10,7 @@ import {
   CircleMarker,
   Marker,
   Tooltip,
+  ZoomControl,
   useMapEvents,
 } from "react-leaflet";
 import {
@@ -98,19 +99,23 @@ export default function DistanceMap() {
   ];
 
   return (
-    <div className="relative h-[440px] w-full overflow-hidden rounded-3xl border border-border">
+    <div className="bs-map relative h-[440px] w-full overflow-hidden rounded-3xl border border-border shadow-[var(--shadow-card)]">
       <MapContainer
         center={[41, -30]}
-        zoom={2}
+        zoom={3}
         minZoom={2}
         scrollWheelZoom
+        doubleClickZoom
         worldCopyJump
+        preferCanvas
+        zoomControl={false}
         className="h-full w-full"
       >
         <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
         />
+        <ZoomControl position="bottomright" />
         <ZoomWatcher onZoom={setZoom} />
 
         {/* Journey + big dashed lines — hidden once zoomed in */}
