@@ -117,7 +117,7 @@ export default function DayCard({
             ) : null)}
         </div>
         <h3 className="font-serif text-xl font-semibold text-foreground">{day.title}</h3>
-        {reveal && previewPhotos.length > 0 ? (
+        {reveal && !open && previewPhotos.length > 0 ? (
           <div className="mt-4 flex gap-1.5">
             {previewPhotos.slice(0, 3).map((src, i) => (
               // eslint-disable-next-line @next/next/no-img-element
