@@ -51,10 +51,11 @@ function SpotifyEmbed({ url }: { url: string }) {
       title="Spotify"
       src={embed}
       width="100%"
-      height={80}
+      height={152}
       loading="lazy"
       allow="encrypted-media; clipboard-write"
       className="mt-4 rounded-xl"
+      style={{ border: "none" }}
     />
   );
 }
