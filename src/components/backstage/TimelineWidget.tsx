@@ -53,7 +53,10 @@ export default function TimelineWidget() {
       date: LANDING_DATE,
       title: "You land 💛",
     };
-    return [...events, landing].sort((a, b) => a.date.localeCompare(b.date));
+    // Only captioned moments belong in the compact widget — photo-only entries
+    // (no caption) live on the full /backstage/timeline page.
+    const titled = events.filter((e) => e.title && e.title.trim());
+    return [...titled, landing].sort((a, b) => a.date.localeCompare(b.date));
   }, [events]);
 
   if (!mounted || !t) return null;
