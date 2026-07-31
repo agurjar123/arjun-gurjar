@@ -44,8 +44,7 @@ export const days: AdventDay[] = [
     id: "aug-01",
     date: "2026-08-01",
     title: "T-minus 16",
-    crypticAnswer: "placeholder",
-    hint: "Replace me in src/data/backstage/days.ts",
+    crypticAnswer: "cymbals",
     alwaysOpen: true, // preview-branch only: openable for testing Seher's flow
     content: {
       type: "chat",
