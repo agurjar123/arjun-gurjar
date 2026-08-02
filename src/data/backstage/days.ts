@@ -63,12 +63,10 @@ export const days: AdventDay[] = [
     id: "aug-02",
     date: "2026-08-02",
     title: "T-minus 15",
-    crypticAnswer: "placeholder",
+    crypticAnswer: "silent k",
     content: {
       type: "video",
-      // Either drop a file at public/backstage/day2.mp4 (src), OR delete src and
-      // set url to a TikTok/YouTube link. Whichever is set wins.
-      src: "/backstage/day2.mp4",
+      src: "/backstage/embarassing.MOV",
       caption: "the most embarrassing thing i own 😭",
     },
   },
