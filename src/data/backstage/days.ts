@@ -26,7 +26,8 @@ export type DayContent =
   | { type: "playlist"; spotifyUrl: string; note?: string }
   | { type: "questions"; intro?: string; questions: string[] }
   | { type: "note"; title?: string; body: string }
-  | { type: "chat"; messages: ChatMessage[]; promptReply?: boolean };
+  | { type: "chat"; messages: ChatMessage[]; promptReply?: boolean }
+  | { type: "video"; src?: string; url?: string; caption?: string };
 
 export type AdventDay = {
   id: string; // stable, used as localStorage + Firebase key
@@ -58,7 +59,19 @@ export const days: AdventDay[] = [
       ],
     },
   },
-  { id: "aug-02", date: "2026-08-02", title: "T-minus 15", crypticAnswer: "placeholder" },
+  {
+    id: "aug-02",
+    date: "2026-08-02",
+    title: "T-minus 15",
+    crypticAnswer: "placeholder",
+    content: {
+      type: "video",
+      // Either drop a file at public/backstage/day2.mp4 (src), OR delete src and
+      // set url to a TikTok/YouTube link. Whichever is set wins.
+      src: "/backstage/day2.mp4",
+      caption: "the most embarrassing thing i own 😭",
+    },
+  },
   { id: "aug-03", date: "2026-08-03", title: "T-minus 14", crypticAnswer: "placeholder" },
   { id: "aug-04", date: "2026-08-04", title: "T-minus 13", crypticAnswer: "placeholder" },
   { id: "aug-05", date: "2026-08-05", title: "T-minus 12", crypticAnswer: "placeholder" },
