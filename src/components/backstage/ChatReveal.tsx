@@ -34,6 +34,14 @@ function Bubble({ msg, onDelete }: { msg: ChatMessage; onDelete?: () => void }) 
             className="mb-1 max-h-64 w-full rounded-xl object-cover"
           />
         )}
+        {msg.video && (
+          <video
+            src={msg.video}
+            controls
+            playsInline
+            className="mb-1 max-h-72 w-full rounded-xl bg-black"
+          />
+        )}
         {msg.text && <p className="whitespace-pre-line leading-relaxed">{msg.text}</p>}
       </div>
       {!mine && onDelete && (
@@ -137,52 +145,76 @@ export default function ChatReveal({
   );
 }
 
+function readAsDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result as string);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+
 function Composer({ dayId, me }: { dayId: string; me: "arjun" | "seher" }) {
   const [text, setText] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [isVideo, setIsVideo] = useState(false);
   const [sending, setSending] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   function pick(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0] ?? null;
     setFile(f);
+    setIsVideo(!!f && f.type.startsWith("video/"));
     setPreview(f ? URL.createObjectURL(f) : null);
+    setError(null);
   }
 
   async function send() {
     if (!file && !text.trim()) return;
     setSending(true);
-    setError(false);
+    setError(null);
     try {
       let photo: string | undefined;
-      if (file) photo = await compressImage(file);
-      await sendChatMessage(dayId, { from: me, text: text.trim(), photo });
+      let video: string | undefined;
+      if (file) {
+        if (file.type.startsWith("video/")) {
+          if (file.size > 9 * 1024 * 1024) {
+            setError("That clip's a bit big — keep it under ~9MB (a short one).");
+            setSending(false);
+            return;
+          }
+          video = await readAsDataUrl(file);
+        } else {
+          photo = await compressImage(file);
+        }
+      }
+      await sendChatMessage(dayId, { from: me, text: text.trim(), photo, video });
       // Only clear once the write actually succeeded.
       setText("");
       setFile(null);
       setPreview(null);
+      setIsVideo(false);
     } catch {
-      setError(true);
+      setError("Couldn't send — check your connection and try again.");
     }
     setSending(false);
   }
 
   return (
     <div className="mt-4 rounded-2xl border border-border bg-background p-3">
-      {preview && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={preview} alt="" className="mb-2 max-h-40 rounded-xl object-cover" />
-      )}
-      {error && (
-        <p className="mb-2 text-xs text-red-500">
-          Couldn&apos;t send — check your connection and try again.
-        </p>
-      )}
+      {preview &&
+        (isVideo ? (
+          <video src={preview} muted playsInline className="mb-2 max-h-40 rounded-xl bg-black" />
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={preview} alt="" className="mb-2 max-h-40 rounded-xl object-cover" />
+        ))}
+      {error && <p className="mb-2 text-xs text-red-500">{error}</p>}
       <div className="flex items-center gap-2">
         <label className="shrink-0 cursor-pointer rounded-full border border-border p-2 text-muted transition-colors hover:text-accent">
           <ImagePlus size={16} />
-          <input type="file" accept="image/*" className="hidden" onChange={pick} />
+          <input type="file" accept="image/*,video/*" className="hidden" onChange={pick} />
         </label>
         <input
           value={text}

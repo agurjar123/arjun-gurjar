@@ -18,6 +18,7 @@ export type ChatMessage = {
   from: "arjun" | "seher";
   text?: string;
   photo?: string; // public path (for scripted msgs) or a URL (for saved replies)
+  video?: string; // public path (scripted) or a data URL (short saved replies)
   ts?: number;
 };
 
@@ -65,9 +66,14 @@ export const days: AdventDay[] = [
     title: "T-minus 15",
     crypticAnswer: "silent k",
     content: {
-      type: "video",
-      src: "/backstage/embarassing.MOV",
-      caption: "the most embarrassing thing i own 😭",
+      type: "chat",
+      promptReply: true,
+      messages: [
+        { from: "arjun", text: "ok day two 😅" },
+        { from: "arjun", text: "i'll go first — the most embarrassing thing i own:" },
+        { from: "arjun", video: "/backstage/embarassing.MOV" },
+        { from: "arjun", text: "now you HAVE to send one back 😭" },
+      ],
     },
   },
   { id: "aug-03", date: "2026-08-03", title: "T-minus 14", crypticAnswer: "placeholder" },
