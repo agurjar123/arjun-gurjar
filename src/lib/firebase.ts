@@ -179,6 +179,7 @@ export function sendChatMessage(
       from: msg.from,
       text: msg.text ?? "",
       photo: msg.photo ?? "",
+      video: msg.video ?? "",
       ts: Date.now(),
     })
   );
