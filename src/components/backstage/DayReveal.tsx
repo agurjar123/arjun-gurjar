@@ -88,9 +88,77 @@ function Content({ dayId, content }: { dayId: string; content: DayContent }) {
         />
       );
 
+    case "video":
+      return <VideoReveal src={content.src} url={content.url} caption={content.caption} />;
+
     default:
       return null;
   }
+}
+
+function VideoReveal({
+  src,
+  url,
+  caption,
+}: {
+  src?: string;
+  url?: string;
+  caption?: string;
+}) {
+  let node: React.ReactNode = null;
+
+  if (src) {
+    node = (
+      <video
+        src={src}
+        controls
+        playsInline
+        className="w-full rounded-2xl border border-border bg-black"
+      />
+    );
+  } else if (url) {
+    const tiktok = url.match(/video\/(\d+)/)?.[1];
+    const yt = url.match(
+      /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/
+    )?.[1];
+    if (tiktok) {
+      node = (
+        <iframe
+          title="TikTok"
+          src={`https://www.tiktok.com/embed/v2/${tiktok}`}
+          className="mx-auto aspect-[9/16] w-full max-w-[325px] rounded-2xl border border-border"
+          allow="encrypted-media"
+        />
+      );
+    } else if (yt) {
+      node = (
+        <iframe
+          title="YouTube"
+          src={`https://www.youtube.com/embed/${yt}`}
+          className="aspect-video w-full rounded-2xl border border-border"
+          allow="encrypted-media; picture-in-picture"
+        />
+      );
+    } else {
+      node = (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-accent underline underline-offset-4"
+        >
+          Watch →
+        </a>
+      );
+    }
+  }
+
+  return (
+    <div>
+      {node}
+      {caption && <p className="mt-2 text-sm text-muted">{caption}</p>}
+    </div>
+  );
 }
 
 function Questions({
