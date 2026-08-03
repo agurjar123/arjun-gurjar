@@ -9,26 +9,23 @@ export default function IntroAnimation() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    let skip = false;
+    let play = false;
     try {
-      skip =
-        sessionStorage.getItem("backstage_greeted") === "1" ||
-        localStorage.getItem("backstage_me") === "arjun";
+      const justLoggedIn = sessionStorage.getItem("backstage_login") === "1";
+      const isArjun = localStorage.getItem("backstage_me") === "arjun";
+      // Only greet right after a fresh login (Seher), never on plain reloads.
+      play = justLoggedIn && !isArjun;
+      if (justLoggedIn) sessionStorage.removeItem("backstage_login");
     } catch {
       /* ignore */
     }
-    if (skip) return;
+    if (!play) return;
     setRender(true);
     const t = setTimeout(() => setVisible(true), 30); // fade in
     return () => clearTimeout(t);
   }, []);
 
   function dismiss() {
-    try {
-      sessionStorage.setItem("backstage_greeted", "1");
-    } catch {
-      /* ignore */
-    }
     setVisible(false);
     setTimeout(() => setRender(false), 500); // let it fade out
   }

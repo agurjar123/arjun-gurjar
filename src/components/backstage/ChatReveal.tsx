@@ -110,7 +110,14 @@ export default function ChatReveal({
   script: ChatMessage[];
   promptReply?: boolean;
 }) {
-  const [shown, setShown] = useState(0);
+  const [shown, setShown] = useState<number>(() => {
+    // If this day's chat already played once, skip the animation on re-open.
+    try {
+      return localStorage.getItem(`backstage_chat_${dayId}`) === "1" ? script.length : 0;
+    } catch {
+      return 0;
+    }
+  });
   const [typing, setTyping] = useState(false);
   const [replies, setReplies] = useState<ChatMessage[]>([]);
   const [me, setMe] = useState<"arjun" | "seher">("seher");
@@ -129,6 +136,11 @@ export default function ChatReveal({
   useEffect(() => {
     if (shown >= script.length) {
       setTyping(false);
+      try {
+        localStorage.setItem(`backstage_chat_${dayId}`, "1");
+      } catch {
+        /* ignore */
+      }
       return;
     }
     setTyping(true);
@@ -141,7 +153,7 @@ export default function ChatReveal({
       setShown((n) => n + 1);
     }, delay);
     return () => clearTimeout(t);
-  }, [shown, script]);
+  }, [shown, script, dayId]);
 
   useEffect(() => subscribeChat(dayId, setReplies), [dayId]);
 

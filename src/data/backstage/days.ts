@@ -108,7 +108,7 @@ export const days: AdventDay[] = [
     date: "2026-08-04",
     title: "T-minus 13",
     crypticAnswer: "placeholder",
-    alwaysOpen: true, // preview-branch only
+    alwaysOpen: true, // released early for her
     typingTest:
       "Lil Poopy Girl Who Is Sitting Up A Creep And Left A Screen On Low Restroom And I Love Pasta Ramana Car But I Like To Record Three Nakuru Mana India Has To Cover Is So Pick Up Pick Up Pick Up The Laptop ETA",
     content: {
