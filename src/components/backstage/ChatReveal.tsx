@@ -6,8 +6,31 @@ import { subscribeChat, sendChatMessage, deleteChatMessage } from "@/lib/firebas
 import { compressImage } from "@/lib/image";
 import type { ChatMessage } from "@/data/backstage/days";
 
+function ytId(url: string): string | null {
+  return (
+    url
+      .trim()
+      .match(
+        /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/|live\/))([\w-]{11})/
+      )?.[1] ?? null
+  );
+}
+
+function YtEmbed({ id }: { id: string }) {
+  return (
+    <iframe
+      title="YouTube"
+      src={`https://www.youtube.com/embed/${id}`}
+      className="mb-1 aspect-video w-full rounded-xl"
+      allow="accelerometer; encrypted-media; picture-in-picture; web-share"
+      allowFullScreen
+    />
+  );
+}
+
 function Bubble({ msg, onDelete }: { msg: ChatMessage; onDelete?: () => void }) {
   const mine = msg.from === "seher";
+  const yt = msg.text ? ytId(msg.text) : null;
   return (
     <div className={`group/b flex items-center gap-1.5 ${mine ? "justify-end" : "justify-start"}`}>
       {mine && onDelete && (
@@ -20,7 +43,9 @@ function Bubble({ msg, onDelete }: { msg: ChatMessage; onDelete?: () => void }) 
         </button>
       )}
       <div
-        className={`max-w-[80%] rounded-2xl px-3.5 py-2 text-sm bs-rise ${
+        className={`rounded-2xl px-3.5 py-2 text-sm bs-rise ${
+          yt || msg.video ? "w-[88%]" : "max-w-[80%]"
+        } ${
           mine
             ? "rounded-br-md bg-accent text-white"
             : "rounded-bl-md bg-surface-muted text-foreground"
@@ -42,7 +67,10 @@ function Bubble({ msg, onDelete }: { msg: ChatMessage; onDelete?: () => void }) 
             className="mb-1 max-h-72 w-full rounded-xl bg-black"
           />
         )}
-        {msg.text && <p className="whitespace-pre-line leading-relaxed">{msg.text}</p>}
+        {yt && <YtEmbed id={yt} />}
+        {msg.text && !yt && (
+          <p className="whitespace-pre-line leading-relaxed">{msg.text}</p>
+        )}
       </div>
       {!mine && onDelete && (
         <button
