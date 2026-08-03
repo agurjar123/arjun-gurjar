@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { saveAnswers, firebaseReady } from "@/lib/firebase";
 import ChatReveal from "./ChatReveal";
+import YouTubeReveal from "./YouTubeReveal";
 import type { AdventDay, DayContent } from "@/data/backstage/days";
 
 export default function DayReveal({ day }: { day: AdventDay }) {
@@ -90,6 +91,16 @@ function Content({ dayId, content }: { dayId: string; content: DayContent }) {
 
     case "video":
       return <VideoReveal src={content.src} url={content.url} caption={content.caption} />;
+
+    case "youtube":
+      return (
+        <YouTubeReveal
+          dayId={dayId}
+          videos={content.videos}
+          intro={content.intro}
+          prompt={content.prompt}
+        />
+      );
 
     default:
       return null;
