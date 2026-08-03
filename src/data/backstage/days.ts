@@ -81,7 +81,7 @@ export const days: AdventDay[] = [
     id: "aug-03",
     date: "2026-08-03",
     title: "T-minus 14",
-    crypticAnswer: "placeholder",
+    crypticAnswer: "penal",
     content: {
       type: "youtube",
       intro: "some of my favorite youtube videos of all time. add yours too 👇",
