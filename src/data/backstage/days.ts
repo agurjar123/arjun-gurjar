@@ -82,6 +82,7 @@ export const days: AdventDay[] = [
     date: "2026-08-03",
     title: "T-minus 14",
     crypticAnswer: "penal",
+    alwaysOpen: true, // preview-branch only
     content: {
       type: "youtube",
       intro: "some of my favorite youtube videos of all time. add yours too 👇",
