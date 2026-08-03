@@ -54,34 +54,46 @@ function ZoomWatcher({ onZoom }: { onZoom: (z: number) => void }) {
 export default function DistanceMap() {
   const [zoom, setZoom] = useState(2);
   const [live, setLive] = useState<LiveLocations>({});
+  const [me, setMe] = useState<Person>("seher");
 
-  // Identity: Arjun tags himself once with ?me=arjun; everyone else is Seher.
+  // Identity: from the password login (backstage_me); everyone else is Seher.
   useEffect(() => {
-    let me: Person = "seher";
+    let identity: Person = "seher";
     try {
       const param = new URLSearchParams(window.location.search).get("me");
       if (param === "arjun" || param === "seher") {
         localStorage.setItem("backstage_me", param);
       }
       const stored = localStorage.getItem("backstage_me");
-      if (stored === "arjun" || stored === "seher") me = stored;
+      if (stored === "arjun" || stored === "seher") identity = stored;
     } catch {
       /* ignore */
     }
+    setMe(identity);
 
     const unsub = subscribeLocations(setLive);
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (pos) => writeMyLocation(me, pos.coords.latitude, pos.coords.longitude),
+        (pos) => writeMyLocation(identity, pos.coords.latitude, pos.coords.longitude),
         () => {
-          /* permission denied — fall back below */
+          /* permission denied — the button below can re-prompt */
         },
         { enableHighAccuracy: false, timeout: 10_000, maximumAge: 300_000 }
       );
     }
     return unsub;
   }, []);
+
+  // Re-prompt for location and overwrite my pin (fixes a stale/wrong location).
+  function shareLocation() {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+      (pos) => writeMyLocation(me, pos.coords.latitude, pos.coords.longitude),
+      () => {},
+      { enableHighAccuracy: true, timeout: 10_000, maximumAge: 0 }
+    );
+  }
 
   const her: LatLng = live.seher ?? SEHER_FALLBACK;
   const him: LatLng = live.arjun ?? ARJUN_FALLBACK;
@@ -156,6 +168,14 @@ export default function DistanceMap() {
           </Tooltip>
         </Marker>
       </MapContainer>
+
+      {/* Share / correct my location */}
+      <button
+        onClick={shareLocation}
+        className="absolute left-3 top-3 z-[1000] inline-flex items-center gap-1 rounded-full border border-border bg-surface/90 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-muted shadow-[var(--shadow-card)] backdrop-blur-sm transition-colors hover:text-accent"
+      >
+        <MapPin size={11} /> share my location
+      </button>
 
       {/* Distance readout */}
       <div className="pointer-events-none absolute bottom-3 left-3 z-[1000] rounded-2xl border border-border bg-surface/90 px-4 py-2 shadow-[var(--shadow-card)] backdrop-blur-sm">
