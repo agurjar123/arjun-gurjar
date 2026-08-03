@@ -28,7 +28,8 @@ export type DayContent =
   | { type: "questions"; intro?: string; questions: string[] }
   | { type: "note"; title?: string; body: string }
   | { type: "chat"; messages: ChatMessage[]; promptReply?: boolean }
-  | { type: "video"; src?: string; url?: string; caption?: string };
+  | { type: "video"; src?: string; url?: string; caption?: string }
+  | { type: "youtube"; videos: string[]; intro?: string; prompt?: boolean };
 
 export type AdventDay = {
   id: string; // stable, used as localStorage + Firebase key
@@ -69,14 +70,31 @@ export const days: AdventDay[] = [
       type: "chat",
       promptReply: true,
       messages: [
-        { from: "arjun", text: "ok day two 😅" },
-        { from: "arjun", text: "i'll go first — the most embarrassing thing i own:" },
+        { from: "arjun", text: "day twoo" },
+        { from: "arjun", text: "let's do an embarassing video of ourselves, i'll go first" },
         { from: "arjun", video: "/backstage/embarassing.MOV" },
-        { from: "arjun", text: "now you HAVE to send one back 😭" },
+        { from: "arjun", text: "now you HAVE to send one back <3" },
       ],
     },
   },
-  { id: "aug-03", date: "2026-08-03", title: "T-minus 14", crypticAnswer: "placeholder" },
+  {
+    id: "aug-03",
+    date: "2026-08-03",
+    title: "T-minus 14",
+    crypticAnswer: "placeholder",
+    content: {
+      type: "youtube",
+      intro: "some of my favorite youtube videos of all time. add yours too 👇",
+      prompt: true,
+      videos: [
+        "https://www.youtube.com/watch?v=56nQjJZIqoU",
+        "https://www.youtube.com/watch?v=UGO_Ehywuxc",
+        "https://www.youtube.com/watch?v=qcPS9KKJ5Vg",
+        "https://www.youtube.com/watch?v=vwLb3XlPCB4",
+        "https://www.youtube.com/watch?v=aRgqQe-8zYk",
+      ],
+    },
+  },
   { id: "aug-04", date: "2026-08-04", title: "T-minus 13", crypticAnswer: "placeholder" },
   { id: "aug-05", date: "2026-08-05", title: "T-minus 12", crypticAnswer: "placeholder" },
   { id: "aug-06", date: "2026-08-06", title: "T-minus 11", crypticAnswer: "placeholder" },
