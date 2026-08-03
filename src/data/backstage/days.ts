@@ -114,6 +114,14 @@ export const days: AdventDay[] = [
     content: {
       type: "journal",
       prompt: "If you had to write a journal entry today, what would it say?",
+      entry: `Hi Sehru :)
+Isn’t it incredible that we made it passed Delhi? I’m going to see you in 14 days. You’ve become such a core part of my every day routine and I get so excited when I think about what this new chapter of college is going to look like with you :)
+
+I’ve been thinking a lot recently about what it means to be a good friend. On one hand I feel like a friend made once is a friend for life and half the struggle is extending patience to them even when it’s difficult. But on the other hand, sometimes people just take advantage of you and start to take you for granted and you need to be able to set those boundaries. I’m not very good at recognizing when a dynamic is being draining and so I’ve been trying to pay a lot more attention to this. I think I’ve learned a lot from you about how to just confront a problem when it bothers you and then also move on quickly. I also love how you always have your friends backs. You know who the really valuable people in your life are and you’re not afraid to piss other people off when you back your friends up.
+
+When we started summer I set 3 goals for myself. The first was to be able to sing and play a song on the guitar. This one has had its ups and downs but we’re getting there. I’m not sure I’ll have it down by end of summer but I think I’ve definitely improved quite a bit. The second goal was to give my all to work since grad school is in the near future. I think I’ve done that and I genuinely look forward to work so much. I get up in the morning and I’m excited to get started which is something I haven’t as strongly before about other internships. The last was to make it out of long distance with you. As far as I can tell, that one is looking pretty good to me as well :)
+
+Have a safe flight babyy and I’ll talk to you soon`,
     },
   },
   { id: "aug-05", date: "2026-08-05", title: "T-minus 12", crypticAnswer: "placeholder" },
