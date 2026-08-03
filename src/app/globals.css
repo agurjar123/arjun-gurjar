@@ -101,6 +101,7 @@
   --font-sans: var(--font-geist-sans), Inter, ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-fraunces), ui-serif, Georgia, "Times New Roman", serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-hand: var(--font-caveat), "Comic Sans MS", cursive;
 }
 
 /* --shadow-card / --shadow-soft stay plain :root vars (consumed via
@@ -252,6 +253,24 @@ body {
   border-radius: 9999px;
 }
 .bs-hscroll::-webkit-scrollbar-thumb:hover { background: var(--faint); }
+
+/* Notebook / lined-paper look for the journal day */
+.bs-notebook {
+  background-color: #fffdf5;
+  background-image:
+    linear-gradient(to right, transparent 46px, #f4c2be 46px, #f4c2be 48px, transparent 48px),
+    repeating-linear-gradient(#fffdf5, #fffdf5 31px, #d7e3f0 31px, #d7e3f0 32px);
+  border: 1px solid #eadfc6;
+  border-radius: 14px;
+  box-shadow: var(--shadow-card);
+  color: #2b2b2b;
+}
+.bs-notebook-text {
+  padding: 8px 20px 16px 60px;
+  font-family: var(--font-hand);
+  font-size: 1.5rem;
+  line-height: 32px;
+}
 
 /* Leaflet map, styled to feel native to the almond UI */
 .bs-map .leaflet-container {

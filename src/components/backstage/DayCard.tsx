@@ -5,6 +5,7 @@ import { Lock, Check, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { subscribeChat } from "@/lib/firebase";
 import DayReveal from "./DayReveal";
+import TypingTest from "./TypingTest";
 import type { AdventDay } from "@/data/backstage/days";
 
 const normalize = (s: string) => s.trim().toLowerCase().replace(/\s+/g, "");
@@ -176,6 +177,8 @@ export default function DayCard({
 
             {reveal ? (
               <DayReveal day={day} />
+            ) : day.typingTest ? (
+              <TypingTest target={day.typingTest} onPass={() => onSolve(day.id)} />
             ) : (
               <form onSubmit={submit} className="space-y-3">
                 <p className="text-sm text-muted">Enter the day&apos;s cryptic answer to open it:</p>
