@@ -9,9 +9,16 @@ import type { AdventDay } from "@/data/backstage/days";
 
 const normalize = (s: string) => s.trim().toLowerCase().replace(/\s+/g, "");
 
+// A day unlocks at midnight in Seher's local time, which follows her trip:
+// India through Aug 3, the UK Aug 4–16, then California for landing.
+function herOffset(date: string): string {
+  if (date <= "2026-08-03") return "+05:30"; // India (IST)
+  if (date <= "2026-08-16") return "+01:00"; // UK (BST)
+  return "-07:00"; // landing day / SF (PDT)
+}
+
 function unlockedByDate(date: string): boolean {
-  // Unlocks at local Pacific midnight of `date` (PDT = -07:00 in August).
-  return new Date(`${date}T00:00:00-07:00`).getTime() <= Date.now();
+  return new Date(`${date}T00:00:00${herOffset(date)}`).getTime() <= Date.now();
 }
 
 function label(date: string): string {

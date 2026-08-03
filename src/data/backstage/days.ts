@@ -139,7 +139,7 @@ export const checkpoints: Checkpoint[] = [
 
 /** Fallbacks used when a live location isn't available (permission denied, etc.). */
 export const ARJUN_FALLBACK: LatLng = { lat: 37.8715, lng: -122.273 }; // Berkeley
-export const SEHER_FALLBACK: LatLng = { lat: 51.4839, lng: -0.6044 }; // Windsor
+export const SEHER_FALLBACK: LatLng = { lat: 28.6139, lng: 77.209 }; // New Delhi
 
 /** Baby photos for the precise map pins (drop files here). */
 export const ARJUN_PHOTO = "/backstage/arjun-baby.jpeg";
