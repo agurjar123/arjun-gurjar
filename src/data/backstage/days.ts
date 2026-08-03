@@ -110,9 +110,9 @@ export const days: AdventDay[] = [
       "Lil Poopy Girl Who Is Sitting Up A Creep And Left A Screen On Low Restroom And I Love Pasta Ramana Car But I Like To Record Three Nakuru Mana India Has To Cover Is So Pick Up Pick Up Pick Up The Laptop ETA",
     content: {
       type: "journal",
-      prompt: "If you had to write a journal entry today, what would it say?",
+      prompt: "If you had to write a journal entry today, what would it say? Save yours to reveal mine 👀",
       entry: `Hi Sehru :)
-Isn’t it incredible that we made it passed Delhi? I’m going to see you in 14 days. You’ve become such a core part of my every day routine and I get so excited when I think about what this new chapter of college is going to look like with you :)
+Isn’t it incredible that we made it past Delhi? I’m going to see you in 14 days. You’ve become such a core part of my every day routine and I get so excited when I think about what this new chapter of college is going to look like with you :)
 
 I’ve been thinking a lot recently about what it means to be a good friend. On one hand I feel like a friend made once is a friend for life and half the struggle is extending patience to them even when it’s difficult. But on the other hand, sometimes people just take advantage of you and start to take you for granted and you need to be able to set those boundaries. I’m not very good at recognizing when a dynamic is being draining and so I’ve been trying to pay a lot more attention to this. I think I’ve learned a lot from you about how to just confront a problem when it bothers you and then also move on quickly. I also love how you always have your friends backs. You know who the really valuable people in your life are and you’re not afraid to piss other people off when you back your friends up.
 

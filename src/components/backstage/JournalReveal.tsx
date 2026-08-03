@@ -122,7 +122,7 @@ export default function JournalReveal({
       </div>
 
       {entry && !showHis && (
-        <p className="mt-3 text-sm text-muted">✍️ write yours to reveal mine…</p>
+        <p className="mt-3 text-sm text-muted">✍️ save your entry to reveal mine…</p>
       )}
     </div>
   );
