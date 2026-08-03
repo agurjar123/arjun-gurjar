@@ -51,6 +51,12 @@ export default function JournalReveal({
     setEditing(false);
   }
 
+  async function clearEntry() {
+    if (saved?.id) await deleteChatMessage(dayId, saved.id);
+    setText("");
+    setEditing(false);
+  }
+
   const showWriter = editing || (loaded && !saved);
   // His page unlocks once she's written hers (Arjun always sees his own).
   const showHis = Boolean(entry) && (Boolean(saved) || me === "arjun");
@@ -90,12 +96,20 @@ export default function JournalReveal({
           <div className="bs-notebook min-h-72">
             <p className="bs-notebook-text whitespace-pre-line">{saved.text}</p>
           </div>
-          <button
-            onClick={startEdit}
-            className="mt-3 font-mono text-[11px] uppercase tracking-wider text-accent transition-colors hover:text-accent-strong"
-          >
-            edit
-          </button>
+          <div className="mt-3 flex items-center gap-4">
+            <button
+              onClick={startEdit}
+              className="font-mono text-[11px] uppercase tracking-wider text-accent transition-colors hover:text-accent-strong"
+            >
+              edit
+            </button>
+            <button
+              onClick={clearEntry}
+              className="font-mono text-[11px] uppercase tracking-wider text-muted transition-colors hover:text-red-500"
+            >
+              delete
+            </button>
+          </div>
         </div>
       ) : null}
     </div>
