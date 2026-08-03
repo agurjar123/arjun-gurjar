@@ -4,6 +4,7 @@ import { useState } from "react";
 import { saveAnswers, firebaseReady } from "@/lib/firebase";
 import ChatReveal from "./ChatReveal";
 import YouTubeReveal from "./YouTubeReveal";
+import JournalReveal from "./JournalReveal";
 import type { AdventDay, DayContent } from "@/data/backstage/days";
 
 export default function DayReveal({ day }: { day: AdventDay }) {
@@ -101,6 +102,9 @@ function Content({ dayId, content }: { dayId: string; content: DayContent }) {
           prompt={content.prompt}
         />
       );
+
+    case "journal":
+      return <JournalReveal dayId={dayId} prompt={content.prompt} entry={content.entry} />;
 
     default:
       return null;

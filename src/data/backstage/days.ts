@@ -29,7 +29,8 @@ export type DayContent =
   | { type: "note"; title?: string; body: string }
   | { type: "chat"; messages: ChatMessage[]; promptReply?: boolean }
   | { type: "video"; src?: string; url?: string; caption?: string }
-  | { type: "youtube"; videos: string[]; intro?: string; prompt?: boolean };
+  | { type: "youtube"; videos: string[]; intro?: string; prompt?: boolean }
+  | { type: "journal"; prompt?: string; entry?: string };
 
 export type AdventDay = {
   id: string; // stable, used as localStorage + Firebase key
@@ -39,6 +40,7 @@ export type AdventDay = {
   hint?: string;
   content?: DayContent;
   alwaysOpen?: boolean; // preview flag: bypass the date lock
+  typingTest?: string; // if set, the day unlocks by typing this passage (not the answer)
 };
 
 // Placeholder schedule (Aug 1 → 17). Swap answers + content for the real ones.
@@ -99,7 +101,18 @@ export const days: AdventDay[] = [
       ],
     },
   },
-  { id: "aug-04", date: "2026-08-04", title: "T-minus 13", crypticAnswer: "placeholder" },
+  {
+    id: "aug-04",
+    date: "2026-08-04",
+    title: "T-minus 13",
+    crypticAnswer: "placeholder",
+    typingTest:
+      "Lil Poopy Girl Who Is Sitting Up A Creep And Left A Screen On Low Restroom And I Love Pasta Ramana Car But I Like To Record Three Nakuru Mana India Has To Cover Is So Pick Up Pick Up Pick Up The Laptop ETA",
+    content: {
+      type: "journal",
+      prompt: "If you had to write a journal entry today, what would it say?",
+    },
+  },
   { id: "aug-05", date: "2026-08-05", title: "T-minus 12", crypticAnswer: "placeholder" },
   { id: "aug-06", date: "2026-08-06", title: "T-minus 11", crypticAnswer: "placeholder" },
   { id: "aug-07", date: "2026-08-07", title: "T-minus 10", crypticAnswer: "placeholder" },
