@@ -38,8 +38,8 @@ export default function PasswordGate({
       try {
         localStorage.setItem(KEY, "1");
         localStorage.setItem(ME_KEY, who);
-        // Let the greeting play again for this fresh unlock.
-        sessionStorage.removeItem("backstage_greeted");
+        // Greeting plays once, right after this fresh login (not on every load).
+        sessionStorage.setItem("backstage_login", "1");
         // Tell the layout (LogoutButton) that auth changed.
         window.dispatchEvent(new Event("backstage-auth"));
       } catch {
