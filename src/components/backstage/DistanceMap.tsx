@@ -2,6 +2,7 @@
 
 import "leaflet/dist/leaflet.css";
 import { useEffect, useMemo, useState } from "react";
+import { MapPin } from "lucide-react";
 import L from "leaflet";
 import {
   MapContainer,
