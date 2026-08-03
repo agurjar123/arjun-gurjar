@@ -52,66 +52,78 @@ export default function JournalReveal({
   }
 
   const showWriter = editing || (loaded && !saved);
+  // His page unlocks once she's written hers (Arjun always sees his own).
+  const showHis = Boolean(entry) && (Boolean(saved) || me === "arjun");
+
+  const herPage = (
+    <div>
+      <p className="mb-2 font-mono text-[10px] uppercase tracking-wider text-accent">
+        your entry
+      </p>
+      {showWriter ? (
+        <>
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="write a journal entry as if you were writing in your diary for today"
+            className="bs-notebook bs-notebook-text block h-72 w-full resize-none outline-none"
+          />
+          <div className="mt-3 flex items-center gap-3">
+            <button
+              onClick={save}
+              className="rounded-full bg-accent px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-strong"
+            >
+              save entry
+            </button>
+            {saved && (
+              <button
+                onClick={() => setEditing(false)}
+                className="font-mono text-[11px] uppercase tracking-wider text-muted hover:text-accent"
+              >
+                cancel
+              </button>
+            )}
+          </div>
+        </>
+      ) : saved ? (
+        <div>
+          <div className="bs-notebook min-h-72">
+            <p className="bs-notebook-text whitespace-pre-line">{saved.text}</p>
+          </div>
+          <button
+            onClick={startEdit}
+            className="mt-3 font-mono text-[11px] uppercase tracking-wider text-accent transition-colors hover:text-accent-strong"
+          >
+            edit
+          </button>
+        </div>
+      ) : null}
+    </div>
+  );
+
+  const hisPage = showHis ? (
+    <div>
+      <p className="mb-2 font-mono text-[10px] uppercase tracking-wider text-accent">
+        arjun&apos;s entry
+      </p>
+      <div className="bs-notebook min-h-72">
+        <p className="bs-notebook-text whitespace-pre-line">{entry}</p>
+      </div>
+    </div>
+  ) : null;
 
   return (
-    <div className="space-y-6">
-      {prompt && <p className="font-serif text-lg italic text-foreground">{prompt}</p>}
+    <div>
+      {prompt && <p className="mb-5 font-serif text-lg italic text-foreground">{prompt}</p>}
 
-      {entry && (
-        <div>
-          <p className="mb-2 font-mono text-[10px] uppercase tracking-wider text-accent">
-            Arjun&apos;s entry
-          </p>
-          <div className="bs-notebook">
-            <p className="bs-notebook-text whitespace-pre-line">{entry}</p>
-          </div>
-        </div>
-      )}
-
-      <div>
-        <p className="mb-2 font-mono text-[10px] uppercase tracking-wider text-accent">
-          your entry
-        </p>
-
-        {showWriter ? (
-          <>
-            <textarea
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder="dear diary…"
-              className="bs-notebook bs-notebook-text block h-56 w-full resize-none outline-none"
-            />
-            <div className="mt-3 flex items-center gap-3">
-              <button
-                onClick={save}
-                className="rounded-full bg-accent px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-strong"
-              >
-                save entry
-              </button>
-              {saved && (
-                <button
-                  onClick={() => setEditing(false)}
-                  className="font-mono text-[11px] uppercase tracking-wider text-muted hover:text-accent"
-                >
-                  cancel
-                </button>
-              )}
-            </div>
-          </>
-        ) : saved ? (
-          <div>
-            <div className="bs-notebook">
-              <p className="bs-notebook-text whitespace-pre-line">{saved.text}</p>
-            </div>
-            <button
-              onClick={startEdit}
-              className="mt-3 font-mono text-[11px] uppercase tracking-wider text-accent transition-colors hover:text-accent-strong"
-            >
-              edit
-            </button>
-          </div>
-        ) : null}
+      <div className={showHis ? "grid gap-4 md:grid-cols-2" : ""}>
+        {herPage}
+        {hisPage}
       </div>
+
+      {entry && !showHis && (
+        <p className="mt-3 text-sm text-muted">✍️ write yours to reveal mine…</p>
+      )}
     </div>
   );
 }

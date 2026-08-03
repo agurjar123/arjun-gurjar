@@ -154,7 +154,10 @@ export default function DayCard({
           onClick={() => setOpen(false)}
         >
           <div
-            className="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-3xl border border-border bg-surface p-6 shadow-[var(--shadow-soft)] bs-pop"
+            className={cn(
+              "max-h-[85vh] w-full overflow-y-auto rounded-3xl border border-border bg-surface p-6 shadow-[var(--shadow-soft)] bs-pop",
+              day.content?.type === "journal" ? "max-w-3xl" : "max-w-lg"
+            )}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-4 flex items-start justify-between gap-3">
