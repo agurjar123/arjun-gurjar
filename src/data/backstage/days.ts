@@ -131,7 +131,7 @@ Have a safe flight babyy and I’ll talk to you soon`,
     content: {
       type: "friends",
       intro:
-        "You're in London now 🇬🇧 — tap each face and guess who my friends are. (I'll fill in the answers.)",
+        "London edition 🇬🇧! I thought it would be funny to try and name each other's friends. You can try below and also upload ur photos and I'll try my best <3",
       photos: [
         { src: "/backstage/IMG_1233.JPG" },
         { src: "/backstage/IMG_3251.JPG" },
