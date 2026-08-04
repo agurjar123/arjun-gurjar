@@ -30,7 +30,8 @@ export type DayContent =
   | { type: "chat"; messages: ChatMessage[]; promptReply?: boolean }
   | { type: "video"; src?: string; url?: string; caption?: string }
   | { type: "youtube"; videos: string[]; intro?: string; prompt?: boolean }
-  | { type: "journal"; prompt?: string; entry?: string };
+  | { type: "journal"; prompt?: string; entry?: string }
+  | { type: "friends"; intro?: string; photos: { src: string; answer?: string }[] };
 
 export type AdventDay = {
   id: string; // stable, used as localStorage + Firebase key
@@ -124,7 +125,22 @@ When we started summer I set 3 goals for myself. The first was to be able to sin
 Have a safe flight babyy and I’ll talk to you soon`,
     },
   },
-  { id: "aug-05", date: "2026-08-05", title: "T-minus 12", crypticAnswer: "placeholder" },
+  {
+    id: "aug-05",
+    date: "2026-08-05",
+    title: "T-minus 12",
+    crypticAnswer: "placeholder",
+    content: {
+      type: "friends",
+      intro:
+        "You're in London now 🇬🇧 — tap each face and guess who my friends are. (I'll fill in the answers.)",
+      photos: [
+        { src: "/backstage/IMG_1233.JPG" },
+        { src: "/backstage/IMG_3251.JPG" },
+        { src: "/backstage/PHOTO-2025-11-28-14-00-21.jpg" },
+      ],
+    },
+  },
   { id: "aug-06", date: "2026-08-06", title: "T-minus 11", crypticAnswer: "placeholder" },
   { id: "aug-07", date: "2026-08-07", title: "T-minus 10", crypticAnswer: "placeholder" },
   { id: "aug-08", date: "2026-08-08", title: "T-minus 9", crypticAnswer: "placeholder" },

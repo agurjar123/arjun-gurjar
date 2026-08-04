@@ -5,6 +5,7 @@ import { saveAnswers, firebaseReady } from "@/lib/firebase";
 import ChatReveal from "./ChatReveal";
 import YouTubeReveal from "./YouTubeReveal";
 import JournalReveal from "./JournalReveal";
+import FriendsReveal from "./FriendsReveal";
 import type { AdventDay, DayContent } from "@/data/backstage/days";
 
 export default function DayReveal({ day }: { day: AdventDay }) {
@@ -105,6 +106,9 @@ function Content({ dayId, content }: { dayId: string; content: DayContent }) {
 
     case "journal":
       return <JournalReveal dayId={dayId} prompt={content.prompt} entry={content.entry} />;
+
+    case "friends":
+      return <FriendsReveal dayId={dayId} intro={content.intro} photos={content.photos} />;
 
     default:
       return null;
