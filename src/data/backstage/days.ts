@@ -130,6 +130,7 @@ Have a safe flight babyy and I’ll talk to you soon`,
     date: "2026-08-05",
     title: "T-minus 12",
     crypticAnswer: "placeholder",
+    alwaysOpen: true, // preview-branch only
     content: {
       type: "friends",
       intro:
