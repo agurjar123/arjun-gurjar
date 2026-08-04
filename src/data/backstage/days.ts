@@ -128,6 +128,7 @@ Have a safe flight babyy and I’ll talk to you soon`,
     date: "2026-08-05",
     title: "T-minus 12",
     crypticAnswer: "bigben",
+    alwaysOpen: true, // released early for her
     content: {
       type: "friends",
       intro:
