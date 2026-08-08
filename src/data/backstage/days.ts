@@ -164,7 +164,8 @@ Have a safe flight babyy and I’ll talk to you soon`,
     id: "aug-07",
     date: "2026-08-07",
     title: "T-minus 10",
-    crypticAnswer: "placeholder",
+    crypticAnswer: "parkirna ura",
+    hint: "slovenians display this on their car when parking",
     content: {
       type: "shopping",
       intro:
