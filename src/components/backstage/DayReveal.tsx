@@ -6,6 +6,7 @@ import ChatReveal from "./ChatReveal";
 import YouTubeReveal from "./YouTubeReveal";
 import JournalReveal from "./JournalReveal";
 import FriendsReveal from "./FriendsReveal";
+import ShoppingReveal from "./ShoppingReveal";
 import type { AdventDay, DayContent } from "@/data/backstage/days";
 
 export default function DayReveal({ day }: { day: AdventDay }) {
@@ -109,6 +110,9 @@ function Content({ dayId, content }: { dayId: string; content: DayContent }) {
 
     case "friends":
       return <FriendsReveal dayId={dayId} intro={content.intro} photos={content.photos} />;
+
+    case "shopping":
+      return <ShoppingReveal dayId={dayId} intro={content.intro} />;
 
     default:
       return null;
