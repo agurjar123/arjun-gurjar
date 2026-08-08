@@ -158,7 +158,7 @@ Have a safe flight babyy and I’ll talk to you soon`,
       messages: [
         { from: "arjun", text: "day six ⛏️" },
         { from: "arjun", text: "your mission: install minecraft and actually get it running" },
-        { from: "arjun", text: "i need proof — screenshot or video of you IN a world 👀" },
+        { from: "arjun", text: "i need proof of you in a world :)" },
         { from: "arjun", text: "bonus points if you built something dumb <3" },
       ],
     },
@@ -172,7 +172,7 @@ Have a safe flight babyy and I’ll talk to you soon`,
     content: {
       type: "shopping",
       intro:
-        "Day seven 🛒 what's on your shopping list? Add everything you need to grab — I wanna see the whole cart 👀",
+        "Day seven 🛒 what's on your wishlist :) Sephora, sweatpants, earrings 👀",
     },
   },
   {
@@ -183,7 +183,7 @@ Have a safe flight babyy and I’ll talk to you soon`,
     content: {
       type: "bookshelf",
       intro:
-        "Day eight 📚 build me your shelf — search and add the books you love (or want to read). I'll add mine too <3",
+        "Day eight 📚 show me your bookshelf — search and add the books you love (or want to read).",
     },
   },
   { id: "aug-09", date: "2026-08-09", title: "T-minus 8", crypticAnswer: "placeholder" },
