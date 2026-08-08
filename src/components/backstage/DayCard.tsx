@@ -184,7 +184,7 @@ export default function DayCard({
               <TypingTest target={day.typingTest} onPass={() => onSolve(day.id)} />
             ) : (
               <form onSubmit={submit} className="space-y-3">
-                <p className="text-sm text-muted">Enter the day&apos;s cryptic answer to open it:</p>
+                <p className="text-sm text-muted">Solve the puzzle to open it:</p>
                 <div className="flex gap-2">
                   <input
                     autoFocus
