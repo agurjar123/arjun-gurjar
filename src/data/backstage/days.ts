@@ -179,7 +179,7 @@ Have a safe flight babyy and I’ll talk to you soon`,
     id: "aug-08",
     date: "2026-08-08",
     title: "T-minus 9",
-    crypticAnswer: "placeholder",
+    crypticAnswer: "sofa",
     content: {
       type: "bookshelf",
       intro:
