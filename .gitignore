@@ -42,3 +42,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Oversized video kept local-only
+public/backstage/IMG_0498.MOV
