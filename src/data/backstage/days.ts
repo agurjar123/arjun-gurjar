@@ -31,7 +31,8 @@ export type DayContent =
   | { type: "video"; src?: string; url?: string; caption?: string }
   | { type: "youtube"; videos: string[]; intro?: string; prompt?: boolean }
   | { type: "journal"; prompt?: string; entry?: string }
-  | { type: "friends"; intro?: string; photos: { src: string; answer?: string }[] };
+  | { type: "friends"; intro?: string; photos: { src: string; answer?: string }[] }
+  | { type: "shopping"; intro?: string };
 
 export type AdventDay = {
   id: string; // stable, used as localStorage + Firebase key
@@ -157,7 +158,17 @@ Have a safe flight babyy and I’ll talk to you soon`,
       ],
     },
   },
-  { id: "aug-07", date: "2026-08-07", title: "T-minus 10", crypticAnswer: "placeholder" },
+  {
+    id: "aug-07",
+    date: "2026-08-07",
+    title: "T-minus 10",
+    crypticAnswer: "placeholder",
+    content: {
+      type: "shopping",
+      intro:
+        "Day seven 🛒 what's on your shopping list? Add everything you need to grab — I wanna see the whole cart 👀",
+    },
+  },
   { id: "aug-08", date: "2026-08-08", title: "T-minus 9", crypticAnswer: "placeholder" },
   { id: "aug-09", date: "2026-08-09", title: "T-minus 8", crypticAnswer: "placeholder" },
   { id: "aug-10", date: "2026-08-10", title: "T-minus 7", crypticAnswer: "placeholder" },
