@@ -30,8 +30,7 @@ export default function BackstageHome() {
           <p className="mt-4 max-w-prose leading-relaxed text-muted">
             Each day with you has brought something new and exciting, and so in
             that spirit I&apos;ve built this countdown till I can finally see you.
-            Unlock each day&apos;s treasure with the correct answer to the minute
-            cryptic.
+            Unlock each day&apos;s treasure by solving the puzzle.
           </p>
         </header>
 
