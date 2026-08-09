@@ -37,6 +37,13 @@ export type DayContent =
       type: "bookshelf";
       intro?: string;
       books?: { title: string; author?: string; cover?: string }[];
+    }
+  | {
+      type: "spots";
+      intro?: string;
+      center?: LatLng;
+      radiusMi?: number;
+      target?: number;
     };
 
 export type AdventDay = {
@@ -204,7 +211,18 @@ Have a safe flight babyy and I’ll talk to you soon`,
       ],
     },
   },
-  { id: "aug-10", date: "2026-08-10", title: "T-minus 7", crypticAnswer: "placeholder" },
+  {
+    id: "aug-10",
+    date: "2026-08-10",
+    title: "T-minus 7",
+    crypticAnswer: "i put you on",
+    hint: "arnav's favorite phrase",
+    content: {
+      type: "spots",
+      intro:
+        "Day ten 📍 this is Berkeley + 20 miles — your soon-to-be backyard. Drop your 5 most underground, niche spots so I can get put on 👀",
+    },
+  },
   { id: "aug-11", date: "2026-08-11", title: "T-minus 6", crypticAnswer: "placeholder" },
   { id: "aug-12", date: "2026-08-12", title: "T-minus 5", crypticAnswer: "placeholder" },
   { id: "aug-13", date: "2026-08-13", title: "T-minus 4", crypticAnswer: "placeholder" },

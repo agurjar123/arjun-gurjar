@@ -8,6 +8,7 @@ import JournalReveal from "./JournalReveal";
 import FriendsReveal from "./FriendsReveal";
 import ShoppingReveal from "./ShoppingReveal";
 import BookshelfReveal from "./BookshelfReveal";
+import NicheSpotsReveal from "./NicheSpotsReveal";
 import type { AdventDay, DayContent } from "@/data/backstage/days";
 
 export default function DayReveal({ day }: { day: AdventDay }) {
@@ -117,6 +118,17 @@ function Content({ dayId, content }: { dayId: string; content: DayContent }) {
 
     case "bookshelf":
       return <BookshelfReveal dayId={dayId} intro={content.intro} books={content.books} />;
+
+    case "spots":
+      return (
+        <NicheSpotsReveal
+          dayId={dayId}
+          intro={content.intro}
+          center={content.center}
+          radiusMi={content.radiusMi}
+          target={content.target}
+        />
+      );
 
     default:
       return null;
