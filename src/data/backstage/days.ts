@@ -231,7 +231,7 @@ Have a safe flight babyy and I’ll talk to you soon`,
     content: {
       type: "food",
       intro:
-        "Day eleven 🍴 the important stuff — give me your favorite food items AND your favorite restaurants. I need the full menu 👀",
+        "Day eleven 🍴 give me your favorite food items AND your favorite restaurants",
     },
   },
   { id: "aug-12", date: "2026-08-12", title: "T-minus 5", crypticAnswer: "placeholder" },
