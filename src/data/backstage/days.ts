@@ -33,6 +33,7 @@ export type DayContent =
   | { type: "journal"; prompt?: string; entry?: string }
   | { type: "friends"; intro?: string; photos: { src: string; answer?: string }[] }
   | { type: "shopping"; intro?: string }
+  | { type: "food"; intro?: string }
   | {
       type: "bookshelf";
       intro?: string;
@@ -204,10 +205,10 @@ Have a safe flight babyy and I’ll talk to you soon`,
       type: "chat",
       promptReply: true,
       messages: [
-        { from: "arjun", text: "day nine 💬" },
-        { from: "arjun", text: "favorite screenshot of our texts — here's mine" },
+        { from: "arjun", text: "day ninee" },
+        { from: "arjun", text: "today is gonna be your favorite screenshot of our texts. here's mine :D" },
         { from: "arjun", photo: "/backstage/5C49E3EF-BBBC-416A-B4F0-FE119A565B37_1_105_c.jpeg" },
-        { from: "arjun", text: "now show me yours 👀" },
+        { from: "arjun", text: "now you go" },
       ],
     },
   },
@@ -220,10 +221,21 @@ Have a safe flight babyy and I’ll talk to you soon`,
     content: {
       type: "spots",
       intro:
-        "Day ten 📍 this is Berkeley + 20 miles — your soon-to-be backyard. Drop your 5 most underground, niche spots so I can get put on 👀",
+        "Day ten 📍 What are your 5 most underground, niche spots so I can get put on",
     },
   },
-  { id: "aug-11", date: "2026-08-11", title: "T-minus 6", crypticAnswer: "placeholder" },
+  {
+    id: "aug-11",
+    date: "2026-08-11",
+    title: "T-minus 6",
+    crypticAnswer: "gilf",
+    hint: "out of pocket",
+    content: {
+      type: "food",
+      intro:
+        "Day eleven 🍴 the important stuff — give me your favorite food items AND your favorite restaurants. I need the full menu 👀",
+    },
+  },
   { id: "aug-12", date: "2026-08-12", title: "T-minus 5", crypticAnswer: "placeholder" },
   { id: "aug-13", date: "2026-08-13", title: "T-minus 4", crypticAnswer: "placeholder" },
   { id: "aug-14", date: "2026-08-14", title: "T-minus 3", crypticAnswer: "placeholder" },
