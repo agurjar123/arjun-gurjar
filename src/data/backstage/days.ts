@@ -34,6 +34,7 @@ export type DayContent =
   | { type: "friends"; intro?: string; photos: { src: string; answer?: string }[] }
   | { type: "shopping"; intro?: string }
   | { type: "food"; intro?: string }
+  | { type: "constitution"; intro?: string }
   | {
       type: "bookshelf";
       intro?: string;
@@ -234,7 +235,14 @@ Have a safe flight babyy and I’ll talk to you soon`,
         "Day eleven 🍴 give me your favorite food items AND your favorite restaurants",
     },
   },
-  { id: "aug-12", date: "2026-08-12", title: "T-minus 5", crypticAnswer: "placeholder" },
+  {
+    id: "aug-12",
+    date: "2026-08-12",
+    title: "T-minus 5",
+    crypticAnswer: "split",
+    hint: "a gymnastic trick or a place where traveller's get weary",
+    content: { type: "constitution" },
+  },
   { id: "aug-13", date: "2026-08-13", title: "T-minus 4", crypticAnswer: "placeholder" },
   { id: "aug-14", date: "2026-08-14", title: "T-minus 3", crypticAnswer: "placeholder" },
   { id: "aug-15", date: "2026-08-15", title: "T-minus 2", crypticAnswer: "placeholder" },
