@@ -35,6 +35,7 @@ export type DayContent =
   | { type: "shopping"; intro?: string }
   | { type: "food"; intro?: string }
   | { type: "constitution"; intro?: string }
+  | { type: "movies"; intro?: string }
   | {
       type: "bookshelf";
       intro?: string;
@@ -243,7 +244,18 @@ Have a safe flight babyy and I’ll talk to you soon`,
     hint: "a gymnastic trick or a place where traveller's get weary",
     content: { type: "constitution" },
   },
-  { id: "aug-13", date: "2026-08-13", title: "T-minus 4", crypticAnswer: "placeholder" },
+  {
+    id: "aug-13",
+    date: "2026-08-13",
+    title: "T-minus 4",
+    crypticAnswer: "city of stars",
+    hint: "look north of north and discover a civilization",
+    content: {
+      type: "movies",
+      intro:
+        "Day thirteen 🎬 movie bucket list — your all-time favorites, and the ones we still need to watch together.",
+    },
+  },
   { id: "aug-14", date: "2026-08-14", title: "T-minus 3", crypticAnswer: "placeholder" },
   { id: "aug-15", date: "2026-08-15", title: "T-minus 2", crypticAnswer: "placeholder" },
   { id: "aug-16", date: "2026-08-16", title: "T-minus 1", crypticAnswer: "placeholder" },
