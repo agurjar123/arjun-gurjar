@@ -50,9 +50,11 @@ function MovieSection({
     if (q.length < 2) {
       setResults([]);
       setSearching(false);
+      setOpen(false);
       return;
     }
     setSearching(true);
+    setOpen(true);
     const t = setTimeout(async () => {
       try {
         const res = await fetch(
@@ -134,8 +136,14 @@ function MovieSection({
           {searching && <Loader2 size={15} className="shrink-0 animate-spin text-faint" />}
         </div>
 
-        {open && results.length > 0 && (
-          <ul className="absolute z-20 mt-2 max-h-80 w-full overflow-y-auto rounded-2xl border border-border bg-surface p-1.5 shadow-[var(--shadow-soft)]">
+        {open && query.trim().length >= 2 && (
+          <ul className="mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-border bg-surface p-1.5 shadow-[var(--shadow-soft)]">
+            {searching && results.length === 0 && (
+              <li className="px-2.5 py-2 text-sm text-faint">searching…</li>
+            )}
+            {!searching && results.length === 0 && (
+              <li className="px-2.5 py-2 text-sm text-faint">no matches — try another title</li>
+            )}
             {results.map((r, i) => (
               <li key={i}>
                 <button
