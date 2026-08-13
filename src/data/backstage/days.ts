@@ -253,7 +253,7 @@ Have a safe flight babyy and I’ll talk to you soon`,
     content: {
       type: "movies",
       intro:
-        "Day thirteen 🎬 movie bucket list: your all-time favorites, and the ones on our bucketlist :)",
+        "Day thirteen 🎬 movie bucket list: your all-time favorites, and the ones on our bucket list :)",
     },
   },
   { id: "aug-14", date: "2026-08-14", title: "T-minus 3", crypticAnswer: "placeholder" },
