@@ -44,7 +44,8 @@ function MovieSection({
   const [open, setOpen] = useState(false);
   const boxRef = useRef<HTMLDivElement>(null);
 
-  // Debounced iTunes movie search (free, keyless, CORS-friendly).
+  // Debounced movie search via our own /api/movies/search route (TMDB, proxied
+  // server-side so it's same-origin and never blocked by CORS/content blockers).
   useEffect(() => {
     const q = query.trim();
     if (q.length < 2) {
@@ -57,28 +58,14 @@ function MovieSection({
     setOpen(true);
     const t = setTimeout(async () => {
       try {
-        const res = await fetch(
-          `https://itunes.apple.com/search?media=movie&limit=8&term=${encodeURIComponent(q)}`
-        );
+        const res = await fetch(`/api/movies/search?q=${encodeURIComponent(q)}`);
         const data = await res.json();
-        const rows = Array.isArray(data.results) ? data.results : [];
-        const seen = new Set<string>();
-        const mapped: Result[] = [];
-        for (const r of rows as {
-          trackName?: string;
-          artworkUrl100?: string;
-          releaseDate?: string;
-        }[]) {
-          if (!r.trackName || seen.has(r.trackName)) continue;
-          seen.add(r.trackName);
-          mapped.push({
-            title: r.trackName,
-            year: r.releaseDate?.slice(0, 4),
-            cover: r.artworkUrl100?.replace("100x100bb", "600x600bb"),
-          });
-        }
-        setResults(mapped);
-        setOpen(true);
+        const rows: { title: string; year?: string; cover?: string }[] = Array.isArray(
+          data.movies
+        )
+          ? data.movies
+          : [];
+        setResults(rows.map((r) => ({ title: r.title, year: r.year, cover: r.cover })));
       } catch {
         setResults([]);
       } finally {
