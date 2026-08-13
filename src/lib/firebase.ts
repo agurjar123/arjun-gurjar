@@ -79,6 +79,28 @@ export function subscribeAnswers(cb: (data: unknown) => void): () => void {
   return onValue(ref(database, "answers"), (snap) => cb(snap.val()));
 }
 
+// ── Solved days (persist unlocks across devices) ─────────────────────────────
+
+/** Mark a day permanently solved (so it stays unlocked everywhere). */
+export function markDaySolved(dayId: string): Promise<unknown> {
+  const database = getDb();
+  if (!database) return Promise.resolve();
+  return Promise.resolve(set(ref(database, `solved/${dayId}`), true));
+}
+
+/** Subscribe to the set of solved day ids. Returns an unsubscribe function. */
+export function subscribeSolved(cb: (ids: string[]) => void): () => void {
+  const database = getDb();
+  if (!database) {
+    cb([]);
+    return () => {};
+  }
+  return onValue(ref(database, "solved"), (snap) => {
+    const val = snap.val() as Record<string, boolean> | null;
+    cb(val ? Object.keys(val).filter((id) => val[id]) : []);
+  });
+}
+
 // ── Shared, editable timeline (both Arjun and Seher) ─────────────────────────
 
 export type TimelineSong = {
