@@ -157,12 +157,22 @@ export default function DrawReveal({
     if (!canvas || !dirty) return;
     setSaving(true);
     const image = canvas.toDataURL("image/jpeg", 0.6);
+    // Keep one drawing per person per prompt — replace any previous of mine.
+    const prev = drawings.filter((d) => d.from === me && d.prompt === prompt && d.id);
+    await Promise.all(prev.map((d) => deleteChatMessage(dayId, d.id as string)));
     await sendChatMessage(dayId, {
       from: me,
       text: JSON.stringify({ kind: "drawing", prompt, image }),
     });
     clear();
     setSaving(false);
+  }
+
+  function latestFor(from: "arjun" | "seher", p: string): Drawing | undefined {
+    for (let i = drawings.length - 1; i >= 0; i--) {
+      if (drawings[i].from === from && drawings[i].prompt === p) return drawings[i];
+    }
+    return undefined;
   }
 
   return (
@@ -270,38 +280,84 @@ export default function DrawReveal({
         </div>
       </div>
 
-      {/* Gallery */}
-      {drawings.length > 0 && (
-        <div className="mt-6">
-          <p className="mb-2 font-mono text-[10px] uppercase tracking-wider text-accent">
-            the gallery
-          </p>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {drawings.map((d) => (
-              <figure
-                key={d.id ?? d.image.slice(-16)}
-                className="group relative overflow-hidden rounded-xl border border-border bg-white"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={d.image} alt={d.prompt} className="block w-full" />
-                <figcaption className="flex items-center gap-1 px-2 py-1 text-[11px] text-muted">
-                  <span className="truncate">{d.prompt}</span>
-                  <span className="ml-auto shrink-0 font-mono text-[9px] uppercase tracking-wider text-faint">
-                    {d.from}
-                  </span>
-                </figcaption>
-                <button
-                  onClick={() => d.id && deleteChatMessage(dayId, d.id)}
-                  aria-label="Delete drawing"
-                  className="absolute right-1.5 top-1.5 rounded-full bg-surface/90 p-1 text-faint opacity-0 shadow transition-opacity hover:text-red-500 group-hover:opacity-100"
-                >
-                  <X size={13} />
-                </button>
-              </figure>
-            ))}
-          </div>
+      {/* Gallery — hers vs yours, side by side, per prompt. His only unlocks
+          once she's drawn that same prompt. */}
+      <div className="mt-6 space-y-5">
+        {prompts.map((p) => {
+          const hers = latestFor("seher", p);
+          const his = latestFor("arjun", p);
+          const revealHis = Boolean(hers) || me === "arjun";
+          return (
+            <div key={p}>
+              <p className="mb-2 font-mono text-[10px] uppercase tracking-wider text-accent">
+                {p}
+              </p>
+              <div className="grid grid-cols-2 gap-3">
+                <Panel
+                  label="seher"
+                  drawing={hers}
+                  canDelete={me === "seher"}
+                  onDelete={(id) => deleteChatMessage(dayId, id)}
+                />
+                {revealHis ? (
+                  <Panel
+                    label="arjun"
+                    drawing={his}
+                    emptyText="arjun hasn't drawn this yet"
+                    canDelete={me === "arjun"}
+                    onDelete={(id) => deleteChatMessage(dayId, id)}
+                  />
+                ) : (
+                  <div className="flex aspect-[10/7] items-center justify-center rounded-xl border border-dashed border-border bg-surface-muted text-center">
+                    <span className="px-3 text-xs text-faint">
+                      🔒 draw yours to reveal Arjun&apos;s
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function Panel({
+  label,
+  drawing,
+  emptyText = "nothing yet",
+  canDelete,
+  onDelete,
+}: {
+  label: string;
+  drawing?: Drawing;
+  emptyText?: string;
+  canDelete: boolean;
+  onDelete: (id: string) => void;
+}) {
+  return (
+    <figure className="group relative overflow-hidden rounded-xl border border-border bg-white">
+      {drawing ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={drawing.image} alt={label} className="block w-full" />
+      ) : (
+        <div className="flex aspect-[10/7] items-center justify-center bg-surface-muted text-center">
+          <span className="px-3 text-xs text-faint">{emptyText}</span>
         </div>
       )}
-    </div>
+      <figcaption className="px-2 py-1 font-mono text-[9px] uppercase tracking-wider text-faint">
+        {label}
+      </figcaption>
+      {drawing?.id && canDelete && (
+        <button
+          onClick={() => onDelete(drawing.id as string)}
+          aria-label="Delete drawing"
+          className="absolute right-1.5 top-1.5 rounded-full bg-surface/90 p-1 text-faint opacity-0 shadow transition-opacity hover:text-red-500 group-hover:opacity-100"
+        >
+          <X size={13} />
+        </button>
+      )}
+    </figure>
   );
 }

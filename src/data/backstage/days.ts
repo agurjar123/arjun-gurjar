@@ -261,7 +261,8 @@ Have a safe flight babyy and I’ll talk to you soon`,
     id: "aug-14",
     date: "2026-08-14",
     title: "T-minus 3",
-    crypticAnswer: "placeholder",
+    crypticAnswer: "go bears",
+    hint: "brown, loud, fish, spirit",
     content: {
       type: "draw",
       intro:
