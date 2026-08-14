@@ -156,7 +156,9 @@ export default function DayCard({
           <div
             className={cn(
               "max-h-[85vh] w-full overflow-y-auto rounded-3xl border border-border bg-surface p-6 shadow-[var(--shadow-soft)] bs-pop",
-              day.content?.type === "journal" || day.content?.type === "spots"
+              day.content?.type === "journal" ||
+              day.content?.type === "spots" ||
+              day.content?.type === "draw"
                 ? "max-w-3xl"
                 : "max-w-lg"
             )}
