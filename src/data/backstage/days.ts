@@ -36,6 +36,7 @@ export type DayContent =
   | { type: "food"; intro?: string }
   | { type: "constitution"; intro?: string }
   | { type: "movies"; intro?: string }
+  | { type: "draw"; intro?: string; prompts: string[] }
   | {
       type: "bookshelf";
       intro?: string;
@@ -258,7 +259,18 @@ Have a safe flight babyy and I’ll talk to you soon`,
         "Day thirteen 🎬 movie bucket list: your all-time favorites, and the ones on our bucket list :)",
     },
   },
-  { id: "aug-14", date: "2026-08-14", title: "T-minus 3", crypticAnswer: "placeholder" },
+  {
+    id: "aug-14",
+    date: "2026-08-14",
+    title: "T-minus 3",
+    crypticAnswer: "placeholder",
+    content: {
+      type: "draw",
+      intro:
+        "Day fourteen ✏️ draw each other something! Pick a prompt (or freestyle) and show me what you've got — I'll draw one back.",
+      prompts: ["🌸 flowers", "🧑 arjun", "🗼 the campanile"],
+    },
+  },
   { id: "aug-15", date: "2026-08-15", title: "T-minus 2", crypticAnswer: "placeholder" },
   { id: "aug-16", date: "2026-08-16", title: "T-minus 1", crypticAnswer: "placeholder" },
   {

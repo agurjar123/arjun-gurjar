@@ -7,8 +7,24 @@ import { markDaySolved, subscribeSolved } from "@/lib/firebase";
 
 const KEY = "backstage_solved";
 
+// Days she's already completed — always shown as solved/opened.
+const PRESOLVED = [
+  "aug-01",
+  "aug-02",
+  "aug-03",
+  "aug-04",
+  "aug-05",
+  "aug-06",
+  "aug-07",
+  "aug-08",
+  "aug-09",
+  "aug-10",
+  "aug-11",
+  "aug-12",
+];
+
 export default function AdventGrid() {
-  const [solved, setSolved] = useState<Set<string>>(new Set());
+  const [solved, setSolved] = useState<Set<string>>(new Set(PRESOLVED));
 
   // Seed from this device's localStorage, then keep in sync with Firebase so a
   // day she's already opened stays unlocked on any device / after a cache clear.

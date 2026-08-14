@@ -12,6 +12,7 @@ import NicheSpotsReveal from "./NicheSpotsReveal";
 import FoodReveal from "./FoodReveal";
 import ConstitutionReveal from "./ConstitutionReveal";
 import MoviesReveal from "./MoviesReveal";
+import DrawReveal from "./DrawReveal";
 import type { AdventDay, DayContent } from "@/data/backstage/days";
 
 export default function DayReveal({ day }: { day: AdventDay }) {
@@ -127,6 +128,9 @@ function Content({ dayId, content }: { dayId: string; content: DayContent }) {
 
     case "movies":
       return <MoviesReveal dayId={dayId} intro={content.intro} />;
+
+    case "draw":
+      return <DrawReveal dayId={dayId} intro={content.intro} prompts={content.prompts} />;
 
     case "bookshelf":
       return <BookshelfReveal dayId={dayId} intro={content.intro} books={content.books} />;
