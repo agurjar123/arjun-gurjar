@@ -267,8 +267,8 @@ Have a safe flight babyy and I’ll talk to you soon`,
     content: {
       type: "draw",
       intro:
-        "Day fourteen ✏️ draw each other something! Pick a prompt (or freestyle) and show me what you've got — I'll draw one back.",
-      prompts: ["🌸 flowers", "🧑 arjun", "🗼 the campanile"],
+        "Day fourteen ✏️ we're both drawing the same two things — flowers and the campanile. We each have to do both, no picking and choosing 😌",
+      prompts: ["🌸 flowers", "🗼 the campanile"],
     },
   },
   { id: "aug-15", date: "2026-08-15", title: "T-minus 2", crypticAnswer: "placeholder" },
