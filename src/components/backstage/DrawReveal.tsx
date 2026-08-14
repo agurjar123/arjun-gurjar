@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Undo2, Trash2, X } from "lucide-react";
+import { Undo2, Trash2, X, Check } from "lucide-react";
 import { subscribeChat, sendChatMessage, deleteChatMessage } from "@/lib/firebase";
 
 type Drawing = { id?: string; from: "arjun" | "seher"; prompt: string; image: string };
@@ -169,22 +169,31 @@ export default function DrawReveal({
     <div>
       {intro && <p className="mb-4 leading-relaxed text-foreground/90">{intro}</p>}
 
-      {/* Prompt chips */}
+      {/* Prompt chips — a ✓ once you've drawn that one */}
       <div className="mb-3 flex flex-wrap gap-2">
-        {prompts.map((p) => (
-          <button
-            key={p}
-            onClick={() => setPrompt(p)}
-            className={
-              "rounded-full border px-3 py-1.5 text-sm transition-colors " +
-              (prompt === p
-                ? "border-accent bg-accent text-white"
-                : "border-border bg-surface text-muted hover:border-accent/50")
-            }
-          >
-            {p}
-          </button>
-        ))}
+        {prompts.map((p) => {
+          const mineDone = drawings.some((d) => d.from === me && d.prompt === p);
+          return (
+            <button
+              key={p}
+              onClick={() => setPrompt(p)}
+              className={
+                "flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm transition-colors " +
+                (prompt === p
+                  ? "border-accent bg-accent text-white"
+                  : "border-border bg-surface text-muted hover:border-accent/50")
+              }
+            >
+              {mineDone && (
+                <Check
+                  size={14}
+                  className={prompt === p ? "text-white" : "text-accent"}
+                />
+              )}
+              {p}
+            </button>
+          );
+        })}
       </div>
 
       {/* Canvas */}
