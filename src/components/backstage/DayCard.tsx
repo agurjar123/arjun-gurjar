@@ -158,7 +158,8 @@ export default function DayCard({
               "max-h-[85vh] w-full overflow-y-auto rounded-3xl border border-border bg-surface p-6 shadow-[var(--shadow-soft)] bs-pop",
               day.content?.type === "journal" ||
               day.content?.type === "spots" ||
-              day.content?.type === "draw"
+              day.content?.type === "draw" ||
+              day.content?.type === "tierlist"
                 ? "max-w-3xl"
                 : "max-w-lg"
             )}
