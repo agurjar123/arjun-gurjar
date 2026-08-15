@@ -13,6 +13,7 @@ import FoodReveal from "./FoodReveal";
 import ConstitutionReveal from "./ConstitutionReveal";
 import MoviesReveal from "./MoviesReveal";
 import DrawReveal from "./DrawReveal";
+import TierListReveal from "./TierListReveal";
 import type { AdventDay, DayContent } from "@/data/backstage/days";
 
 export default function DayReveal({ day }: { day: AdventDay }) {
@@ -131,6 +132,9 @@ function Content({ dayId, content }: { dayId: string; content: DayContent }) {
 
     case "draw":
       return <DrawReveal dayId={dayId} intro={content.intro} prompts={content.prompts} />;
+
+    case "tierlist":
+      return <TierListReveal dayId={dayId} intro={content.intro} />;
 
     case "bookshelf":
       return <BookshelfReveal dayId={dayId} intro={content.intro} books={content.books} />;

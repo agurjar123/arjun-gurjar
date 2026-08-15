@@ -37,6 +37,7 @@ export type DayContent =
   | { type: "constitution"; intro?: string }
   | { type: "movies"; intro?: string }
   | { type: "draw"; intro?: string; prompts: string[] }
+  | { type: "tierlist"; intro?: string }
   | {
       type: "bookshelf";
       intro?: string;
@@ -270,7 +271,17 @@ Have a safe flight babyy and I’ll talk to you soon`,
       prompts: ["🌸 flowers", "🗼 the campanile"],
     },
   },
-  { id: "aug-15", date: "2026-08-15", title: "T-minus 2", crypticAnswer: "placeholder" },
+  {
+    id: "aug-15",
+    date: "2026-08-15",
+    title: "T-minus 2",
+    crypticAnswer: "placeholder",
+    content: {
+      type: "tierlist",
+      intro:
+        "Day fifteen 🍗 the most important ranking of our relationship — tier the Wingstop flavors.",
+    },
+  },
   { id: "aug-16", date: "2026-08-16", title: "T-minus 1", crypticAnswer: "placeholder" },
   {
     id: "aug-17",
