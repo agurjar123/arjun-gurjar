@@ -269,7 +269,7 @@ Have a safe flight babyy and I’ll talk to you soon`,
     content: {
       type: "draw",
       intro:
-        "Day fourteen ✏️ we're both drawing the same two things — flowers and the campanile. We each have to do both, no picking and choosing 😌",
+        "Day fourteen ✏️ let's see if you're an artist. We each have to do 2 drawings 😌",
       prompts: ["🌸 flowers", "🗼 the campanile"],
     },
   },
@@ -277,11 +277,12 @@ Have a safe flight babyy and I’ll talk to you soon`,
     id: "aug-15",
     date: "2026-08-15",
     title: "T-minus 2",
-    crypticAnswer: "placeholder",
+    crypticAnswer: "chicken",
+    hint: "🐔",
     content: {
       type: "tierlist",
       intro:
-        "Day fifteen 🍗 the most important ranking of our relationship — tier the Wingstop flavors.",
+        "Day fifteen 🍗 WINGSTOP TIER LIST GO GO GO",
     },
   },
   { id: "aug-16", date: "2026-08-16", title: "T-minus 1", crypticAnswer: "placeholder" },
