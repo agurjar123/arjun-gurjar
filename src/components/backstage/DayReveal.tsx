@@ -14,6 +14,7 @@ import ConstitutionReveal from "./ConstitutionReveal";
 import MoviesReveal from "./MoviesReveal";
 import DrawReveal from "./DrawReveal";
 import TierListReveal from "./TierListReveal";
+import PhotoTimelineReveal from "./PhotoTimelineReveal";
 import type { AdventDay, DayContent } from "@/data/backstage/days";
 
 export default function DayReveal({ day }: { day: AdventDay }) {
@@ -135,6 +136,9 @@ function Content({ dayId, content }: { dayId: string; content: DayContent }) {
 
     case "tierlist":
       return <TierListReveal dayId={dayId} intro={content.intro} />;
+
+    case "phototimeline":
+      return <PhotoTimelineReveal intro={content.intro} items={content.items} />;
 
     case "bookshelf":
       return <BookshelfReveal dayId={dayId} intro={content.intro} books={content.books} />;

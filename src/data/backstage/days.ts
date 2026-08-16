@@ -38,6 +38,7 @@ export type DayContent =
   | { type: "movies"; intro?: string }
   | { type: "draw"; intro?: string; prompts: string[] }
   | { type: "tierlist"; intro?: string }
+  | { type: "phototimeline"; intro?: string; items: { src: string; date: string }[] }
   | {
       type: "bookshelf";
       intro?: string;
@@ -283,7 +284,36 @@ Have a safe flight babyy and I’ll talk to you soon`,
         "Day fifteen 🍗 WINGSTOP TIER LIST GO GO GO",
     },
   },
-  { id: "aug-16", date: "2026-08-16", title: "T-minus 1", crypticAnswer: "placeholder" },
+  {
+    id: "aug-16",
+    date: "2026-08-16",
+    title: "T-minus 1",
+    crypticAnswer: "placeholder",
+    content: {
+      type: "phototimeline",
+      intro:
+        "Day sixteen 📱 all the FaceTimes that got us here — every pixelated, half-asleep, timezone-confused call, in order.",
+      items: [
+        { src: "/backstage/IMG_4135.PNG", date: "2026-05-17" },
+        { src: "/backstage/IMG_4481.PNG", date: "2026-05-27" },
+        { src: "/backstage/IMG_4484.PNG", date: "2026-05-27" },
+        { src: "/backstage/IMG_4543.PNG", date: "2026-05-30" },
+        { src: "/backstage/IMG_4550.PNG", date: "2026-05-30" },
+        { src: "/backstage/IMG_4626.PNG", date: "2026-06-06" },
+        { src: "/backstage/IMG_4784.PNG", date: "2026-06-20" },
+        { src: "/backstage/IMG_4794.PNG", date: "2026-06-21" },
+        { src: "/backstage/IMG_4796.PNG", date: "2026-06-21" },
+        { src: "/backstage/IMG_4721.JPG", date: "2026-06-21" },
+        { src: "/backstage/IMG_4926.PNG", date: "2026-06-29" },
+        { src: "/backstage/IMG_4980.PNG", date: "2026-07-03" },
+        { src: "/backstage/IMG_5721.jpeg", date: "2026-07-13" },
+        { src: "/backstage/IMG_5213.JPG", date: "2026-07-18" },
+        { src: "/backstage/IMG_5288.PNG", date: "2026-07-22" },
+        { src: "/backstage/IMG_5320.PNG", date: "2026-07-24" },
+        { src: "/backstage/IMG_4858.JPG", date: "2026-07-30" },
+      ],
+    },
+  },
   {
     id: "aug-17",
     date: "2026-08-17",
